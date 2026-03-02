@@ -1,1961 +1,1299 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محفظتي | Smart Wallet</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* ========== CSS Variables ========== */
-        :root {
-            --primary: #6366F1;
-            --primary-light: #818CF8;
-            --secondary: #EC4899;
-            --secondary-light: #F472B6;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --bg-dark: #0F172A;
-            --surface: #1E293B;
-            --surface-light: #334155;
-            --text: #F1F5F9;
-            --text-muted: #94A3B8;
-            --border: rgba(255, 255, 255, 0.1);
-            --radius: 1rem;
-            --radius-lg: 1.5rem;
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        /* ========== Reset & Base ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* ========== Background Effects ========== */
-        .bg-effects {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .bg-effects::before {
-            content: '';
-            position: absolute;
-            top: -10rem;
-            right: -10rem;
-            width: 20rem;
-            height: 20rem;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 50%;
-            filter: blur(4rem);
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .bg-effects::after {
-            content: '';
-            position: absolute;
-            bottom: -10rem;
-            left: -10rem;
-            width: 25rem;
-            height: 25rem;
-            background: rgba(236, 72, 153, 0.15);
-            border-radius: 50%;
-            filter: blur(4rem);
-            animation: float 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-2rem) scale(1.1); }
-        }
-
-        /* ========== Container ========== */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 28rem;
-            margin: 0 auto;
-            padding: 1.5rem;
-            padding-bottom: 6rem;
-        }
-
-        /* ========== Header ========== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-1rem); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-
-        .header p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .icon-btn {
-            position: relative;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .icon-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
-        }
-
-        .icon-btn .badge {
-            position: absolute;
-            top: -0.25rem;
-            right: -0.25rem;
-            width: 1rem;
-            height: 1rem;
-            background: var(--secondary);
-            border-radius: 50%;
-            font-size: 0.625rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .icon-btn.danger:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border-color: var(--danger);
-        }
-
-        .avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, var(--primary), #9333EA);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .avatar:hover {
-            transform: scale(1.05);
-        }
-
-        /* ========== Hero Card ========== */
-        .hero-card {
-            position: relative;
-            background: linear-gradient(135deg, var(--primary) 0%, #9333EA 50%, var(--secondary) 100%);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            animation: scaleIn 0.5s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .hero-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3Cpath d='M0 40L40 0' stroke='%23fff' stroke-opacity='0.1'/%3E%3C/svg%3E");
-            opacity: 0.3;
-        }
-
-        .hero-card-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-balance {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .hero-stat {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .hero-stat-icon {
-            width: 1.75rem;
-            height: 1.75rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-stat-label {
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .hero-stat-value {
-            font-size: 0.875rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ========== Stats Grid ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(1rem);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.5s ease-out backwards;
-        }
-
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(1rem); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-icon {
-            width: 2.25rem;
-            height: 2.25rem;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .stat-change {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .stat-change.positive {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-
-        .stat-change.negative {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stat-glow {
-            position: absolute;
-            bottom: -2rem;
-            right: -2rem;
-            width: 6rem;
-            height: 6rem;
-            border-radius: 50%;
-            filter: blur(3rem);
-            opacity: 0.2;
-        }
-
-        /* ========== Tabs ========== */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .tab {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
-        }
-
-        .tab.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        /* ========== Section ========== */
-        .section {
-            margin-bottom: 1.5rem;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .section-title {
-            font-size: 0.875rem;
-            font-weight: 700;
-        }
-
-        .section-link {
-            font-size: 0.75rem;
-            color: var(--primary-light);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.3s;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        .section-link:hover {
-            color: var(--primary);
-        }
-
-        .section-link.danger {
-            color: var(--danger);
-        }
-
-        /* ========== Card ========== */
-        .card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(1rem);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-body {
-            padding: 1rem;
-        }
-
-        /* ========== Empty State ========== */
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .empty-state-text {
-            font-size: 0.875rem;
-        }
-
-        /* ========== Chart Container ========== */
-        .chart-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .pie-chart {
-            width: 8rem;
-            height: 8rem;
-            position: relative;
-        }
-
-        .pie-chart svg {
-            transform: rotate(-90deg);
-        }
-
-        .pie-center {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pie-center-value {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .pie-center-label {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-        }
-
-        .chart-legend {
-            flex: 1;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .legend-dot {
-            width: 0.625rem;
-            height: 0.625rem;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .legend-name {
-            flex: 1;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .legend-value {
-            font-size: 0.75rem;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ========== Transaction List ========== */
-        .transaction-list {
-            max-height: 20rem;
-            overflow-y: auto;
-        }
-
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: background 0.3s;
-            position: relative;
-        }
-
-        .transaction-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .transaction-delete {
-            position: absolute;
-            left: 0.5rem;
-            width: 1.75rem;
-            height: 1.75rem;
-            border-radius: 0.5rem;
-            background: rgba(239, 68, 68, 0.2);
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .transaction-item:hover .transaction-delete {
-            opacity: 1;
-        }
-
-        .transaction-icon {
-            width: 2.25rem;
-            height: 2.25rem;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .transaction-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .transaction-name {
-            font-size: 0.875rem;
-            font-weight: 500;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .transaction-time {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .transaction-amount {
-            text-align: left;
-            flex-shrink: 0;
-            margin-right: 1.5rem;
-        }
-
-        .transaction-value {
-            font-size: 0.875rem;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .transaction-value.income {
-            color: var(--success);
-        }
-
-        .transaction-category {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-        }
-
-        .transaction-arrow {
-            color: var(--text-muted);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .transaction-item:hover .transaction-arrow {
-            opacity: 1;
-        }
-
-        /* ========== Budget Card ========== */
-        .budget-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(1rem);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            margin-bottom: 0.75rem;
-            transition: border-color 0.3s;
-        }
-
-        .budget-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .progress-ring {
-            position: relative;
-            width: 4.5rem;
-            height: 4.5rem;
-        }
-
-        .progress-ring svg {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-ring-fill {
-            fill: none;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1s ease-out;
-        }
-
-        .progress-ring-text {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .budget-info {
-            flex: 1;
-        }
-
-        .budget-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .budget-name {
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .budget-badge {
-            padding: 0.125rem 0.375rem;
-            border-radius: 9999px;
-            font-size: 0.625rem;
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-
-        .budget-spent {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .budget-remaining {
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .budget-remaining.positive {
-            color: var(--success);
-        }
-
-        .budget-remaining.negative {
-            color: var(--danger);
-        }
-
-        /* ========== Insight Card ========== */
-        .insight-card {
-            display: flex;
-            gap: 0.75rem;
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin-bottom: 0.75rem;
-        }
-
-        .insight-card.warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .insight-card.tip {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .insight-card.achievement {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .insight-card.prediction {
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        .insight-icon {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .insight-card.warning .insight-icon { color: var(--warning); }
-        .insight-card.tip .insight-icon { color: #3B82F6; }
-        .insight-card.achievement .insight-icon { color: var(--success); }
-        .insight-card.prediction .insight-icon { color: #8B5CF6; }
-
-        .insight-content {
-            flex: 1;
-        }
-
-        .insight-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .insight-message {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* ========== Add Button ========== */
-        .add-btn {
-            position: fixed;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, var(--primary), #9333EA);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            transition: all 0.3s;
-        }
-
-        .add-btn:hover {
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5);
-        }
-
-        .add-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
-        /* ========== Modal ========== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(0.5rem);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to bottom, var(--surface), var(--bg-dark));
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            padding: 1.5rem;
-            z-index: 101;
-            transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-            max-width: 28rem;
-            margin: 0 auto;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-
-        .modal-handle {
-            width: 3rem;
-            height: 0.25rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 9999px;
-            margin: 0 auto 1.5rem;
-        }
-
-        .modal-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .amount-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .amount-input input {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.75rem;
-            font-weight: 700;
-            text-align: center;
-            width: 100%;
-            font-family: 'Cairo', sans-serif;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .amount-input input:focus {
-            outline: none;
-        }
-
-        .amount-input span {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .type-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .type-btn {
-            flex: 1;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .type-btn.active {
-            background: rgba(236, 72, 153, 0.2);
-            border-color: rgba(236, 72, 153, 0.3);
-            color: var(--secondary);
-        }
-
-        .category-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .category-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius);
-            font-size: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .category-btn:hover,
-        .category-btn.active {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .desc-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: white;
-            font-size: 0.875rem;
-            font-family: 'Cairo', sans-serif;
-            margin-bottom: 1rem;
-        }
-
-        .desc-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, var(--primary), #9333EA);
-            border: none;
-            color: white;
-            font-size: 0.875rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-            transition: box-shadow 0.3s;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .submit-btn:hover {
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
-        }
-
-        .submit-btn.danger {
-            background: linear-gradient(135deg, var(--danger), #DC2626);
-            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
-        }
-
-        /* ========== Confirm Modal ========== */
-        .confirm-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            z-index: 102;
-            width: 90%;
-            max-width: 20rem;
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .confirm-modal.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .confirm-modal-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .confirm-modal-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .confirm-modal-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .confirm-modal-buttons {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .confirm-btn {
-            flex: 1;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Cairo', sans-serif;
-            border: none;
-        }
-
-        .confirm-btn.cancel {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-        }
-
-        .confirm-btn.confirm {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* ========== Toast ========== */
-        .toast {
-            position: fixed;
-            bottom: 5rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 0.75rem 1.5rem;
-            z-index: 200;
-            font-size: 0.875rem;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .toast.error {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-
-        /* ========== Tab Content ========== */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(0.5rem); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ========== Scrollbar ========== */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-        }
-
-        /* ========== Responsive ========== */
-        @media (max-width: 360px) {
-            .hero-balance {
-                font-size: 2rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>محفظتي — Smart Wallet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  /* Core Palette — Deep Space Dark */
+  --bg:            #07090F;
+  --bg-1:          #0D1117;
+  --bg-2:          #161B27;
+  --bg-3:          #1C2333;
+  --bg-4:          #242E42;
+
+  /* Accent — Violet/Indigo Primary */
+  --accent:        #7C6FEB;
+  --accent-2:      #9B8FF4;
+  --accent-glow:   rgba(124,111,235,.35);
+
+  /* Secondary — Cyan Teal */
+  --cyan:          #22D3EE;
+  --cyan-glow:     rgba(34,211,238,.2);
+
+  /* Tertiary — Rose */
+  --rose:          #F472B6;
+  --rose-glow:     rgba(244,114,182,.2);
+
+  /* Semantic */
+  --green:         #34D399;
+  --green-glow:    rgba(52,211,153,.2);
+  --red:           #F87171;
+  --red-glow:      rgba(248,113,113,.2);
+  --amber:         #FBBF24;
+
+  /* Text */
+  --t1:            #EEF2FF;
+  --t2:            #A8B4CC;
+  --t3:            #5C6A82;
+  --t4:            #2E3A4E;
+
+  /* Borders */
+  --border:        rgba(255,255,255,.07);
+  --border-2:      rgba(255,255,255,.12);
+
+  /* Radius */
+  --r-sm:          .75rem;
+  --r:             1rem;
+  --r-lg:          1.5rem;
+  --r-xl:          2rem;
+
+  /* Font */
+  font-family: 'Cairo', sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════ */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--t1);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button { cursor:pointer; font-family:inherit; border:none; background:none; }
+input  { font-family:inherit; color:inherit; }
+a { text-decoration:none; color:inherit; }
+
+/* ═══════════════════════════════════════════
+   CANVAS BACKGROUND
+═══════════════════════════════════════════ */
+#canvas-bg {
+  position: fixed; inset:0; z-index:0;
+  pointer-events:none;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 26rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 7rem;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  animation: fadeDown .5s ease both;
+}
+.header-left { display:flex; align-items:center; gap:.75rem; }
+.logo-mark {
+  width: 2.75rem; height: 2.75rem;
+  border-radius: var(--r-sm);
+  background: linear-gradient(135deg, var(--accent), #B372D8);
+  display: flex; align-items:center; justify-content:center;
+  box-shadow: 0 0 20px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,.15);
+  position: relative; overflow: hidden;
+}
+.logo-mark::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+}
+.logo-mark svg { position:relative; z-index:1; }
+.header-title { font-size:1.25rem; font-weight:800; letter-spacing:-.02em; }
+.header-sub { font-size:.75rem; color:var(--t3); margin-top:.1rem; }
+.header-actions { display:flex; gap:.5rem; align-items:center; }
+.h-btn {
+  width:2.375rem; height:2.375rem;
+  border-radius:var(--r-sm);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--t3);
+  display:flex; align-items:center; justify-content:center;
+  transition: all .25s;
+  position:relative;
+}
+.h-btn:hover { background:var(--bg-4); border-color:var(--border-2); color:var(--t1); }
+.h-btn.red:hover { background:var(--red-glow); border-color:var(--red); color:var(--red); }
+.h-avatar {
+  width:2.375rem; height:2.375rem;
+  border-radius:var(--r-sm);
+  background: linear-gradient(135deg, var(--accent), #B372D8);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:.875rem;
+  box-shadow: 0 0 15px var(--accent-glow);
+  cursor:pointer; transition: transform .2s;
+}
+.h-avatar:hover { transform: scale(1.08); }
+
+/* ═══════════════════════════════════════════
+   BALANCE CARD
+═══════════════════════════════════════════ */
+.balance-card {
+  position: relative;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  animation: fadeUp .5s .1s ease both;
+}
+.balance-card-shine {
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: conic-gradient(from 0deg at 30% 30%,
+    transparent 0deg,
+    rgba(124,111,235,.06) 60deg,
+    transparent 120deg,
+    rgba(34,211,238,.04) 180deg,
+    transparent 240deg
+  );
+  animation: spin 20s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.balance-card-inner { position:relative; z-index:1; }
+.bc-label {
+  display:flex; align-items:center; gap:.5rem;
+  font-size:.75rem; color:var(--t3); margin-bottom:.75rem;
+  text-transform:uppercase; letter-spacing:.08em; font-weight:600;
+}
+.bc-label-dot {
+  width:.5rem; height:.5rem; border-radius:50%;
+  background: var(--green); box-shadow: 0 0 6px var(--green);
+  animation: pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { transform:scale(1); opacity:1; }
+  50% { transform:scale(1.4); opacity:.7; }
+}
+.bc-amount {
+  font-size:3rem; font-weight:900;
+  letter-spacing:-.04em;
+  background: linear-gradient(135deg, var(--t1), var(--accent-2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom:1.25rem;
+  font-variant-numeric: tabular-nums;
+  transition: all .5s;
+}
+.bc-row {
+  display:flex; gap:1.25rem;
+}
+.bc-stat {
+  flex:1;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: .875rem;
+  transition: border-color .2s;
+}
+.bc-stat:hover { border-color: var(--border-2); }
+.bc-stat-top {
+  display:flex; align-items:center; gap:.5rem;
+  margin-bottom:.375rem;
+}
+.bc-stat-icon {
+  width:1.625rem; height:1.625rem;
+  border-radius:.5rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.bc-stat-icon.income { background:var(--green-glow); color:var(--green); }
+.bc-stat-icon.expense { background:var(--red-glow); color:var(--red); }
+.bc-stat-label { font-size:.7rem; color:var(--t3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
+.bc-stat-value { font-size:1rem; font-weight:700; font-variant-numeric:tabular-nums; }
+.bc-stat-value.income { color:var(--green); }
+.bc-stat-value.expense { color:var(--red); }
+
+/* ═══════════════════════════════════════════
+   MINI STATS ROW
+═══════════════════════════════════════════ */
+.mini-stats {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:.75rem; margin-bottom:1.5rem;
+}
+.mini-stat {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1rem;
+  position: relative; overflow:hidden;
+  animation: fadeUp .5s ease both;
+  transition: border-color .2s, transform .2s;
+}
+.mini-stat:hover { border-color:var(--border-2); transform:translateY(-2px); }
+.mini-stat:nth-child(1) { animation-delay:.15s; }
+.mini-stat:nth-child(2) { animation-delay:.2s; }
+.mini-stat-glow {
+  position:absolute; bottom:-2rem; right:-2rem;
+  width:5rem; height:5rem; border-radius:50%;
+  filter:blur(2rem); opacity:.3;
+}
+.mini-stat-icon {
+  width:2rem; height:2rem; border-radius:.625rem;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:.625rem;
+}
+.mini-stat-label { font-size:.7rem; color:var(--t3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.25rem; }
+.mini-stat-value { font-size:1.375rem; font-weight:800; font-variant-numeric:tabular-nums; }
+
+/* ═══════════════════════════════════════════
+   TABS
+═══════════════════════════════════════════ */
+.tabs-wrap {
+  display:flex; gap:.375rem;
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:.375rem;
+  margin-bottom:1.5rem;
+  animation: fadeUp .5s .25s ease both;
+}
+.tab-btn {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  gap:.4rem; padding:.625rem .5rem;
+  border-radius:var(--r);
+  font-size:.8rem; font-weight:700;
+  color:var(--t3); transition:all .3s;
+  white-space:nowrap;
+}
+.tab-btn svg { flex-shrink:0; }
+.tab-btn.active {
+  background: var(--bg-4);
+  color: var(--t1);
+  box-shadow: 0 2px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.tab-btn.active svg { color:var(--accent); }
+
+/* ═══════════════════════════════════════════
+   TAB CONTENT
+═══════════════════════════════════════════ */
+.tab-panel { display:none; animation: fadeUp .3s ease both; }
+.tab-panel.active { display:block; }
+
+/* ═══════════════════════════════════════════
+   SECTION
+═══════════════════════════════════════════ */
+.section { margin-bottom:1.25rem; }
+.section-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:.75rem;
+}
+.section-title {
+  font-size:.8rem; font-weight:700;
+  color:var(--t2); text-transform:uppercase; letter-spacing:.06em;
+  display:flex; align-items:center; gap:.5rem;
+}
+.section-title-dot { width:.375rem; height:.375rem; border-radius:50%; background:var(--accent); }
+.section-action {
+  font-size:.75rem; font-weight:600; color:var(--accent);
+  display:flex; align-items:center; gap:.25rem;
+  padding:.375rem .625rem; border-radius:var(--r-sm);
+  background:var(--accent-glow); border:1px solid rgba(124,111,235,.2);
+  transition:all .2s;
+}
+.section-action:hover { background:rgba(124,111,235,.2); }
+
+/* ═══════════════════════════════════════════
+   CHART CARD
+═══════════════════════════════════════════ */
+.chart-card {
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:1.25rem;
+  transition:border-color .2s;
+}
+.chart-card:hover { border-color:var(--border-2); }
+.chart-wrap {
+  display:flex; align-items:center; gap:1.25rem;
+}
+.pie-wrap {
+  width:9rem; height:9rem; flex-shrink:0;
+  position:relative;
+}
+.pie-wrap svg { transform:rotate(-90deg); overflow:visible; }
+.pie-center {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.pie-center-val { font-size:.9375rem; font-weight:800; font-variant-numeric:tabular-nums; }
+.pie-center-sub { font-size:.625rem; color:var(--t3); }
+.legend { flex:1; min-width:0; }
+.legend-item {
+  display:flex; align-items:center;
+  gap:.5rem; margin-bottom:.5rem;
+  animation: fadeIn .4s ease both;
+}
+.legend-dot {
+  width:.5rem; height:.5rem; border-radius:50%;
+  flex-shrink:0; box-shadow:0 0 4px currentColor;
+}
+.legend-label { flex:1; font-size:.75rem; color:var(--t2); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.legend-pct { font-size:.7rem; color:var(--t3); margin-left:.25rem; }
+.legend-val { font-size:.75rem; font-weight:700; font-variant-numeric:tabular-nums; }
+.chart-empty {
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:2rem; gap:.75rem;
+  color:var(--t3);
+}
+.chart-empty-icon { font-size:2.5rem; opacity:.4; }
+.chart-empty-text { font-size:.8rem; }
+
+/* ═══════════════════════════════════════════
+   TRANSACTIONS
+═══════════════════════════════════════════ */
+.tx-list { display:flex; flex-direction:column; gap:.375rem; }
+.tx-item {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.875rem .875rem;
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r);
+  position:relative; overflow:hidden;
+  cursor:default;
+  transition:all .25s;
+  animation: fadeUp .3s ease both;
+}
+.tx-item:hover { border-color:var(--border-2); transform:translateX(-2px); }
+.tx-del {
+  position:absolute; left:.625rem; top:50%; transform:translateY(-50%);
+  width:1.75rem; height:1.75rem; border-radius:.5rem;
+  background:var(--red-glow); color:var(--red);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .2s;
+  font-size:.75rem;
+}
+.tx-item:hover .tx-del { opacity:1; }
+.tx-icon {
+  width:2.375rem; height:2.375rem; border-radius:var(--r-sm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.125rem; flex-shrink:0;
+  position:relative;
+}
+.tx-icon-ring {
+  position:absolute; inset:0; border-radius:var(--r-sm);
+  border:1px solid rgba(255,255,255,.06);
+}
+.tx-info { flex:1; min-width:0; }
+.tx-name { font-size:.875rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tx-time { font-size:.7rem; color:var(--t3); margin-top:.125rem; }
+.tx-right { text-align:left; flex-shrink:0; padding-left:1.75rem; }
+.tx-amount { font-size:.875rem; font-weight:700; font-variant-numeric:tabular-nums; }
+.tx-amount.plus { color:var(--green); }
+.tx-amount.minus { color:var(--t1); }
+.tx-cat { font-size:.65rem; color:var(--t3); margin-top:.1rem; text-align:left; }
+.tx-empty {
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:2.5rem; gap:.75rem;
+  color:var(--t3);
+}
+.tx-empty-icon { font-size:2.5rem; opacity:.4; }
+.tx-empty-text { font-size:.8rem; }
+
+/* ═══════════════════════════════════════════
+   INSIGHTS
+═══════════════════════════════════════════ */
+.insight {
+  display:flex; gap:.875rem; padding:1rem;
+  border-radius:var(--r-lg); margin-bottom:.75rem;
+  border:1px solid transparent; transition:transform .2s;
+  animation: fadeUp .3s ease both;
+}
+.insight:hover { transform:translateY(-2px); }
+.insight.warn  { background:rgba(251,191,36,.07);  border-color:rgba(251,191,36,.2); }
+.insight.tip   { background:rgba(34,211,238,.07);  border-color:rgba(34,211,238,.2); }
+.insight.win   { background:rgba(52,211,153,.07);  border-color:rgba(52,211,153,.2); }
+.insight.info  { background:rgba(124,111,235,.07); border-color:rgba(124,111,235,.2); }
+.insight-icon { font-size:1.5rem; flex-shrink:0; margin-top:.1rem; }
+.insight-title { font-size:.875rem; font-weight:700; margin-bottom:.25rem; }
+.insight-msg   { font-size:.75rem; color:var(--t2); line-height:1.6; }
+
+/* ═══════════════════════════════════════════
+   BUDGETS
+═══════════════════════════════════════════ */
+.budget-item {
+  display:flex; align-items:center; gap:1rem;
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:1rem;
+  margin-bottom:.75rem; transition:all .25s;
+  animation: fadeUp .3s ease both;
+}
+.budget-item:hover { border-color:var(--border-2); transform:translateY(-2px); }
+.budget-ring { position:relative; width:4.5rem; height:4.5rem; flex-shrink:0; }
+.budget-ring svg { transform:rotate(-90deg); }
+.budget-ring-num {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.8rem; font-weight:800; font-variant-numeric:tabular-nums;
+}
+.budget-info { flex:1; min-width:0; }
+.budget-head {
+  display:flex; align-items:center; gap:.5rem;
+  margin-bottom:.25rem;
+}
+.budget-name { font-size:.875rem; font-weight:600; }
+.budget-badge {
+  font-size:.6rem; font-weight:700; padding:.15rem .4rem;
+  border-radius:.375rem; background:var(--red-glow); color:var(--red);
+  border:1px solid rgba(248,113,113,.2);
+}
+.budget-sub { font-size:.7rem; color:var(--t3); margin-bottom:.25rem; }
+.budget-remaining { font-size:.75rem; font-weight:700; }
+.budget-remaining.ok  { color:var(--green); }
+.budget-remaining.bad { color:var(--red); }
+.budget-empty {
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:2.5rem; gap:.75rem;
+  color:var(--t3);
+}
+.budget-empty-icon { font-size:2.5rem; opacity:.4; }
+.budget-empty-text { font-size:.8rem; }
+
+/* ═══════════════════════════════════════════
+   FAB
+═══════════════════════════════════════════ */
+.fab {
+  position:fixed; bottom:1.75rem; left:50%; transform:translateX(-50%);
+  width:3.75rem; height:3.75rem; border-radius:var(--r-lg);
+  background: linear-gradient(135deg, var(--accent), #9B3DDA);
+  box-shadow: 0 0 0 0 var(--accent-glow), 0 8px 30px rgba(124,111,235,.4);
+  color:#fff; font-size:1.5rem;
+  display:flex; align-items:center; justify-content:center;
+  z-index:50; transition:all .3s;
+  animation: fab-in .5s .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes fab-in {
+  from { transform:translateX(-50%) scale(0) rotate(-45deg); opacity:0; }
+  to   { transform:translateX(-50%) scale(1) rotate(0deg);   opacity:1; }
+}
+.fab:hover {
+  transform: translateX(-50%) scale(1.08);
+  box-shadow: 0 0 0 8px rgba(124,111,235,.15), 0 12px 35px rgba(124,111,235,.5);
+}
+.fab:active { transform:translateX(-50%) scale(.95); }
+
+/* ═══════════════════════════════════════════
+   MODAL OVERLAY
+═══════════════════════════════════════════ */
+.overlay {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(.5rem);
+  z-index:100; opacity:0; visibility:hidden;
+  transition:all .3s;
+}
+.overlay.open { opacity:1; visibility:visible; }
+
+.sheet {
+  position:fixed; bottom:0; left:0; right:0;
+  background: var(--bg-1);
+  border-top:1px solid var(--border-2);
+  border-radius:var(--r-xl) var(--r-xl) 0 0;
+  padding:1.5rem 1.25rem 2rem;
+  z-index:101; max-width:26rem; margin:0 auto;
+  transform:translateY(110%);
+  transition:transform .35s cubic-bezier(.32,0,.67,0);
+}
+.overlay.open .sheet {
+  transform:translateY(0);
+  transition:transform .35s cubic-bezier(.33,1,.68,1);
+}
+.sheet-handle {
+  width:3rem; height:.25rem;
+  background:var(--bg-4); border-radius:9999px;
+  margin:0 auto 1.5rem;
+}
+.sheet-title {
+  font-size:1.0625rem; font-weight:800;
+  text-align:center; margin-bottom:1.25rem;
+  letter-spacing:-.01em;
+}
+
+/* Amount input */
+.amt-wrap {
+  background:var(--bg-3); border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:1.25rem;
+  text-align:center; margin-bottom:1rem;
+  transition:border-color .2s;
+}
+.amt-wrap:focus-within { border-color:var(--accent); }
+.amt-currency { font-size:.8rem; color:var(--t3); font-weight:600; letter-spacing:.04em; text-transform:uppercase; margin-bottom:.375rem; }
+.amt-input {
+  width:100%; background:transparent; border:none;
+  font-size:2.5rem; font-weight:900; text-align:center;
+  color:var(--t1); letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.amt-input:focus { outline:none; }
+.amt-input::placeholder { color:var(--t4); }
+
+/* Type toggle */
+.type-toggle {
+  display:flex; background:var(--bg-3); border:1px solid var(--border);
+  border-radius:var(--r); padding:.25rem; gap:.25rem;
+  margin-bottom:1rem;
+}
+.type-opt {
+  flex:1; padding:.625rem; border-radius:var(--r-sm);
+  font-size:.8rem; font-weight:700;
+  color:var(--t3); transition:all .25s;
+  display:flex; align-items:center; justify-content:center; gap:.375rem;
+}
+.type-opt.active-exp {
+  background:var(--red-glow); color:var(--red);
+  border:1px solid rgba(248,113,113,.2);
+}
+.type-opt.active-inc {
+  background:var(--green-glow); color:var(--green);
+  border:1px solid rgba(52,211,153,.2);
+}
+
+/* Category chips */
+.cat-grid {
+  display:flex; flex-wrap:wrap; gap:.375rem;
+  margin-bottom:1rem;
+}
+.cat-chip {
+  display:flex; align-items:center; gap:.375rem;
+  padding:.5rem .75rem; border-radius:.75rem;
+  font-size:.75rem; font-weight:600;
+  background:var(--bg-3); border:1px solid var(--border);
+  color:var(--t2); transition:all .2s;
+}
+.cat-chip:hover { border-color:var(--border-2); color:var(--t1); }
+.cat-chip.active {
+  background:rgba(124,111,235,.15);
+  border-color:rgba(124,111,235,.4);
+  color:var(--accent-2);
+}
+
+/* Desc input */
+.desc-inp {
+  width:100%; background:var(--bg-3);
+  border:1px solid var(--border);
+  border-radius:var(--r); padding:.875rem 1rem;
+  font-size:.875rem; color:var(--t1);
+  margin-bottom:1rem; transition:border-color .2s;
+}
+.desc-inp:focus { outline:none; border-color:var(--accent); }
+.desc-inp::placeholder { color:var(--t3); }
+
+/* Submit */
+.submit {
+  width:100%; padding:1rem;
+  border-radius:var(--r-lg);
+  background: linear-gradient(135deg, var(--accent), #9B3DDA);
+  color:#fff; font-size:.9375rem; font-weight:800;
+  box-shadow:0 8px 25px rgba(124,111,235,.35);
+  transition:all .25s; letter-spacing:-.01em;
+}
+.submit:hover { box-shadow:0 12px 35px rgba(124,111,235,.45); transform:translateY(-1px); }
+.submit:active { transform:translateY(0); }
+
+/* ═══════════════════════════════════════════
+   CONFIRM DIALOG
+═══════════════════════════════════════════ */
+.dialog-overlay {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.75); backdrop-filter:blur(.5rem);
+  z-index:200; opacity:0; visibility:hidden; transition:all .25s;
+  display:flex; align-items:center; justify-content:center; padding:1.25rem;
+}
+.dialog-overlay.open { opacity:1; visibility:visible; }
+.dialog {
+  background:var(--bg-2); border:1px solid var(--border-2);
+  border-radius:var(--r-xl); padding:1.75rem;
+  max-width:22rem; width:100%; text-align:center;
+  transform:scale(.9) translateY(1rem); transition:transform .25s;
+}
+.dialog-overlay.open .dialog { transform:scale(1) translateY(0); }
+.dialog-emoji { font-size:2.75rem; margin-bottom:1rem; }
+.dialog-title { font-size:1.0625rem; font-weight:800; margin-bottom:.5rem; }
+.dialog-msg { font-size:.8125rem; color:var(--t3); line-height:1.6; margin-bottom:1.5rem; }
+.dialog-btns { display:flex; gap:.625rem; }
+.dialog-cancel {
+  flex:1; padding:.875rem; border-radius:var(--r);
+  background:var(--bg-3); color:var(--t2);
+  font-size:.875rem; font-weight:700; transition:all .2s;
+}
+.dialog-cancel:hover { background:var(--bg-4); color:var(--t1); }
+.dialog-confirm {
+  flex:1; padding:.875rem; border-radius:var(--r);
+  background:var(--red-glow); color:var(--red);
+  border:1px solid rgba(248,113,113,.25);
+  font-size:.875rem; font-weight:700; transition:all .2s;
+}
+.dialog-confirm:hover { background:rgba(248,113,113,.2); }
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast {
+  position:fixed; bottom:5.5rem; left:50%;
+  transform:translateX(-50%) translateY(1.5rem);
+  background:var(--bg-3); border:1px solid var(--border-2);
+  border-radius:var(--r); padding:.6875rem 1.25rem;
+  font-size:.8125rem; font-weight:600;
+  z-index:300; opacity:0; transition:all .3s; white-space:nowrap;
+  display:flex; align-items:center; gap:.5rem;
+}
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.ok  { border-color:rgba(52,211,153,.3); color:var(--green); }
+.toast.err { border-color:rgba(248,113,113,.3); color:var(--red); }
+
+/* ═══════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════ */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(1.25rem); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeDown { from { opacity:0; transform:translateY(-1rem);   } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════ */
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-thumb { background:var(--bg-4); border-radius:9999px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:360px) {
+  .bc-amount { font-size:2.25rem; }
+  .tabs-wrap .tab-btn span.tab-label { display:none; }
+}
+</style>
 </head>
 <body>
-    <!-- Background Effects -->
-    <div class="bg-effects"></div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+<!-- Particle Canvas -->
+<canvas id="canvas-bg"></canvas>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div>
-                <h1>محفظتي</h1>
-                <p>يا هلا 👋</p>
-            </div>
-            <div class="header-actions">
-                <button class="icon-btn danger" onclick="showClearConfirm()" title="مسح كل البيانات">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"/>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                        <line x1="10" y1="11" x2="10" y2="17"/>
-                        <line x1="14" y1="11" x2="14" y2="17"/>
-                    </svg>
-                </button>
-                <button class="icon-btn" onclick="exportData()" title="تصدير البيانات">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </button>
-                <div class="avatar">أ</div>
-            </div>
-        </header>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-        <!-- Hero Card -->
-        <div class="hero-card">
-            <div class="hero-card-content">
-                <div class="hero-label">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
-                        <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
-                        <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
-                    </svg>
-                    <span>اللي معاك دلوقتي</span>
-                </div>
-                <div class="hero-balance" id="balance">0 ج.م</div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                                <polyline points="17 6 23 6 23 12"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="hero-stat-label">اللي جالك</div>
-                            <div class="hero-stat-value" id="totalIncome">0 ج.م</div>
-                        </div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
-                                <polyline points="17 18 23 18 23 12"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="hero-stat-label">اللي صرفته</div>
-                            <div class="hero-stat-value" id="totalExpenses">0 ج.م</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- ══════════════ APP ══════════════ -->
+<div class="app">
 
-        <!-- Quick Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2);">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <circle cx="12" cy="12" r="6"/>
-                            <circle cx="12" cy="12" r="2"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="stat-label">معدل التوفير</div>
-                <div class="stat-value" id="savingsRate">0%</div>
-                <div class="stat-glow" style="background: #10B981;"></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background: rgba(99, 102, 241, 0.2);">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                            <line x1="1" y1="10" x2="23" y2="10"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="stat-label">عدد العمليات</div>
-                <div class="stat-value" id="transactionCount">0</div>
-                <div class="stat-glow" style="background: #6366F1;"></div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab active" data-tab="overview">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-                    <path d="M22 12A10 10 0 0 0 12 2v10z"/>
-                </svg>
-                نظرة عامة
-            </button>
-            <button class="tab" data-tab="analytics">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                    <polyline points="17 6 23 6 23 12"/>
-                </svg>
-                التحليلات
-            </button>
-            <button class="tab" data-tab="budgets">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="12" r="6"/>
-                    <circle cx="12" cy="12" r="2"/>
-                </svg>
-                الميزانيات
-            </button>
-        </div>
-
-        <!-- Tab Contents -->
-        <div id="tab-overview" class="tab-content active">
-            <!-- Spending Chart -->
-            <div class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="section-title">توزيع المصاريف</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container" id="chartContainer">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Transactions -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-title">آخر العمليات</span>
-                </div>
-                <div class="card">
-                    <div class="transaction-list" id="transactionList">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-analytics" class="tab-content">
-            <!-- All Insights -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-title" style="display: flex; align-items: center; gap: 0.5rem;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                        </svg>
-                        نصائح ذكية
-                    </span>
-                </div>
-                <div id="insightsList">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-budgets" class="tab-content">
-            <!-- Budget Summary -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-title">ميزانيات الشهر</span>
-                    <button class="section-link" onclick="openBudgetModal()">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline; vertical-align: middle;">
-                            <line x1="12" y1="5" x2="12" y2="19"/>
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                        </svg>
-                        ضيف ميزانية
-                    </button>
-                </div>
-                <div id="budgetsList">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Button -->
-    <button class="add-btn" onclick="openModal()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+          <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+          <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
         </svg>
+      </div>
+      <div>
+        <div class="header-title">محفظتي</div>
+        <div class="header-sub" id="headerDate">تحميل...</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="h-btn red" onclick="showConfirm()" title="مسح كل البيانات">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        </svg>
+      </button>
+      <button class="h-btn" onclick="exportData()" title="تصدير البيانات">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </button>
+      <div class="h-avatar">أ</div>
+    </div>
+  </header>
+
+  <!-- Balance Card -->
+  <div class="balance-card">
+    <div class="balance-card-shine"></div>
+    <div class="balance-card-inner">
+      <div class="bc-label">
+        <div class="bc-label-dot"></div>
+        الرصيد الحالي
+      </div>
+      <div class="bc-amount" id="balanceAmt">0 ج.م</div>
+      <div class="bc-row">
+        <div class="bc-stat">
+          <div class="bc-stat-top">
+            <div class="bc-stat-icon income">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <span class="bc-stat-label">دخل</span>
+          </div>
+          <div class="bc-stat-value income" id="incomeTotal">0 ج.م</div>
+        </div>
+        <div class="bc-stat">
+          <div class="bc-stat-top">
+            <div class="bc-stat-icon expense">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            </div>
+            <span class="bc-stat-label">مصاريف</span>
+          </div>
+          <div class="bc-stat-value expense" id="expenseTotal">0 ج.م</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Stats -->
+  <div class="mini-stats">
+    <div class="mini-stat">
+      <div class="mini-stat-glow" style="background:var(--green)"></div>
+      <div class="mini-stat-icon" style="background:var(--green-glow); color:var(--green);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <div class="mini-stat-label">معدل التوفير</div>
+      <div class="mini-stat-value" id="savingRate" style="color:var(--green)">0%</div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-glow" style="background:var(--accent)"></div>
+      <div class="mini-stat-icon" style="background:var(--accent-glow); color:var(--accent);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <div class="mini-stat-label">عدد العمليات</div>
+      <div class="mini-stat-value" id="txCount" style="color:var(--accent)">0</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <button class="tab-btn active" data-tab="overview">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+      <span class="tab-label">نظرة عامة</span>
     </button>
+    <button class="tab-btn" data-tab="analytics">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="tab-label">التحليلات</span>
+    </button>
+    <button class="tab-btn" data-tab="budgets">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span class="tab-label">الميزانيات</span>
+    </button>
+  </div>
 
-    <!-- Add Transaction Modal -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-handle"></div>
-            <h3 class="modal-title">ضيف عملية جديدة</h3>
-            
-            <div class="amount-input">
-                <input type="text" id="amountInput" placeholder="0.00" oninput="formatAmount(this)">
-                <span>ج.م</span>
-            </div>
-            
-            <div class="type-buttons">
-                <button class="type-btn active" id="expenseBtn" onclick="setType('expense')">مصروف</button>
-                <button class="type-btn" id="incomeBtn" onclick="setType('income')">دخل</button>
-            </div>
-            
-            <div class="category-buttons" id="categoryButtons">
-                <!-- Populated by JS -->
-            </div>
-            
-            <input type="text" class="desc-input" id="descInput" placeholder="ضيف وصف...">
-            
-            <button class="submit-btn" onclick="addTransaction()">احفظ العملية</button>
-        </div>
+  <!-- ── OVERVIEW TAB ── -->
+  <div class="tab-panel active" id="panel-overview">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title"><div class="section-title-dot"></div>توزيع المصاريف</div>
+      </div>
+      <div class="chart-card">
+        <div id="chartWrap"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title"><div class="section-title-dot"></div>آخر العمليات</div>
+      </div>
+      <div class="tx-list" id="txList"></div>
+    </div>
+  </div>
+
+  <!-- ── ANALYTICS TAB ── -->
+  <div class="tab-panel" id="panel-analytics">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title"><div class="section-title-dot"></div>نصائح ذكية</div>
+      </div>
+      <div id="insightsList"></div>
+    </div>
+  </div>
+
+  <!-- ── BUDGETS TAB ── -->
+  <div class="tab-panel" id="panel-budgets">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title"><div class="section-title-dot"></div>ميزانيات الشهر</div>
+        <button class="section-action" onclick="openBudgetSheet()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          ضيف ميزانية
+        </button>
+      </div>
+      <div id="budgetsList"></div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- FAB -->
+<button class="fab" onclick="openTxSheet()">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<!-- ══════════════ TX SHEET ══════════════ -->
+<div class="overlay" id="txOverlay" onclick="closeTxSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">عملية جديدة</div>
+
+    <div class="amt-wrap">
+      <div class="amt-currency">جنيه مصري — EGP</div>
+      <input class="amt-input" id="txAmount" type="text" inputmode="decimal" placeholder="0.00" oninput="numOnly(this)">
     </div>
 
-    <!-- Budget Modal -->
-    <div class="modal-overlay" id="budgetModalOverlay" onclick="closeBudgetModal(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-handle"></div>
-            <h3 class="modal-title">ضيف ميزانية جديدة</h3>
-            
-            <div class="category-buttons" id="budgetCategoryButtons" style="margin-bottom: 1rem;">
-                <!-- Populated by JS -->
-            </div>
-            
-            <div class="amount-input">
-                <input type="text" id="budgetLimitInput" placeholder="0.00" oninput="formatAmount(this)">
-                <span>ج.م</span>
-            </div>
-            
-            <button class="submit-btn" onclick="addBudget()">احفظ الميزانية</button>
-        </div>
+    <div class="type-toggle">
+      <button class="type-opt active-exp" id="optExp" onclick="setTxType('expense')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+        مصروف
+      </button>
+      <button class="type-opt" id="optInc" onclick="setTxType('income')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        دخل
+      </button>
     </div>
 
-    <!-- Confirm Modal -->
-    <div class="modal-overlay" id="confirmModalOverlay">
-        <div class="confirm-modal" id="confirmModal">
-            <div class="confirm-modal-icon">⚠️</div>
-            <div class="confirm-modal-title">مسح كل البيانات؟</div>
-            <div class="confirm-modal-text">كل العمليات والميزانيات هتمسح نهائياً. متقدرش ترجعها تاني!</div>
-            <div class="confirm-modal-buttons">
-                <button class="confirm-btn cancel" onclick="hideClearConfirm()">إلغاء</button>
-                <button class="confirm-btn confirm" onclick="clearAllData()">امسح كل حاجة</button>
-            </div>
-        </div>
+    <div class="cat-grid" id="txCatGrid"></div>
+    <input class="desc-inp" id="txDesc" type="text" placeholder="وصف اختياري...">
+    <button class="submit" onclick="saveTx()">احفظ العملية ✓</button>
+  </div>
+</div>
+
+<!-- ══════════════ BUDGET SHEET ══════════════ -->
+<div class="overlay" id="budgetOverlay" onclick="closeBudgetSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">ضيف ميزانية</div>
+
+    <div class="cat-grid" id="budgetCatGrid"></div>
+    <div class="amt-wrap" style="margin-bottom:1rem;">
+      <div class="amt-currency">الحد الشهري — EGP</div>
+      <input class="amt-input" id="budgetAmt" type="text" inputmode="decimal" placeholder="0.00" oninput="numOnly(this)">
     </div>
+    <button class="submit" onclick="saveBudget()">احفظ الميزانية 🎯</button>
+  </div>
+</div>
 
-    <script>
-        // ========== Categories ==========
-        const categories = [
-            { id: 'food', name: 'أكل ومطاعم', icon: '🍽️', color: '#F59E0B', type: 'expense' },
-            { id: 'transport', name: 'مواصلات', icon: '🚗', color: '#3B82F6', type: 'expense' },
-            { id: 'shopping', name: 'شوبينج', icon: '🛍️', color: '#EC4899', type: 'expense' },
-            { id: 'entertainment', name: 'فسحة وترفيه', icon: '🎮', color: '#8B5CF6', type: 'expense' },
-            { id: 'bills', name: 'فواتير', icon: '📄', color: '#EF4444', type: 'expense' },
-            { id: 'health', name: 'صحة', icon: '❤️', color: '#10B981', type: 'expense' },
-            { id: 'salary', name: 'مرتب', icon: '💰', color: '#10B981', type: 'income' },
-            { id: 'freelance', name: 'فري لانسر', icon: '💻', color: '#6366F1', type: 'income' },
-            { id: 'gift', name: 'هدية', icon: '🎁', color: '#EC4899', type: 'income' },
-        ];
+<!-- ══════════════ CONFIRM ══════════════ -->
+<div class="dialog-overlay" id="confirmOverlay">
+  <div class="dialog">
+    <div class="dialog-emoji">⚠️</div>
+    <div class="dialog-title">مسح كل البيانات؟</div>
+    <div class="dialog-msg">كل العمليات والميزانيات هتتمسح نهائياً ومش هتقدر ترجعها.</div>
+    <div class="dialog-btns">
+      <button class="dialog-cancel" onclick="closeConfirm()">إلغاء</button>
+      <button class="dialog-confirm" onclick="clearAll()">امسح كل حاجة</button>
+    </div>
+  </div>
+</div>
 
-        // ========== State ==========
-        let transactions = [];
-        let budgets = [];
-        let selectedType = 'expense';
-        let selectedCategory = 'food';
-        let selectedBudgetCategory = 'food';
-
-        // ========== LocalStorage Functions ==========
-        const STORAGE_KEYS = {
-            transactions: 'wallet_transactions',
-            budgets: 'wallet_budgets'
-        };
-
-        function saveTransactions() {
-            localStorage.setItem(STORAGE_KEYS.transactions, JSON.stringify(transactions));
+<script>
+/* ─── PARTICLE CANVAS ─── */
+(function(){
+  const c = document.getElementById('canvas-bg');
+  const ctx = c.getContext('2d');
+  let W, H, pts = [];
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  function mkPt(){
+    return {
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+      r:Math.random()*1.5+.5,
+      op:Math.random()*.4+.1
+    };
+  }
+  resize(); window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++) pts.push(mkPt());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(124,111,235,${p.op})`;
+      ctx.fill();
+    });
+    // connections
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(124,111,235,${.08*(1-d/120)})`;
+          ctx.lineWidth=.5;
+          ctx.stroke();
         }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
-        function saveBudgets() {
-            localStorage.setItem(STORAGE_KEYS.budgets, JSON.stringify(budgets));
-        }
+/* ─── DATA ─── */
+const CATS = [
+  {id:'food',       name:'أكل', icon:'🍽️', color:'#FBBF24', type:'expense'},
+  {id:'transport',  name:'مواصلات', icon:'🚗', color:'#38BDF8', type:'expense'},
+  {id:'shopping',   name:'شوبينج', icon:'🛍️', color:'#F472B6', type:'expense'},
+  {id:'entertainment',name:'ترفيه', icon:'🎮', color:'#A78BFA', type:'expense'},
+  {id:'bills',      name:'فواتير', icon:'📄', color:'#F87171', type:'expense'},
+  {id:'health',     name:'صحة', icon:'❤️', color:'#34D399', type:'expense'},
+  {id:'salary',     name:'مرتب', icon:'💰', color:'#34D399', type:'income'},
+  {id:'freelance',  name:'فري لانس', icon:'💻', color:'#818CF8', type:'income'},
+  {id:'gift',       name:'هدية', icon:'🎁', color:'#F472B6', type:'income'},
+];
 
-        function loadTransactions() {
-            const data = localStorage.getItem(STORAGE_KEYS.transactions);
-            if (data) {
-                transactions = JSON.parse(data);
-                // Convert date strings back to Date objects
-                transactions = transactions.map(t => ({
-                    ...t,
-                    date: new Date(t.date)
-                }));
-            }
-        }
+const SK = { tx:'wt_tx', bud:'wt_bud' };
+let txs=[], buds=[], txType='expense', txCat='food', budCat='food';
 
-        function loadBudgets() {
-            const data = localStorage.getItem(STORAGE_KEYS.budgets);
-            if (data) {
-                budgets = JSON.parse(data);
-            }
-        }
+function save(){ localStorage.setItem(SK.tx,JSON.stringify(txs)); localStorage.setItem(SK.bud,JSON.stringify(buds)); }
+function load(){
+  const t=localStorage.getItem(SK.tx), b=localStorage.getItem(SK.bud);
+  if(t) txs=JSON.parse(t).map(x=>({...x,date:new Date(x.date)}));
+  if(b) buds=JSON.parse(b);
+}
 
-        // ========== Utility Functions ==========
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('ar-EG').format(amount) + ' ج.م';
-        }
+function cat(id){ return CATS.find(c=>c.id===id)||CATS[0]; }
+function fmt(n){ return new Intl.NumberFormat('ar-EG').format(Math.abs(n))+' ج.م'; }
+function relTime(d){
+  const m=Math.floor((Date.now()-new Date(d))/60000);
+  if(m<1) return 'الآن';
+  if(m<60) return `منذ ${m} دقيقة`;
+  const h=Math.floor(m/60);
+  if(h<24) return `منذ ${h} ساعة`;
+  const dy=Math.floor(h/24);
+  if(dy===1) return 'أمس';
+  if(dy<7) return `منذ ${dy} أيام`;
+  return new Date(d).toLocaleDateString('ar-EG',{month:'short',day:'numeric'});
+}
 
-        function getRelativeTime(date) {
-            const now = new Date();
-            const diff = now - new Date(date);
-            const mins = Math.floor(diff / 60000);
-            const hours = Math.floor(mins / 60);
-            const days = Math.floor(hours / 24);
+/* ─── HEADER DATE ─── */
+function updateDate(){
+  document.getElementById('headerDate').textContent =
+    new Date().toLocaleDateString('ar-EG',{weekday:'long',month:'long',day:'numeric'});
+}
 
-            if (mins < 1) return 'دلوقتي';
-            if (mins < 60) return `منذ ${mins} دقيقة`;
-            if (hours < 24) return `منذ ${hours} ساعة`;
-            if (days === 1) return 'امبارح';
-            if (days < 7) return `منذ ${days} أيام`;
-            return new Date(date).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
-        }
+/* ─── STATS ─── */
+function renderStats(){
+  const inc = txs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp = txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const bal = inc - exp;
+  const sr = inc>0 ? ((inc-exp)/inc*100).toFixed(1) : 0;
 
-        function getCategory(id) {
-            return categories.find(c => c.id === id) || categories[0];
-        }
+  animNum('balanceAmt', bal, true);
+  animNum('incomeTotal', inc, false, true);
+  animNum('expenseTotal', exp, false, false, true);
+  document.getElementById('savingRate').textContent = sr+'%';
+  document.getElementById('txCount').textContent = txs.length;
+}
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast ' + type;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
+function animNum(id, val, bal=false, inc=false, exp=false){
+  const el = document.getElementById(id);
+  const target = Math.abs(val);
+  const formatted = fmt(target) + (bal && val<0 ? ' (عليك)' : '');
+  el.textContent = formatted;
+}
 
-        // ========== Render Functions ==========
-        function renderStats() {
-            const totalIncome = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-            const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-            const balance = totalIncome - totalExpenses;
-            const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome * 100).toFixed(1) : 0;
+/* ─── CHART ─── */
+function renderChart(){
+  const wrap = document.getElementById('chartWrap');
+  const expenses = txs.filter(t=>t.type==='expense');
+  if(!expenses.length){
+    wrap.innerHTML=`<div class="chart-empty"><div class="chart-empty-icon">📊</div><div class="chart-empty-text">مفيش مصاريف لسه — ضيف أول عملية!</div></div>`;
+    return;
+  }
+  const byCat={};
+  expenses.forEach(t=>{ byCat[t.category]=(byCat[t.category]||0)+t.amount; });
+  const total=Object.values(byCat).reduce((s,v)=>s+v,0);
+  const sorted=Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const R=40, C=2*Math.PI*R;
+  let off=0;
+  const segs=sorted.map(([cid,amt])=>{
+    const c2=cat(cid), pct=amt/total, dash=pct*C;
+    const s={color:c2.color, arr:`${dash} ${C}`, off:-off, pct:(pct*100).toFixed(0)};
+    off+=dash; return {s,c:c2,amt};
+  });
+  wrap.innerHTML=`<div class="chart-wrap">
+    <div class="pie-wrap">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <circle cx="50" cy="50" r="${R}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="14"/>
+        ${segs.map(({s})=>`
+          <circle cx="50" cy="50" r="${R}" fill="none"
+            stroke="${s.color}" stroke-width="14"
+            stroke-dasharray="${s.arr}"
+            stroke-dashoffset="${s.off}"
+            stroke-linecap="round"
+          />`).join('')}
+      </svg>
+      <div class="pie-center">
+        <span class="pie-center-val">${new Intl.NumberFormat('ar-EG').format(Math.round(total))}</span>
+        <span class="pie-center-sub">ج.م إجمالي</span>
+      </div>
+    </div>
+    <div class="legend">
+      ${segs.map(({s,c:c2,amt})=>`
+        <div class="legend-item">
+          <div class="legend-dot" style="background:${s.color};color:${s.color}"></div>
+          <span class="legend-label">${c2.icon} ${c2.name}</span>
+          <span class="legend-pct">${s.pct}%</span>
+          <span class="legend-val">${fmt(amt)}</span>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
 
-            document.getElementById('balance').textContent = formatCurrency(Math.abs(balance)) + (balance < 0 ? ' (عليك)' : '');
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-            document.getElementById('savingsRate').textContent = savingsRate + '%';
-            document.getElementById('transactionCount').textContent = transactions.length;
-        }
+/* ─── TRANSACTIONS ─── */
+function renderTx(){
+  const el=document.getElementById('txList');
+  if(!txs.length){
+    el.innerHTML=`<div class="tx-empty"><div class="tx-empty-icon">💳</div><div class="tx-empty-text">لا يوجد عمليات — اضغط + لإضافة أول واحدة</div></div>`;
+    return;
+  }
+  const sorted=[...txs].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,12);
+  el.innerHTML=sorted.map((t,i)=>{
+    const c=cat(t.category);
+    return `<div class="tx-item" style="animation-delay:${i*.04}s">
+      <button class="tx-del" onclick="delTx(${t.id})">✕</button>
+      <div class="tx-icon" style="background:${c.color}18">
+        <div class="tx-icon-ring"></div>
+        <span>${c.icon}</span>
+      </div>
+      <div class="tx-info">
+        <div class="tx-name">${t.desc||c.name}</div>
+        <div class="tx-time">${relTime(t.date)}</div>
+      </div>
+      <div class="tx-right">
+        <div class="tx-amount ${t.type==='income'?'plus':'minus'}">${t.type==='income'?'+':'-'}${fmt(t.amount)}</div>
+        <div class="tx-cat">${c.name}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-        function renderChart() {
-            const container = document.getElementById('chartContainer');
-            const expenses = transactions.filter(t => t.type === 'expense');
-            
-            if (expenses.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📊</div>
-                        <div class="empty-state-text">مفيش مصاريف لسه</div>
-                    </div>
-                `;
-                return;
-            }
+/* ─── INSIGHTS ─── */
+function renderInsights(){
+  const el=document.getElementById('insightsList');
+  const ins=[];
+  const inc=txs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp=txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
 
-            const byCategory = {};
-            expenses.forEach(t => {
-                byCategory[t.category] = (byCategory[t.category] || 0) + t.amount;
-            });
+  buds.forEach(b=>{
+    const p=b.spent/b.limit*100, c=cat(b.categoryId);
+    if(p>100) ins.push({type:'warn',icon:'🚨',title:`تجاوزت ميزانية ${c.name}!`,msg:`صرفت ${Math.round(p)}% من الميزانية المحددة. المبلغ الزيادة: ${fmt(b.spent-b.limit)}`});
+    else if(p>80) ins.push({type:'warn',icon:'⚠️',title:`تحذير: ${c.name}`,msg:`وصلت لـ ${Math.round(p)}% من ميزانية ${c.name}. باقي ${fmt(b.limit-b.spent)} فقط.`});
+  });
 
-            const total = Object.values(byCategory).reduce((s, v) => s + v, 0);
-            const sorted = Object.entries(byCategory).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  if(inc>0){
+    const sr=(inc-exp)/inc*100;
+    if(sr>=30) ins.push({type:'win',icon:'🏆',title:'أداء مالي ممتاز!',msg:`توفير ${sr.toFixed(0)}% من دخلك. استمر وفكر في الاستثمار!`});
+    else if(sr<0) ins.push({type:'warn',icon:'📉',title:'تحذير: صرف زيادة عن الدخل',msg:`صرفت ${fmt(exp-inc)} أكتر من دخلك. خلي بالك!`});
+    else if(sr<10) ins.push({type:'tip',icon:'💡',title:'نصيحة: زود معدل التوفير',msg:'حاول توفر على الأقل 20% من دخلك. قلل مصاريف الترفيه.'});
+  }
 
-            // Calculate pie segments
-            let offset = 0;
-            const circumference = 2 * Math.PI * 40;
-            const segments = sorted.map(([catId, amount]) => {
-                const cat = getCategory(catId);
-                const percentage = (amount / total) * 100;
-                const dashLength = (percentage / 100) * circumference;
-                const segment = {
-                    color: cat.color,
-                    dashArray: `${dashLength} ${circumference}`,
-                    dashOffset: -offset
-                };
-                offset += dashLength;
-                return { segment, cat, amount };
-            });
+  // Top category
+  const byCat={};
+  txs.filter(t=>t.type==='expense').forEach(t=>{ byCat[t.category]=(byCat[t.category]||0)+t.amount; });
+  const topCat=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  if(topCat && exp>0){
+    const c=cat(topCat[0]);
+    ins.push({type:'info',icon:'📊',title:`${c.icon} أكبر مصروف: ${c.name}`,msg:`صرفت ${fmt(topCat[1])} على ${c.name} (${(topCat[1]/exp*100).toFixed(0)}% من إجمالي المصاريف).`});
+  }
 
-            container.innerHTML = `
-                <div class="pie-chart">
-                    <svg viewBox="0 0 100 100" width="100%" height="100%">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="15"/>
-                        ${segments.map(s => `
-                            <circle cx="50" cy="50" r="40" fill="none" 
-                                stroke="${s.segment.color}" 
-                                stroke-width="15"
-                                stroke-dasharray="${s.segment.dashArray}"
-                                stroke-dashoffset="${s.segment.dashOffset}"/>
-                        `).join('')}
-                    </svg>
-                    <div class="pie-center">
-                        <span class="pie-center-value">${new Intl.NumberFormat('ar-EG').format(total)}</span>
-                        <span class="pie-center-label">ج.م</span>
-                    </div>
-                </div>
-                <div class="chart-legend">
-                    ${sorted.map(([catId, amount]) => {
-                        const cat = getCategory(catId);
-                        return `
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background: ${cat.color}"></div>
-                                <span class="legend-name">${cat.name}</span>
-                                <span class="legend-value">${formatCurrency(amount)}</span>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }
+  if(!ins.length) ins.push({type:'tip',icon:'🌟',title:'ابدأ رحلتك المالية',msg:'ضيف عملياتك اليومية وسنعطيك تحليلات وتوصيات مخصصة لك.'});
 
-        function renderTransactions() {
-            const list = document.getElementById('transactionList');
-            
-            if (transactions.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">💳</div>
-                        <div class="empty-state-text">مفيش عمليات لسه</div>
-                    </div>
-                `;
-                return;
-            }
+  el.innerHTML=ins.slice(0,5).map((i,idx)=>`
+    <div class="insight ${i.type}" style="animation-delay:${idx*.08}s">
+      <div class="insight-icon">${i.icon}</div>
+      <div>
+        <div class="insight-title">${i.title}</div>
+        <div class="insight-msg">${i.msg}</div>
+      </div>
+    </div>`).join('');
+}
 
-            const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
-            
-            list.innerHTML = sorted.map(t => {
-                const cat = getCategory(t.category);
-                return `
-                    <div class="transaction-item">
-                        <button class="transaction-delete" onclick="deleteTransaction(${t.id})" title="مسح">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
-                        </button>
-                        <div class="transaction-icon" style="background: ${cat.color}20;">
-                            <span style="font-size: 1rem;">${cat.icon}</span>
-                        </div>
-                        <div class="transaction-info">
-                            <div class="transaction-name">${t.description || cat.name}</div>
-                            <div class="transaction-time">${getRelativeTime(t.date)}</div>
-                        </div>
-                        <div class="transaction-amount">
-                            <div class="transaction-value ${t.type === 'income' ? 'income' : ''}">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div>
-                            <div class="transaction-category">${cat.name}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+/* ─── BUDGETS ─── */
+function renderBudgets(){
+  const el=document.getElementById('budgetsList');
+  if(!buds.length){
+    el.innerHTML=`<div class="budget-empty"><div class="budget-empty-icon">🎯</div><div class="budget-empty-text">لا توجد ميزانيات — أضف ميزانية لكل فئة</div></div>`;
+    return;
+  }
+  const R=35, C=2*Math.PI*R;
+  el.innerHTML=buds.map((b,i)=>{
+    const c=cat(b.categoryId), p=Math.min(b.spent/b.limit,1), isOver=b.spent>b.limit;
+    const filled=p*C, offset=C-filled;
+    const rem=b.limit-b.spent;
+    return `<div class="budget-item" style="animation-delay:${i*.07}s">
+      <div class="budget-ring">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <circle cx="50" cy="50" r="${R}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="9"/>
+          <circle cx="50" cy="50" r="${R}" fill="none"
+            stroke="${isOver?'#F87171':c.color}" stroke-width="9"
+            stroke-linecap="round"
+            stroke-dasharray="${C}"
+            stroke-dashoffset="${offset}"/>
+        </svg>
+        <div class="budget-ring-num" style="color:${isOver?'#F87171':c.color}">${Math.round(p*100)}%</div>
+      </div>
+      <div class="budget-info">
+        <div class="budget-head">
+          <span class="budget-name">${c.icon} ${c.name}</span>
+          ${isOver?'<span class="budget-badge">تجاوزت!</span>':''}
+        </div>
+        <div class="budget-sub">صُرف ${fmt(b.spent)} من ${fmt(b.limit)}</div>
+        <div class="budget-remaining ${isOver?'bad':'ok'}">${isOver?'زيادة '+fmt(Math.abs(rem)):'متبقي '+fmt(rem)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-        function renderInsights() {
-            const list = document.getElementById('insightsList');
-            
-            // Generate dynamic insights based on data
-            const insights = [];
-            
-            const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-            const totalIncome = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-            
-            // Check budgets
-            budgets.forEach(b => {
-                const progress = (b.spent / b.limit) * 100;
-                if (progress > 100) {
-                    const cat = getCategory(b.categoryId);
-                    insights.push({
-                        type: 'warning',
-                        title: 'تجاوزت الميزانية!',
-                        message: `يا صاحبي، بتتصرف أكتر من اللازم في ${cat.name} (${Math.round(progress)}%)! خف شوية.`
-                    });
-                } else if (progress > 80) {
-                    const cat = getCategory(b.categoryId);
-                    insights.push({
-                        type: 'warning',
-                        title: 'اقتربت من الحد',
-                        message: `قربت تخلص ميزانية ${cat.name} (${Math.round(progress)}%). خلي بالك!`
-                    });
-                }
-            });
+/* ─── RENDER ALL ─── */
+function renderAll(){ renderStats(); renderChart(); renderTx(); renderInsights(); renderBudgets(); }
 
-            // Savings tip
-            if (totalIncome > 0) {
-                const savingsRate = ((totalIncome - totalExpenses) / totalIncome) * 100;
-                if (savingsRate > 20) {
-                    insights.push({
-                        type: 'achievement',
-                        title: 'عاش يا بطل! 🎉',
-                        message: `وفرت ${savingsRate.toFixed(0)}% من فلوسك! استمر كده.`
-                    });
-                } else if (savingsRate < 0) {
-                    insights.push({
-                        type: 'tip',
-                        title: 'نصيحة توفير',
-                        message: 'بتصرف أكتر من اللي جيلك! حاول تقلل المصاريف الزيادة.'
-                    });
-                }
-            }
+/* ─── TX SHEET ─── */
+function openTxSheet(){
+  renderCatGrid();
+  document.getElementById('txOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('txAmount').focus(),400);
+}
+function closeTxSheet(e){
+  if(e.target===document.getElementById('txOverlay')){
+    document.getElementById('txOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+function setTxType(t){
+  txType=t;
+  document.getElementById('optExp').className='type-opt'+(t==='expense'?' active-exp':'');
+  document.getElementById('optInc').className='type-opt'+(t==='income'?' active-inc':'');
+  txCat=CATS.find(c=>c.type===t)?.id||txCat;
+  renderCatGrid();
+}
+function renderCatGrid(){
+  document.getElementById('txCatGrid').innerHTML=CATS.filter(c=>c.type===txType).map(c=>`
+    <button class="cat-chip ${c.id===txCat?'active':''}" onclick="selCat('${c.id}')">
+      ${c.icon} ${c.name}
+    </button>`).join('');
+}
+function selCat(id){ txCat=id; renderCatGrid(); }
+function saveTx(){
+  const amt=parseFloat(document.getElementById('txAmount').value)||0;
+  if(amt<=0){ toast('ضيف مبلغ صحيح','err'); return; }
+  const tx={id:Date.now(),amount:amt,category:txCat,
+    desc:document.getElementById('txDesc').value||cat(txCat).name,
+    date:new Date(),type:txType};
+  txs.unshift(tx);
+  if(txType==='expense'){
+    const b=buds.find(b=>b.categoryId===txCat);
+    if(b) b.spent+=amt;
+  }
+  save(); renderAll();
+  document.getElementById('txOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('txAmount').value='';
+  document.getElementById('txDesc').value='';
+  toast('تم حفظ العملية ✓','ok');
+}
+function delTx(id){
+  const t=txs.find(x=>x.id===id);
+  if(t&&t.type==='expense'){
+    const b=buds.find(b=>b.categoryId===t.category);
+    if(b) b.spent=Math.max(0,b.spent-t.amount);
+  }
+  txs=txs.filter(x=>x.id!==id);
+  save(); renderAll(); toast('تم الحذف','ok');
+}
 
-            // Default insight if no data
-            if (insights.length === 0) {
-                insights.push({
-                    type: 'tip',
-                    title: 'ابدأ التتبع',
-                    message: 'ضيف مصاريفك عشان نديك نصايح ذكية!'
-                });
-            }
+/* ─── BUDGET SHEET ─── */
+function openBudgetSheet(){
+  renderBudCatGrid();
+  document.getElementById('budgetOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeBudgetSheet(e){
+  if(e.target===document.getElementById('budgetOverlay')){
+    document.getElementById('budgetOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+function renderBudCatGrid(){
+  document.getElementById('budgetCatGrid').innerHTML=CATS.filter(c=>c.type==='expense').map(c=>`
+    <button class="cat-chip ${c.id===budCat?'active':''}" onclick="selBudCat('${c.id}')">
+      ${c.icon} ${c.name}
+    </button>`).join('');
+}
+function selBudCat(id){ budCat=id; renderBudCatGrid(); }
+function saveBudget(){
+  const lim=parseFloat(document.getElementById('budgetAmt').value)||0;
+  if(lim<=0){ toast('ضيف مبلغ صحيح','err'); return; }
+  const ex=buds.find(b=>b.categoryId===budCat);
+  if(ex) ex.limit=lim; else buds.push({categoryId:budCat,limit:lim,spent:0});
+  save(); renderBudgets();
+  document.getElementById('budgetOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('budgetAmt').value='';
+  toast('تم حفظ الميزانية 🎯','ok');
+}
 
-            const icons = {
-                warning: '⚠️',
-                tip: '💡',
-                achievement: '🏆',
-                prediction: '📊'
-            };
+/* ─── CONFIRM ─── */
+function showConfirm(){ document.getElementById('confirmOverlay').classList.add('open'); }
+function closeConfirm(){ document.getElementById('confirmOverlay').classList.remove('open'); }
+function clearAll(){
+  localStorage.removeItem(SK.tx); localStorage.removeItem(SK.bud);
+  txs=[]; buds=[]; renderAll(); closeConfirm(); toast('تم مسح كل البيانات','ok');
+}
 
-            list.innerHTML = insights.slice(0, 4).map(i => `
-                <div class="insight-card ${i.type}">
-                    <div class="insight-icon">${icons[i.type]}</div>
-                    <div class="insight-content">
-                        <div class="insight-title">${i.title}</div>
-                        <div class="insight-message">${i.message}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
+/* ─── EXPORT ─── */
+function exportData(){
+  const blob=new Blob([JSON.stringify({txs,buds,date:new Date()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`wallet-${new Date().toISOString().split('T')[0]}.json`;
+  a.click(); toast('تم التصدير 📁','ok');
+}
 
-        function renderBudgets() {
-            const list = document.getElementById('budgetsList');
-            
-            if (budgets.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🎯</div>
-                        <div class="empty-state-text">مفيش ميزانيات لسه</div>
-                    </div>
-                `;
-                return;
-            }
+/* ─── TOAST ─── */
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast '+type+' show';
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),3000);
+}
 
-            list.innerHTML = budgets.map(b => {
-                const cat = getCategory(b.categoryId);
-                const progress = Math.min((b.spent / b.limit) * 100, 100);
-                const isOver = b.spent > b.limit;
-                const remaining = b.limit - b.spent;
-                const circumference = 2 * Math.PI * 35;
-                const offset = circumference - (progress / 100) * circumference;
+/* ─── UTIL ─── */
+function numOnly(inp){ inp.value=inp.value.replace(/[^\d.]/g,''); }
 
-                return `
-                    <div class="budget-card">
-                        <div class="progress-ring">
-                            <svg viewBox="0 0 100 100" width="100%" height="100%">
-                                <circle class="progress-ring-bg" cx="50" cy="50" r="35" stroke-width="8"/>
-                                <circle class="progress-ring-fill" cx="50" cy="50" r="35" stroke-width="8" 
-                                    stroke="${isOver ? '#EF4444' : cat.color}"
-                                    stroke-dasharray="${circumference}"
-                                    stroke-dashoffset="${offset}"/>
-                            </svg>
-                            <div class="progress-ring-text">${Math.round(progress)}%</div>
-                        </div>
-                        <div class="budget-info">
-                            <div class="budget-header">
-                                <span class="budget-name">${cat.icon} ${cat.name}</span>
-                                ${isOver ? '<span class="budget-badge">عليك</span>' : ''}
-                            </div>
-                            <div class="budget-spent">صرفت ${formatCurrency(b.spent)} من ${formatCurrency(b.limit)}</div>
-                            <div class="budget-remaining ${isOver ? 'negative' : 'positive'}">
-                                ${isOver ? 'عليك ' + formatCurrency(Math.abs(remaining)) : 'مضي ' + formatCurrency(remaining)}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+/* ─── TABS ─── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
 
-        function renderCategoryButtons() {
-            const container = document.getElementById('categoryButtons');
-            const filtered = categories.filter(c => c.type === selectedType);
-            
-            container.innerHTML = filtered.map(c => `
-                <button class="category-btn ${c.id === selectedCategory ? 'active' : ''}" onclick="selectCategory('${c.id}')">
-                    <span>${c.icon}</span>
-                    <span>${c.name}</span>
-                </button>
-            `).join('');
-        }
-
-        function renderBudgetCategoryButtons() {
-            const container = document.getElementById('budgetCategoryButtons');
-            const filtered = categories.filter(c => c.type === 'expense');
-            
-            container.innerHTML = filtered.map(c => `
-                <button class="category-btn ${c.id === selectedBudgetCategory ? 'active' : ''}" onclick="selectBudgetCategory('${c.id}')">
-                    <span>${c.icon}</span>
-                    <span>${c.name}</span>
-                </button>
-            `).join('');
-        }
-
-        // ========== Modal Functions ==========
-        function openModal() {
-            document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(e) {
-            if (e.target === document.getElementById('modalOverlay')) {
-                document.getElementById('modalOverlay').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function openBudgetModal() {
-            document.getElementById('budgetModalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderBudgetCategoryButtons();
-        }
-
-        function closeBudgetModal(e) {
-            if (e.target === document.getElementById('budgetModalOverlay')) {
-                document.getElementById('budgetModalOverlay').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function setType(type) {
-            selectedType = type;
-            document.getElementById('expenseBtn').classList.toggle('active', type === 'expense');
-            document.getElementById('incomeBtn').classList.toggle('active', type === 'income');
-            selectedCategory = categories.find(c => c.type === type)?.id || 'food';
-            renderCategoryButtons();
-        }
-
-        function selectCategory(id) {
-            selectedCategory = id;
-            renderCategoryButtons();
-        }
-
-        function selectBudgetCategory(id) {
-            selectedBudgetCategory = id;
-            renderBudgetCategoryButtons();
-        }
-
-        function formatAmount(input) {
-            let value = input.value.replace(/[^\d.]/g, '');
-            input.value = value;
-        }
-
-        // ========== CRUD Functions ==========
-        function addTransaction() {
-            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
-            const description = document.getElementById('descInput').value;
-
-            if (amount <= 0) {
-                showToast('لو سمحت دخّل مبلغ صحيح', 'error');
-                return;
-            }
-
-            const newTransaction = {
-                id: Date.now(),
-                amount,
-                category: selectedCategory,
-                description: description || getCategory(selectedCategory).name,
-                date: new Date(),
-                type: selectedType
-            };
-
-            transactions.unshift(newTransaction);
-            
-            // Update budget if expense
-            if (selectedType === 'expense') {
-                const budget = budgets.find(b => b.categoryId === selectedCategory);
-                if (budget) {
-                    budget.spent += amount;
-                    saveBudgets();
-                }
-            }
-
-            saveTransactions();
-            renderAll();
-
-            // Close modal & reset
-            document.getElementById('modalOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-            document.getElementById('amountInput').value = '';
-            document.getElementById('descInput').value = '';
-
-            showToast('تم حفظ العملية بنجاح! ✅');
-        }
-
-        function deleteTransaction(id) {
-            const t = transactions.find(t => t.id === id);
-            if (t && t.type === 'expense') {
-                const budget = budgets.find(b => b.categoryId === t.category);
-                if (budget) {
-                    budget.spent = Math.max(0, budget.spent - t.amount);
-                    saveBudgets();
-                }
-            }
-            
-            transactions = transactions.filter(t => t.id !== id);
-            saveTransactions();
-            renderAll();
-            showToast('تم مسح العملية');
-        }
-
-        function addBudget() {
-            const limit = parseFloat(document.getElementById('budgetLimitInput').value) || 0;
-
-            if (limit <= 0) {
-                showToast('لو سمحت دخّل مبلغ صحيح', 'error');
-                return;
-            }
-
-            // Check if budget exists
-            const existing = budgets.find(b => b.categoryId === selectedBudgetCategory);
-            if (existing) {
-                existing.limit = limit;
-            } else {
-                budgets.push({
-                    categoryId: selectedBudgetCategory,
-                    limit,
-                    spent: 0
-                });
-            }
-
-            saveBudgets();
-            renderBudgets();
-
-            // Close modal & reset
-            document.getElementById('budgetModalOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-            document.getElementById('budgetLimitInput').value = '';
-
-            showToast('تم حفظ الميزانية! 🎯');
-        }
-
-        // ========== Clear Data Functions ==========
-        function showClearConfirm() {
-            document.getElementById('confirmModalOverlay').classList.add('active');
-            document.getElementById('confirmModal').classList.add('active');
-        }
-
-        function hideClearConfirm() {
-            document.getElementById('confirmModalOverlay').classList.remove('active');
-            document.getElementById('confirmModal').classList.remove('active');
-        }
-
-        function clearAllData() {
-            localStorage.removeItem(STORAGE_KEYS.transactions);
-            localStorage.removeItem(STORAGE_KEYS.budgets);
-            transactions = [];
-            budgets = [];
-            renderAll();
-            hideClearConfirm();
-            showToast('تم مسح كل البيانات');
-        }
-
-        // ========== Export/Import Functions ==========
-        function exportData() {
-            const data = {
-                transactions,
-                budgets,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `wallet-backup-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showToast('تم تصدير البيانات! 📁');
-        }
-
-        // ========== Tab Switching ==========
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-            });
-        });
-
-        // ========== Render All ==========
-        function renderAll() {
-            renderStats();
-            renderChart();
-            renderTransactions();
-            renderInsights();
-            renderBudgets();
-        }
-
-        // ========== Initialize ==========
-        function init() {
-            loadTransactions();
-            loadBudgets();
-            renderAll();
-            renderCategoryButtons();
-        }
-
-        init();
-    </script>
+/* ─── INIT ─── */
+load(); updateDate(); renderAll(); renderCatGrid();
+</script>
 </body>
 </html>
