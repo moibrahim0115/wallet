@@ -113,8 +113,10 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
 .txa{font-size:16px;font-weight:800;letter-spacing:-.3px}
 .txa.i{color:var(--green)}.txa.e{color:var(--t1)}
 .txd{width:27px;height:27px;border-radius:9px;background:transparent;border:none;cursor:pointer;color:var(--t4);display:flex;align-items:center;justify-content:center;transition:all .18s;opacity:0}
+.tx-actions{display:flex;gap:4px;align-items:center}
 .txi:hover .txd{opacity:1}
 .txd:hover{background:rgba(255,69,58,.15);color:var(--red)}
+.txd-edit:hover{background:rgba(201,168,76,.15)!important;color:var(--gold2)!important}
 
 /* empty */
 .emp{text-align:center;padding:52px 24px;animation:fu .5s cubic-bezier(.16,1,.3,1) both}
@@ -391,6 +393,31 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
   </div>
 </div>
 
+<!-- Edit Sheet -->
+<div class="ov" id="editOverlay" onclick="cls('editOverlay',event)">
+  <div class="sht">
+    <span class="hdl"></span>
+    <div class="shtit">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      تعديل المعاملة
+    </div>
+    <div class="ttog">
+      <button class="tbt i" id="editTypeInc" onclick="setEditType('income')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="19" x2="12" y2="5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="5 12 12 5 19 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        دخل
+      </button>
+      <button class="tbt e" id="editTypeExp" onclick="setEditType('expense')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        مصروف
+      </button>
+    </div>
+    <div class="fg"><label class="fl">المبلغ (ج.م)</label><input class="fi fi-lg" id="editAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
+    <div class="fg"><label class="fl">وصف اختياري</label><input class="fi" id="editNote" type="text" placeholder="مثال: فاتورة الكهرباء..."></div>
+    <div class="fg"><label class="fl">الفئة</label><div class="cg" id="editCatGrid"></div></div>
+    <button class="bp" onclick="saveEdit()">حفظ التعديلات</button>
+  </div>
+</div>
+
 <!-- Budget Sheet -->
 <div class="ov" id="budgetOverlay" onclick="cls('budgetOverlay',event)">
   <div class="sht">
@@ -446,6 +473,7 @@ body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;back
 <script>
 const SK={tx:'fw_tx',bud:'fw_bud'};
 let txs=[],buds=[],curType='expense',selCat='food',budCat='food',AF='all';
+let editId=null,editType='expense',editCat='food';
 
 const CATS=[
   {id:'food',         name:'طعام',     icon:'I-food',         type:'expense', color:'#ff6b6b'},
@@ -530,9 +558,14 @@ function renderTxList(){
         <div class="txa ${tx.type==='income'?'i':'e'}" style="color:${tx.type==='income'?'var(--green)':'var(--t1)'}">
           ${tx.type==='income'?'+':'-'}${fmt(tx.amount)}
         </div>
-        <button class="txd" onclick="delTx(${tx.id})">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
+        <div class="tx-actions">
+          <button class="txd txd-edit" onclick="openEdit(${tx.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="txd" onclick="delTx(${tx.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -540,6 +573,29 @@ function renderTxList(){
 
 function setF(f){AF=f;renderTxList()}
 function delTx(id){txs=txs.filter(t=>t.id!==id);save();renderAll();toast('تم الحذف','warn')}
+
+function openEdit(id){
+  const tx=txs.find(t=>t.id===id);if(!tx)return;
+  editId=id;editType=tx.type;editCat=tx.categoryId;
+  document.getElementById('editTypeInc').classList.toggle('active',editType==='income');
+  document.getElementById('editTypeExp').classList.toggle('active',editType==='expense');
+  document.getElementById('editAmt').value=tx.amount;
+  document.getElementById('editNote').value=tx.note||'';
+  renderEditCatGrid();
+  document.getElementById('editOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function setEditType(t){editType=t;document.getElementById('editTypeInc').classList.toggle('active',t==='income');document.getElementById('editTypeExp').classList.toggle('active',t==='expense');editCat=t==='income'?'salary':'food';renderEditCatGrid()}
+function renderEditCatGrid(){document.getElementById('editCatGrid').innerHTML=CATS.filter(c=>c.type===editType||c.type==='both').map(c=>`<button class="cc2 ${c.id===editCat?'active':''}" onclick="sec('${c.id}')"><div class="ci2" style="background:${c.color}18">${ico(c.icon,c.color,17)}</div>${c.name}</button>`).join('')}
+function sec(id){editCat=id;renderEditCatGrid()}
+function saveEdit(){
+  const amt=parseFloat(document.getElementById('editAmt').value)||0;
+  if(amt<=0){toast('أدخل مبلغاً صحيحاً','err');return}
+  const note=document.getElementById('editNote').value.trim();
+  const tx=txs.find(t=>t.id===editId);if(!tx)return;
+  tx.amount=amt;tx.type=editType;tx.categoryId=editCat;tx.note=note;
+  save();renderAll();cls('editOverlay');toast('تم تعديل المعاملة','ok');
+}
 
 function renderBudgets(){
   const bl=document.getElementById('budList');
