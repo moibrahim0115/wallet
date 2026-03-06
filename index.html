@@ -959,13 +959,16 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
       <div class="fg"><label class="fl" data-i18n="numMonths">عدد الأشهر</label><input class="fi fi-sm" id="instMonths" type="number" placeholder="-" inputmode="numeric" readonly style="opacity:.6;cursor:default"></div>
       <div class="fg"><label class="fl" data-i18n="paidSoFar">المدفوع</label><input class="fi fi-sm" id="instPaid" type="number" placeholder="0" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
     </div>
-    <div class="fg"><label class="fl" data-i18n="category">الفئة</label>
-      <select class="fi fi-sm fi-sel" id="instCat">
-        <option value="bills">فواتير</option><option value="rent">إيجار</option>
-        <option value="shopping">تسوق</option><option value="health">صحة</option>
-        <option value="education">تعليم</option><option value="entertainment">ترفيه</option>
-        <option value="other">أخرى</option>
-      </select>
+    <div class="g2">
+      <div class="fg"><label class="fl" data-i18n="category">الفئة</label>
+        <select class="fi fi-sm fi-sel" id="instCat">
+          <option value="bills">فواتير</option><option value="rent">إيجار</option>
+          <option value="shopping">تسوق</option><option value="health">صحة</option>
+          <option value="education">تعليم</option><option value="entertainment">ترفيه</option>
+          <option value="other">أخرى</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl" data-i18n="dueDay">يوم التحصيل</label><input class="fi fi-sm" id="instDueDay" type="number" placeholder="1" min="1" max="31" inputmode="numeric"></div>
     </div>
     <div class="inst-calc" id="instCalc">
       <div class="inst-calc-lbl" data-i18n="remaining">المتبقي</div>
@@ -1058,7 +1061,7 @@ const I18N={
     installments:'أقساط',myInstallments:'التزاماتي',newInstallment:'قسط / التزام شهري',
     installmentName:'الاسم',totalAmount:'المبلغ الكلي (اختياري)',monthlyInstallment:'القسط الشهري',
     numMonths:'عدد الأشهر',paidSoFar:'المدفوع',remaining:'المتبقي',
-    saveInstallment:'حفظ الالتزام',
+    dueDay:'يوم التحصيل',saveInstallment:'حفظ الالتزام',
     recurringTx:'معاملة متكررة',recurFreq:'التكرار',
     monthly:'شهري',weekly:'أسبوعي',yearly:'سنوي',quarterly:'ربع سنوي',biannual:'نصف سنوي',
     budgetPeriod:'فترة الميزانية',budgetLimit:'الحد (ج.م)',
@@ -1100,7 +1103,7 @@ const I18N={
     installments:'Plans',myInstallments:'My Plans',newInstallment:'Recurring Plan',
     installmentName:'Name',totalAmount:'Total Amount (optional)',monthlyInstallment:'Monthly Amount',
     numMonths:'Months',paidSoFar:'Paid',remaining:'Remaining',
-    saveInstallment:'Save Plan',
+    dueDay:'Due Day',saveInstallment:'Save Plan',
     recurringTx:'Recurring Transaction',recurFreq:'Frequency',
     monthly:'Monthly',weekly:'Weekly',yearly:'Yearly',quarterly:'Quarterly',biannual:'Bi-Annual',
     budgetPeriod:'Budget Period',budgetLimit:'Limit (EGP)',
@@ -1361,10 +1364,22 @@ function renderInstallments(){
   }
 
   var now=new Date();
-  // Next 1st of month
-  var nextM=new Date(now.getFullYear(), now.getMonth()+(now.getDate()>1?1:0), 1);
-  var daysLeft=Math.ceil((nextM-now)/86400000);
-  var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
+
+  function getNextDue(dueDay){
+    var day=Math.min(Math.max(dueDay||1,1),31);
+    var y=now.getFullYear(), m=now.getMonth();
+    // clamp day to valid days in current month
+    var maxDay=new Date(y,m+1,0).getDate();
+    var d=Math.min(day,maxDay);
+    var target=new Date(y,m,d);
+    if(target<=now){
+      var nm=m+1, ny=y;
+      if(nm>11){nm=0;ny++;}
+      var maxDay2=new Date(ny,nm+1,0).getDate();
+      target=new Date(ny,nm,Math.min(day,maxDay2));
+    }
+    return target;
+  }
 
   list.innerHTML=insts.map(function(inst,i){
     var cat=CATS.find(function(c){return c.id===inst.categoryId;})||CATS[13];
@@ -1381,9 +1396,13 @@ function renderInstallments(){
       .filter(function(tx){return tx.linkedInstId==inst.id && new Date(tx.date)>=monthStart;})
       .reduce(function(s,tx){return s+tx.amount;},0);
 
+    // Per-installment due date
+    var nextM=getNextDue(inst.dueDay||1);
+    var daysLeft=Math.ceil((nextM-now)/86400000);
+    var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
+
     // Colors
     var barCol=isDone?'var(--green)':pct>=80?'var(--gold2)':'var(--purple)';
-    var urgentChip=daysLeft<=5&&!isDone;
     var urgentClass=daysLeft<=2?'urgent':daysLeft<=5?'warn-chip':'next';
 
     // Build card HTML
@@ -1477,7 +1496,8 @@ function saveInstallment(){
   const total=parseFloat(document.getElementById('instTotal').value)||0;
   const paid=parseFloat(document.getElementById('instPaid').value)||0;
   const catId=document.getElementById('instCat').value;
-  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,createdAt:new Date().toISOString()});
+  const dueDay=parseInt(document.getElementById('instDueDay').value)||1;
+  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,dueDay:Math.min(Math.max(dueDay,1),31),createdAt:new Date().toISOString()});
   save();renderAll();cls('installmentOverlay');toast(t('instSaved'),'ok');
 }
 function delInst(id){insts=insts.filter(x=>x.id!==id);save();renderInstallments();toast(t('instDeleted'),'warn')}
@@ -1718,7 +1738,7 @@ function openSheet(type,sub){
     document.getElementById('txNote').value='';
     document.getElementById('addOverlay').classList.add('open');
   } else if(type==='installment'){
-    ['instName','instTotal','instMonthly','instPaid'].forEach(id=>{document.getElementById(id).value=''});
+    ['instName','instTotal','instMonthly','instPaid','instDueDay'].forEach(id=>{document.getElementById(id).value=''});
     document.getElementById('instMonths').value='';
     document.getElementById('instCalc').style.display='none';
     document.getElementById('installmentOverlay').classList.add('open');
