@@ -125,8 +125,15 @@ body,.hero,.qa,.seg,.sgt,.txi,.budc,.sc,.cc,.tc,.sht,.cfm,.bnav,.qb,.fp,.sb,.fi,
 
 /* BASE */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
-body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  touch-action:pan-y;overscroll-behavior:none}
+/* Global touch feedback on all interactive elements */
+button,a,[onclick]{-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  cursor:pointer;-webkit-user-select:none;user-select:none}
+/* Universal active press feedback */
+button:active{opacity:.82;transition:opacity .08s,transform .1s}
 [data-lang="ar"] *{font-family:'Cairo',sans-serif}
 [data-lang="en"] *{font-family:'Inter',sans-serif}
 [data-lang="ar"]{direction:rtl}[data-lang="en"]{direction:ltr}
@@ -150,7 +157,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .app-ico{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#1a2340,#0d1530);border:1px solid rgba(79,142,255,.35);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(79,142,255,.25),inset 0 1px 0 rgba(255,255,255,.1);flex-shrink:0}
 .app-nm{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}.app-nm span{color:var(--gold2)}
 .hdr-r{display:flex;align-items:center;gap:8px}
-.hdr-ctrl{width:36px;height:36px;border-radius:11px;border:1px solid var(--border2);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--t3)}
+.hdr-ctrl{width:40px;height:40px;border-radius:13px;border:1px solid var(--border2);background:var(--s2);cursor:pointer;touch-action:manipulation;transition:transform .12s cubic-bezier(.16,1,.3,1),background .15s,opacity .1s;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--t3)}
 .hdr-ctrl:hover{background:var(--s3);border-color:var(--border3);color:var(--t1)}.hdr-ctrl:active{transform:scale(.93)}
 .hdr-date{font-size:12px;font-weight:500;color:var(--t3);line-height:1.4}
 [data-lang="ar"] .hdr-date{text-align:right}[data-lang="en"] .hdr-date{text-align:left}
@@ -201,6 +208,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* SEGMENT */
 .seg{margin:16px 16px 0;background:var(--s1);border:1px solid var(--border);border-radius:var(--rp);padding:4px;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;animation:fu .6s .3s cubic-bezier(.16,1,.3,1) both;box-shadow:0 2px 8px var(--shadow2)}
+.sgt:active{transform:scale(.94);opacity:.75}
 .sgt{background:transparent;border:none;color:var(--t4);padding:9px 4px;border-radius:var(--rp);cursor:pointer;font-size:10px;font-weight:700;transition:all .25s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center;gap:4px}
 .sgt.active{background:var(--blue);color:#fff;box-shadow:0 3px 14px rgba(79,142,255,.4)}
 .sgt svg{transition:transform .2s}.sgt.active svg{transform:scale(1.1)}
@@ -212,6 +220,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .sb{background:var(--s2);border:1px solid var(--border);color:var(--t3);font-size:11px;font-weight:700;padding:3px 10px;border-radius:var(--rp)}
 .flt{display:flex;gap:7px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none}
 .flt::-webkit-scrollbar{display:none}
+.fp:active{transform:scale(.9);opacity:.8}
 .fp{background:var(--s1);border:1px solid var(--border);color:var(--t3);font-size:11px;font-weight:700;padding:6px 14px;border-radius:var(--rp);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s;box-shadow:0 1px 4px var(--shadow2)}
 .fp:hover{border-color:var(--border2);color:var(--t2)}
 .fp.active{background:var(--blue-dim);border-color:var(--blue);color:var(--blue2)}
@@ -220,7 +229,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* TRANSACTIONS */
 .txl{padding:0 16px;display:flex;flex-direction:column;gap:8px}
-.txi{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:13px;display:flex;align-items:center;gap:12px;transition:all .22s cubic-bezier(.16,1,.3,1);animation:si .4s cubic-bezier(.16,1,.3,1) both;position:relative;overflow:hidden;box-shadow:0 2px 8px var(--shadow2)}
+.txi{transition:transform .12s cubic-bezier(.16,1,.3,1),box-shadow .12s;background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:13px;display:flex;align-items:center;gap:12px;transition:all .22s cubic-bezier(.16,1,.3,1);animation:si .4s cubic-bezier(.16,1,.3,1) both;position:relative;overflow:hidden;box-shadow:0 2px 8px var(--shadow2)}
 [data-theme="dark"] .txi::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 50%);pointer-events:none}
 .txi:hover{background:var(--s2);border-color:var(--border2);transform:translateX(-2px);box-shadow:0 6px 20px var(--shadow)}
 [data-lang="en"] .txi:hover{transform:translateX(2px)}
@@ -252,6 +261,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* INSTALLMENTS */
 .inst-section{padding:0 16px;display:flex;flex-direction:column;gap:10px}
+.inst-card:active{transform:scale(.987);box-shadow:0 1px 4px var(--shadow2)}
 .inst-card{background:var(--s1);border:1px solid rgba(201,168,76,.18);border-radius:20px;padding:16px;animation:si .4s cubic-bezier(.16,1,.3,1) both;box-shadow:0 2px 8px var(--shadow2);position:relative;overflow:hidden}
 [data-theme="dark"] .inst-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.04) 0%,transparent 50%);pointer-events:none}
 .inst-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
@@ -266,6 +276,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .inst-fill::after{content:'';position:absolute;right:-1px;top:-4px;width:14px;height:14px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);border:2px solid var(--s1)}
 .inst-foot{display:flex;justify-content:space-between;font-size:11px;color:var(--t4);margin-bottom:8px}
 .inst-foot strong{color:var(--t2);font-weight:700}
+.inst-del:active{transform:scale(.82);color:var(--red)!important}
 .inst-del{position:absolute;top:12px;background:transparent;border:none;cursor:pointer;color:var(--t4);display:flex;align-items:center;justify-content:center;transition:all .18s;width:28px;height:28px;border-radius:8px}
 [data-lang="ar"] .inst-del{left:12px}[data-lang="en"] .inst-del{right:12px}
 .inst-del:hover{background:var(--red-dim);color:var(--red)}
@@ -326,6 +337,54 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* BOTTOM NAV */
 .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.5);border-top:1px solid var(--border);padding:10px 20px 28px;display:flex;justify-content:space-around;align-items:center;z-index:100;box-shadow:0 -4px 20px var(--shadow2)}
+/* ── Notification Bell ──────────────────────── */
+.notif-btn{position:relative}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;
+  border-radius:50%;background:var(--red);border:2px solid var(--bg);
+  animation:notifPulse 2s ease-in-out infinite}
+@keyframes notifPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+
+/* ── Notification Panel ─────────────────────── */
+.notif-overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0);
+  pointer-events:none;transition:background .3s}
+.notif-overlay.open{background:rgba(0,0,0,.5);pointer-events:all}
+.notif-panel{position:absolute;top:60px;right:12px;width:min(340px,calc(100vw - 24px));
+  background:var(--s1);border-radius:20px;border:1px solid var(--s3);
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  transform:translateY(-12px) scale(.96);opacity:0;
+  transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .3s;
+  overflow:hidden;max-height:70vh;display:flex;flex-direction:column}
+.notif-overlay.open .notif-panel{transform:translateY(0) scale(1);opacity:1}
+.notif-header{display:flex;align-items:center;justify-content:space-between;
+  padding:16px 16px 12px;border-bottom:1px solid var(--s3);flex-shrink:0}
+.notif-title{display:flex;align-items:center;gap:8px;font-size:15px;
+  font-weight:800;color:var(--t1)}
+.notif-clear{width:30px;height:30px;border-radius:10px;background:var(--s2);
+  border:none;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;color:var(--t4)}
+.notif-clear:hover{color:var(--red)}
+.notif-list{overflow-y:auto;flex:1;padding:8px}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:12px;
+  border-radius:14px;margin-bottom:4px;cursor:pointer;
+  transition:background .2s;position:relative}
+.notif-item:hover{background:var(--s2)}
+.notif-item.unread::after{content:'';position:absolute;top:14px;left:12px;
+  width:6px;height:6px;border-radius:50%;background:var(--blue)}
+[dir="rtl"] .notif-item.unread::after{left:auto;right:12px}
+.notif-ico{width:36px;height:36px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notif-ico.warn{background:rgba(255,214,0,.15);color:var(--amber)}
+.notif-ico.err{background:rgba(255,69,58,.15);color:var(--red)}
+.notif-ico.ok{background:rgba(48,209,88,.15);color:var(--green)}
+.notif-ico.info{background:rgba(79,142,255,.15);color:var(--blue)}
+.notif-ico.gold{background:rgba(201,168,76,.15);color:var(--gold2)}
+.notif-body{flex:1;min-width:0}
+.notif-msg{font-size:13px;font-weight:600;color:var(--t1);line-height:1.4;
+  margin-bottom:3px}
+.notif-time{font-size:10px;color:var(--t4);font-weight:500}
+.notif-empty{text-align:center;padding:40px 20px;color:var(--t4);font-size:13px}
+
+.nb:active .ni{transform:scale(.85);opacity:.7}
 .nb{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--t4);font-size:10px;font-weight:700;padding:6px 10px;border-radius:14px;transition:all .2s}
 .nb.active{color:var(--blue)}.nb:hover:not(.active){color:var(--t2)}
 .ni{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
@@ -350,6 +409,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* TYPE TOGGLE */
 .ttog{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.tbt:active{transform:scale(.93)}
 .tbt{padding:13px;border-radius:16px;border:1px solid var(--border);background:var(--s2);color:var(--t3);cursor:pointer;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
 .tbt:hover{border-color:var(--border2)}
 .tbt.i.active{background:var(--green-dim);border-color:rgba(48,209,88,.35);color:var(--green)}
@@ -373,6 +433,24 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .g2 .fg{margin-bottom:0}
 
 /* Recurring toggle */
+/* ── Installment Picker ─────────────────────── */
+.inst-picker{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.inst-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;
+  background:var(--s2);border-radius:14px;cursor:pointer;
+  border:2px solid transparent;transition:border .2s,background .2s}
+.inst-opt:active{transform:scale(.98)}
+.inst-opt.sel{border-color:var(--purple);background:rgba(167,139,250,.1)}
+.inst-opt-icon{width:38px;height:38px;border-radius:11px;
+  background:rgba(167,139,250,.15);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.inst-opt-info{flex:1;min-width:0}
+.inst-opt-name{font-size:13px;font-weight:700;color:var(--t1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inst-opt-sub{font-size:11px;color:var(--t4);margin-top:2px}
+.inst-opt-amt{font-size:13px;font-weight:800;color:var(--purple)}
+.inst-empty{padding:16px;text-align:center;color:var(--t4);
+  font-size:12px;background:var(--s2);border-radius:14px}
+
 .rec-row{display:flex;align-items:center;justify-content:space-between;background:var(--s2);border:1px solid var(--border);border-radius:16px;padding:14px 17px;margin-bottom:16px;cursor:pointer;transition:all .2s;user-select:none}
 .rec-row:hover{border-color:var(--border2)}
 .rec-lbl{font-size:14px;font-weight:700;color:var(--t2);display:flex;align-items:center;gap:10px}
@@ -398,6 +476,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 /* CAT GRID */
 .cg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cc2:active{transform:scale(.88)}
 .cc2{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:11px 6px;cursor:pointer;color:var(--t3);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .18s}
 .cc2:hover{border-color:var(--border2);color:var(--t2)}
 .cc2.active{border-color:var(--blue);background:var(--blue-dim);color:var(--blue2)}
@@ -413,6 +492,29 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .bdn:hover{background:rgba(220,38,38,.2)!important}
 
 /* TOAST */
+
+/* ── Alert Banner ───────────────────────────── */
+.alert-banner{
+  position:fixed;top:-80px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 32px);max-width:420px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 14px 13px 16px;border-radius:16px;
+  font-family:inherit;font-size:13px;font-weight:600;
+  z-index:9999;transition:top .4s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.alert-banner.show{top:16px}
+.alert-banner.ok{background:rgba(22,163,74,.9);color:#fff}
+.alert-banner.warn{background:rgba(180,83,9,.9);color:#fff}
+.alert-banner.err{background:rgba(185,28,28,.9);color:#fff}
+.alert-banner.info{background:rgba(30,64,175,.9);color:#fff}
+#alertMsg{flex:1;line-height:1.4;font-size:12.5px}
+.alert-close{background:rgba(255,255,255,.2);border:none;border-radius:8px;
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;color:inherit;transition:background .15s}
+.alert-close:active{background:rgba(255,255,255,.35)}
+
 .tst{position:fixed;bottom:108px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:12px 20px;font-size:13px;font-weight:700;white-space:nowrap;z-index:999;opacity:0;transition:all .3s cubic-bezier(.16,1,.3,1);pointer-events:none;box-shadow:0 12px 32px var(--shadow);display:flex;align-items:center;gap:8px;color:var(--t1)}
 .tst.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .tst.ok{border-color:rgba(48,209,88,.35)}.tst.err{border-color:rgba(220,38,38,.35)}.tst.warn{border-color:rgba(255,214,10,.35)}
@@ -435,12 +537,39 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
   position:relative;
 }
 .ni-add{
-  width:50px;height:50px;border-radius:16px;
-  background:linear-gradient(145deg,#4f8eff,#2c5ee8);
+  width:54px;height:54px;border-radius:18px;
+  background:linear-gradient(145deg,#5a9bff,#2c5ee8);
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(79,142,255,.45),0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.2);
-  margin-top:-18px;
-  transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;
+  box-shadow:0 6px 20px rgba(79,142,255,.5),0 0 0 1.5px rgba(255,255,255,.15),inset 0 1px 0 rgba(255,255,255,.2);
+  margin-top:-22px;position:relative;overflow:visible;
+  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s;
+}
+.ni-add::after{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.28) 0%,transparent 65%);
+  pointer-events:none;
+}
+/* Press animation */
+.nb-add:active .ni-add{
+  transform:scale(.82);
+  box-shadow:0 2px 8px rgba(79,142,255,.3);
+}
+.nb-add:active .ni-add svg{
+  transform:rotate(90deg) scale(1.15);
+  transition:transform .22s cubic-bezier(.16,1,.3,1);
+}
+.ni-add svg{transition:transform .22s cubic-bezier(.16,1,.3,1);}
+/* Ripple on press */
+.nb-add:active .ni-add::before{
+  content:'';position:absolute;inset:-8px;border-radius:26px;
+  background:radial-gradient(circle,rgba(79,142,255,.35) 0%,transparent 70%);
+  animation:addRipple .4s ease-out forwards;
+}
+@keyframes addRipple{
+  0%{opacity:1;transform:scale(.5);}
+  100%{opacity:0;transform:scale(1);}
+}
+  to{transform:rotate(360deg)}
 }
 .nb-add:active .ni-add{transform:scale(.92);box-shadow:0 2px 10px rgba(79,142,255,.3)}
 .nb-add span{font-size:9.5px;color:var(--blue2);font-weight:700;margin-top:2px}
@@ -505,6 +634,10 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 .txi-btn.del{background:var(--red-dim);color:var(--red)}
 .txi-btn:active{transform:scale(.88)}
 /* recurring badge */
+.txi-inst-badge{position:absolute;top:8px;left:10px;background:rgba(167,139,250,.18);
+  color:var(--purple);font-size:9px;font-weight:700;padding:2px 7px 2px 5px;
+  border-radius:20px;display:flex;align-items:center;gap:3px;
+  letter-spacing:.3px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .txi-rec-badge{
   position:absolute;top:10px;
   font-size:9px;font-weight:700;
@@ -617,7 +750,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
   <div class="ldr-mark">
     <div class="ldr-mark-ring">
       <div class="ldr-mark-inner">
-        <span class="ldr-fa">fulus</span>
+        <span class="ldr-fa">ف</span>
       </div>
     </div>
   </div>
@@ -638,6 +771,10 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
       <div class="app-nm">fu<span>lus</span></div>
     </div>
     <div class="hdr-r">
+      <button class="hdr-ctrl notif-bell" id="notifBtn" onclick="openNotif()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="notif-dot" id="notifDot"></span>
+      </button>
       <button class="hdr-ctrl" id="langBtn" onclick="toggleLang()"></button>
       <button class="hdr-ctrl" id="themeBtn" onclick="toggleTheme()">
         <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -671,7 +808,7 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
     <button class="qb" onclick="openSheet('add','expense')"><div class="qi b"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#ff453a" stroke-width="2.2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" stroke="#ff453a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="expense">مصروف</span></button>
     <button class="qb" onclick="openSheet('installment')"><div class="qi c"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2" stroke="#a78bfa" stroke-width="1.8"/><path d="M16 7V5a2 2 0 00-4 0v2" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"/></svg></div><span data-i18n="installments">أقساط</span></button>
     <button class="qb" onclick="openSheet('budget')"><div class="qi d"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="1.8"/><path d="M12 8v4l2.5 2.5" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round"/></svg></div><span data-i18n="budget">ميزانية</span></button>
-    <button class="qb" onclick="exportData()"><div class="qi e"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#4f8eff" stroke-width="1.8" stroke-linecap="round"/><polyline points="17 8 12 3 7 8" stroke="#4f8eff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="3" x2="12" y2="15" stroke="#4f8eff" stroke-width="1.8" stroke-linecap="round"/></svg></div><span data-i18n="export">تصدير</span></button>
+    <button class="qb" onclick="shareWhatsApp()"><div class="qi e" style="background:rgba(37,211,102,.12)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#25D166" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>واتساب</span></button>
   </div>
 
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">
@@ -709,6 +846,22 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
 
 
 
+<!-- NOTIFICATION PANEL -->
+<div class="notif-overlay" id="notifOverlay" onclick="closeNotif(event)">
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-header">
+      <div class="notif-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="notifTitleTxt">الإشعارات</span>
+      </div>
+      <button class="notif-clear" onclick="clearNotifs()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="notif-list" id="notifList"></div>
+  </div>
+</div>
+
 <nav class="bnav">
   <button class="nb active" onclick="snav('transactions',this)">
     <div class="ni"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="15" r="1.5" fill="currentColor"/></svg></div>
@@ -719,7 +872,14 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
     <span data-i18n="installments">أقساط</span>
   </button>
   <button class="nb nb-add" onclick="openSheet('add','expense')">
-    <div class="ni-add"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+    <div class="ni-add">
+      <div class="ni-add-ring"></div>
+      <div class="ni-add-ring ni-add-ring2"></div>
+      <svg class="ni-add-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <line x1="12" y1="4" x2="12" y2="20" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+        <line x1="4" y1="12" x2="20" y2="12" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+    </div>
     <span>إضافة</span>
   </button>
   <button class="nb" onclick="snav('budgets',this)">
@@ -744,6 +904,10 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
     <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="txAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
     <div class="fg"><label class="fl" data-i18n="noteLabel">وصف اختياري</label><input class="fi" id="txNote" type="text"></div>
     <div class="fg"><label class="fl" data-i18n="category">الفئة</label><div class="cg" id="catGrid"></div></div>
+    <div class="fg inst-picker-wrap" id="instPickerWrap" style="display:none">
+      <label class="fl" data-i18n="selectInst">اختر القسط</label>
+      <div class="inst-picker" id="instPicker"></div>
+    </div>
     <div class="rec-row" onclick="toggleRec()">
       <div class="rec-lbl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><polyline points="23 4 23 10 17 10" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="recurringTx">معاملة متكررة</span></div>
       <div class="sw-track" id="recSwitch"></div>
@@ -773,6 +937,10 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
     <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="editAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
     <div class="fg"><label class="fl" data-i18n="noteLabel">وصف اختياري</label><input class="fi" id="editNote" type="text"></div>
     <div class="fg"><label class="fl" data-i18n="category">الفئة</label><div class="cg" id="editCatGrid"></div></div>
+    <div class="fg inst-picker-wrap" id="editInstPickerWrap" style="display:none">
+      <label class="fl" data-i18n="selectInst">اختر القسط</label>
+      <div class="inst-picker" id="editInstPicker"></div>
+    </div>
     <button class="bp" onclick="saveEdit()" data-i18n="saveEdit">حفظ التعديلات</button>
   </div>
 </div>
@@ -840,6 +1008,11 @@ body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;-web
   </div>
 </div>
 
+<!-- ALERT BANNER -->
+<div id="alertBanner" class="alert-banner">
+  <span id="alertMsg"></span>
+  <button class="alert-close" onclick="dismissAlert()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+</div>
 <div class="tst" id="toast"><div class="td"></div><span id="tmsg"></span></div>
 
 <svg style="display:none">
@@ -918,7 +1091,8 @@ const I18N={
     days:['أح','إث','ثل','أر','خم','جم','سب'],
     daysFull:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
     months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-    cats:{food:'طعام',transport:'مواصلات',shopping:'تسوق',bills:'فواتير',health:'صحة',entertainment:'ترفيه',education:'تعليم',sports:'رياضة',rent:'إيجار',salary:'راتب',freelance:'فريلانس',invest:'استثمار',gift:'هدية',other:'أخرى'}
+    cats:{food:'طعام',transport:'مواصلات',shopping:'تسوق',bills:'فواتير',health:'صحة',entertainment:'ترفيه',education:'تعليم',sports:'رياضة',rent:'إيجار',salary:'راتب',freelance:'فريلانس',invest:'استثمار',gift:'هدية',other:'أخرى',installment:'قسط'},
+    selectInst:'اختر القسط',instLinked:'تم خصم القسط تلقائياً',noInstAvail:'لا توجد أقساط — أضف قسطاً أولاً'
   },
   en:{
     totalBalance:'Total Balance',currency:'EGP',income:'Income',expense:'Expense',
@@ -959,7 +1133,8 @@ const I18N={
     days:['Su','Mo','Tu','We','Th','Fr','Sa'],
     daysFull:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
     months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    cats:{food:'Food',transport:'Transport',shopping:'Shopping',bills:'Bills',health:'Health',entertainment:'Entertainment',education:'Education',sports:'Sports',rent:'Rent',salary:'Salary',freelance:'Freelance',invest:'Invest',gift:'Gift',other:'Other'}
+    cats:{food:'Food',transport:'Transport',shopping:'Shopping',bills:'Bills',health:'Health',entertainment:'Entertainment',education:'Education',sports:'Sports',rent:'Rent',salary:'Salary',freelance:'Freelance',invest:'Invest',gift:'Gift',other:'Other',installment:'Installment'},
+    selectInst:'Select Installment',instLinked:'Installment auto-updated',noInstAvail:'No installments — add one first'
   }
 };
 
@@ -969,6 +1144,7 @@ const I18N={
 const SK={tx:'fw_tx2',bud:'fw_bud2',inst:'fw_inst',cfg:'fw_cfg'};
 let txs=[],buds=[],insts=[],AF='all';
 let curType='expense',selCat='food',budCat='food',budPeriod='monthly';
+let selInstId=null,editInstId=null;
 let editId=null,editType='expense',editCat='food';
 let isRec=false,lang='ar',theme='dark';
 
@@ -982,6 +1158,7 @@ const CATS=[
   {id:'education',icon:'I-education',type:'expense',color:'#a9e34b'},
   {id:'sports',icon:'I-sports',type:'expense',color:'#63e6be'},
   {id:'rent',icon:'I-rent',type:'expense',color:'#e599f7'},
+  {id:'installment',icon:'I-bills',type:'expense',color:'#a78bfa'},
   {id:'salary',icon:'I-salary',type:'income',color:'#30d158'},
   {id:'freelance',icon:'I-freelance',type:'income',color:'#74c0fc'},
   {id:'invest',icon:'I-invest',type:'income',color:'#ffd60a'},
@@ -1055,7 +1232,14 @@ function getPeriodLbl(p){return t(p)||t('monthly')}
 /* ════════════════════════════════
    RENDER ALL
 ════════════════════════════════ */
-function renderAll(){updateDate();renderBalance();renderMonthStrip();renderTxList();renderInstallments();renderBudgets();renderStats()}
+/* ════════════════════════════════
+   SMART ALERTS
+══════════════════════════════════ */
+let _alertShown={};  // throttle — key: alert id
+
+
+
+function renderAll(){updateDate();renderBalance();renderMonthStrip();renderTxList();renderInstallments();renderBudgets();renderStats();checkAlerts();}
 
 function renderBalance(){
   const inc=txs.filter(x=>x.type==='income').reduce((s,x)=>s+x.amount,0);
@@ -1129,9 +1313,11 @@ function txCard(tx,i){
   const ds=d.toLocaleDateString(lang==='ar'?'ar-EG':'en-US',{month:'short',day:'numeric'});
   const isInc=tx.type==='income';
   const recBadge=tx.recurring?`<div class="txi-rec-badge"><svg width="8" height="8" viewBox="0 0 24 24" fill="none"><polyline points="23 4 23 10 17 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>${t('recurBadge')}</div>`:'';
+  const linkedInst=tx.linkedInstId?insts.find(x=>x.id===tx.linkedInstId):null;
+  const instBadge=linkedInst?`<div class="txi-inst-badge"><svg width="8" height="8" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>${linkedInst.name}</div>`:'';
   return`<div class="txi" style="animation-delay:${i*.04}s">
     <div class="txi-stripe" style="background:${isInc?'var(--green)':cat.color}"></div>
-    ${recBadge}
+    ${recBadge}${instBadge}
     <div class="txi-body">
       <div class="txi-icon" style="background:${cat.color}16">${ico(cat.icon,cat.color,22)}</div>
       <div class="txi-info">
@@ -1153,44 +1339,119 @@ function txCard(tx,i){
 }
 
 function setF(f){AF=f;renderTxList()}
-function delTx(id){txs=txs.filter(x=>x.id!==id);save();renderAll();toast(t('deleted'),'warn')}
+function delTx(id){
+  const tx=txs.find(x=>x.id===id);
+  if(tx&&tx.linkedInstId&&tx.categoryId==='installment'){
+    const inst=insts.find(x=>x.id==tx.linkedInstId);
+    if(inst) inst.paid=Math.max(0,(inst.paid||0)-tx.amount);
+  }
+  txs=txs.filter(x=>x.id!==id);save();renderAll();toast(t('deleted'),'warn');
+}
 
 /* ════════════════════════════════
    INSTALLMENTS
 ════════════════════════════════ */
 function renderInstallments(){
-  const list=document.getElementById('instList');
-  const cntEl=document.getElementById('instCount');
+  var list=document.getElementById('instList');
+  var cntEl=document.getElementById('instCount');
   if(cntEl) cntEl.textContent=insts.length;
   if(!insts.length){
-    list.innerHTML=`<div class="emp"><div class="emp-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" style="color:var(--t4)"><rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 7V5a2 2 0 00-4 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><h3>${t('noInst')}</h3><p>${t('noInstSub').replace('\n','<br>')}</p></div>`;
+    list.innerHTML='<div class="emp"><div class="emp-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" style="color:var(--t4)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><h3>'+t('noInst')+'</h3><p>'+t('noInstSub').replace('\n','<br>')+'</p></div>';
     return;
   }
-  const nextM=new Date();nextM.setDate(1);nextM.setMonth(nextM.getMonth()+1);
-  const nextStr=`${nextM.getDate()} ${I18N[lang].months[nextM.getMonth()]}`;
-  list.innerHTML=insts.map((inst,i)=>{
-    const cat=CATS.find(c=>c.id===inst.categoryId)||CATS[13];
-    const hasTotal=inst.total>0;
-    const pct=hasTotal?Math.min((inst.paid/inst.total)*100,100):0;
-    const rem=hasTotal?inst.total-inst.paid:0;
-    const months=hasTotal&&inst.monthly>0?Math.ceil(rem/inst.monthly):0;
-    const isDone=hasTotal&&rem<=0;
-    return`<div class="inst-card" style="animation-delay:${i*.06}s">
-      <button class="inst-del" onclick="delInst(${inst.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-      <div class="inst-top">
-        <div class="inst-ico" style="background:${cat.color}18">${ico(cat.icon,cat.color,19)}</div>
-        <div class="inst-info">
-          <div class="inst-name">${inst.name}</div>
-          <div class="inst-meta">${hasTotal?`${months} ${t('numMonths')} · ${fmt(inst.monthly)} / ${t('monthly')}`:`${fmt(inst.monthly)} / ${t('monthly')}`}</div>
-        </div>
-        <div class="inst-monthly-badge">-${fmt(inst.monthly)}</div>
-      </div>
-      ${hasTotal?`<div class="inst-track"><div class="inst-fill" style="width:${pct}%"></div></div>
-      <div class="inst-foot"><span>${t('paidOf')}: <strong>${fmt(inst.paid)}</strong> ${t('paidOf')} ${fmt(inst.total)}</span><span>${t('remaining')}: <strong style="color:var(--gold2)">${fmt(rem)}</strong></span></div>`:''}
-      ${isDone?`<div class="inst-chip done">✓ مكتمل</div>`:hasTotal?`<div class="inst-chip next"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/></svg>${t('nextPayment')}: ${nextStr} · ${fmt(inst.monthly)}</div>`:`<div class="inst-chip next">${t('nextPayment')}: ${nextStr} · ${fmt(inst.monthly)}</div>`}
-    </div>`;
+
+  var now=new Date();
+  // Next 1st of month
+  var nextM=new Date(now.getFullYear(), now.getMonth()+(now.getDate()>1?1:0), 1);
+  var daysLeft=Math.ceil((nextM-now)/86400000);
+  var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
+
+  list.innerHTML=insts.map(function(inst,i){
+    var cat=CATS.find(function(c){return c.id===inst.categoryId;})||CATS[13];
+    var paid=inst.paid||0;
+    var hasTotal=inst.total>0;
+    var pct=hasTotal?Math.min((paid/inst.total)*100,100):0;
+    var rem=hasTotal?Math.max(inst.total-paid,0):null;
+    var monthsLeft=hasTotal&&inst.monthly>0?Math.ceil(rem/inst.monthly):null;
+    var isDone=hasTotal&&paid>=inst.total;
+
+    // This month payments from linked transactions
+    var monthStart=new Date(now.getFullYear(),now.getMonth(),1);
+    var paidThisMonth=txs
+      .filter(function(tx){return tx.linkedInstId==inst.id && new Date(tx.date)>=monthStart;})
+      .reduce(function(s,tx){return s+tx.amount;},0);
+
+    // Colors
+    var barCol=isDone?'var(--green)':pct>=80?'var(--gold2)':'var(--purple)';
+    var urgentChip=daysLeft<=5&&!isDone;
+    var urgentClass=daysLeft<=2?'urgent':daysLeft<=5?'warn-chip':'next';
+
+    // Build card HTML
+    var html='<div class="inst-card '+(isDone?'inst-done':'')+'" style="animation-delay:'+(i*0.07)+'s">';
+
+    // Delete btn
+    html+='<button class="inst-del" onclick="delInst('+inst.id+')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>';
+
+    // Top row
+    html+='<div class="inst-top">';
+    html+='<div class="inst-ico" style="background:'+cat.color+'18">'+ico(cat.icon,cat.color,20)+'</div>';
+    html+='<div class="inst-info">';
+    html+='<div class="inst-name">'+inst.name+'</div>';
+    html+='<div class="inst-meta">';
+    if(isDone){
+      html+=lang==='ar'?'تم السداد الكامل ✓':'Fully paid ✓';
+    } else if(hasTotal&&monthsLeft!==null){
+      html+=monthsLeft+' '+(lang==='ar'?'شهر متبقي':'months left')+' · '+fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo');
+    } else {
+      html+=fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo');
+    }
+    html+='</div></div>';
+    // Monthly badge
+    html+='<div class="inst-monthly-badge" style="'+(isDone?'background:rgba(48,209,88,.12);color:var(--green);border-color:rgba(48,209,88,.25)':'')+'">'+
+      (isDone?('<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'):('-'+fmt(inst.monthly)))+
+    '</div>';
+    html+='</div>'; // end inst-top
+
+    // Progress section (only if has total)
+    if(hasTotal){
+      html+='<div class="inst-prog-wrap">';
+      html+='<div class="inst-track"><div class="inst-fill" style="width:'+pct+'%;background:'+barCol+';box-shadow:0 0 10px '+barCol+'55;transition:width 1s cubic-bezier(.16,1,.3,1)"></div></div>';
+      html+='<span class="inst-pct" style="color:'+barCol+'">'+Math.round(pct)+'%</span>';
+      html+='</div>';
+
+      // Stats row
+      html+='<div class="inst-stats-row">';
+      html+='<div class="inst-stat"><div class="inst-stat-lbl">'+(lang==='ar'?'المدفوع':'Paid')+'</div><div class="inst-stat-val green">'+fmt(paid)+'</div></div>';
+      html+='<div class="inst-stat-sep"></div>';
+      html+='<div class="inst-stat"><div class="inst-stat-lbl">'+(lang==='ar'?'المتبقي':'Remaining')+'</div><div class="inst-stat-val gold">'+fmt(rem)+'</div></div>';
+      html+='<div class="inst-stat-sep"></div>';
+      html+='<div class="inst-stat"><div class="inst-stat-lbl">'+(lang==='ar'?'الإجمالي':'Total')+'</div><div class="inst-stat-val">'+fmt(inst.total)+'</div></div>';
+      html+='</div>';
+    }
+
+    // This month paid badge
+    if(paidThisMonth>0&&!isDone){
+      html+='<div class="inst-this-month"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>'+(lang==='ar'?'دفعت هذا الشهر: ':'Paid this month: ')+fmt(paidThisMonth)+'</div>';
+    }
+
+    // Next payment chip
+    if(isDone){
+      html+='<div class="inst-chip done"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'+(lang==='ar'?'مكتمل - تم السداد':'Completed')+'</div>';
+    } else {
+      html+='<div class="inst-chip '+urgentClass+'">';
+      html+='<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+      html+=' '+(lang==='ar'?'الدفعة القادمة: ':'Next payment: ')+nextDateStr+' · '+fmt(inst.monthly)+' '+(lang==='ar'?'ج.م':'EGP');
+      if(daysLeft<=5){
+        html+='<span class="chip-days">'+daysLeft+(lang==='ar'?' أيام':' days')+'</span>';
+      }
+      html+='</div>';
+    }
+
+    html+='</div>'; // end card
+    return html;
   }).join('');
 }
+
 
 function calcInst(){
   const total=parseFloat(document.getElementById('instTotal').value)||0;
@@ -1447,9 +1708,11 @@ function openSheet(type,sub){
     document.getElementById('typeInc').classList.toggle('active',curType==='income');
     document.getElementById('typeExp').classList.toggle('active',curType==='expense');
     selCat=curType==='income'?'salary':'food';
+    selInstId=null;
     isRec=false;
     document.getElementById('recSwitch').classList.remove('on');
     document.getElementById('recExtra').classList.remove('show');
+    document.getElementById('instPickerWrap').style.display='none';
     renderCatGrid();
     document.getElementById('txAmt').value='';
     document.getElementById('txNote').value='';
@@ -1472,16 +1735,68 @@ function openSheet(type,sub){
 function cls(id,e){if(!e||e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}}
 function setType(t2){curType=t2;document.getElementById('typeInc').classList.toggle('active',t2==='income');document.getElementById('typeExp').classList.toggle('active',t2==='expense');selCat=t2==='income'?'salary':'food';renderCatGrid()}
 function renderCatGrid(){document.getElementById('catGrid').innerHTML=CATS.filter(c=>c.type===curType||c.type==='both').map(c=>`<button class="cc2 ${c.id===selCat?'active':''}" onclick="sc2('${c.id}')"><div class="ci2" style="background:${c.color}18">${ico(c.icon,c.color,17)}</div>${cn(c.id)}</button>`).join('')}
-function sc2(id){selCat=id;renderCatGrid()}
+function sc2(id){
+  selCat=id;renderCatGrid();
+  const wrap=document.getElementById('instPickerWrap');
+  if(id==='installment'){wrap.style.display='block';renderInstPickerIn('instPicker','add');}
+  else{wrap.style.display='none';selInstId=null;}
+}
 function toggleRec(){isRec=!isRec;document.getElementById('recSwitch').classList.toggle('on',isRec);document.getElementById('recExtra').classList.toggle('show',isRec)}
+
+function renderInstPickerIn(containerId, mode){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  if(!insts.length){
+    el.innerHTML=`<div class="inst-empty">${t('noInstAvail')}</div>`;
+    return;
+  }
+  const curSel = mode==='edit' ? editInstId : selInstId;
+  el.innerHTML=insts.map(inst=>{
+    const rem=inst.total>0?inst.total-inst.paid:null;
+    const subText=rem!==null
+      ? `${t('remaining')}: ${fmt(rem)} — ${t('monthly')}: ${fmt(inst.monthly)}`
+      : `${t('monthly')}: ${fmt(inst.monthly)}`;
+    return `<div class="inst-opt ${curSel===inst.id?'sel':''}" onclick="pickInst(${inst.id},'${mode}')">
+      <div class="inst-opt-icon">${ico('I-bills','#a78bfa',16)}</div>
+      <div class="inst-opt-info">
+        <div class="inst-opt-name">${inst.name}</div>
+        <div class="inst-opt-sub">${subText}</div>
+      </div>
+      <div class="inst-opt-amt">-${fmt(inst.monthly)}</div>
+    </div>`;
+  }).join('');
+}
+function pickInst(id, mode){
+  var numId=Number(id);
+  if(mode==='edit'){
+    editInstId=numId;
+    renderInstPickerIn('editInstPicker','edit');
+  } else {
+    selInstId=numId;
+    renderInstPickerIn('instPicker','add');
+  }
+}
 
 function saveTx(){
   const amt=parseFloat(document.getElementById('txAmt').value)||0;
   if(amt<=0){toast(t('invalidAmt'),'err');return}
+  // if installment category, must pick one
+  if(selCat==='installment'&&!selInstId){toast(t('selectInst'),'err');return}
   const note=document.getElementById('txNote').value.trim();
   const freq=isRec?document.getElementById('recFreq').value:null;
-  txs.push({id:Date.now(),type:curType,amount:amt,categoryId:selCat,note,date:new Date().toISOString(),recurring:isRec,recurFreq:freq});
+  const tx={id:Date.now(),type:curType,amount:amt,categoryId:selCat,note,date:new Date().toISOString(),recurring:isRec,recurFreq:freq,linkedInstId:selCat==='installment'?selInstId:null};
+  txs.push(tx);
+  // auto-update installment paid amount
+  if(selCat==='installment'&&selInstId){
+    const inst=insts.find(x=>x.id==selInstId);
+    if(inst){
+      inst.paid=(inst.paid||0)+amt;
+      if(inst.total>0&&inst.paid>inst.total) inst.paid=inst.total;
+    }
+    setTimeout(()=>toast(t('instLinked'),'ok'),400);
+  }
   save();renderAll();cls('addOverlay');toast(t('added'),'ok');
+  selInstId=null;
   if(curType==='expense'){
     const b=buds.find(x=>x.categoryId===selCat);
     if(b){
@@ -1508,7 +1823,12 @@ function openEdit(id){
 }
 function setEditType(t2){editType=t2;document.getElementById('editTypeInc').classList.toggle('active',t2==='income');document.getElementById('editTypeExp').classList.toggle('active',t2==='expense');editCat=t2==='income'?'salary':'food';renderEditCatGrid()}
 function renderEditCatGrid(){document.getElementById('editCatGrid').innerHTML=CATS.filter(c=>c.type===editType||c.type==='both').map(c=>`<button class="cc2 ${c.id===editCat?'active':''}" onclick="sec('${c.id}')"><div class="ci2" style="background:${c.color}18">${ico(c.icon,c.color,17)}</div>${cn(c.id)}</button>`).join('')}
-function sec(id){editCat=id;renderEditCatGrid()}
+function sec(id){
+  editCat=id;renderEditCatGrid();
+  const wrap=document.getElementById('editInstPickerWrap');
+  if(id==='installment'){wrap.style.display='block';renderInstPickerIn('editInstPicker','edit');}
+  else{wrap.style.display='none';editInstId=null;}
+}
 function saveEdit(){
   const amt=parseFloat(document.getElementById('editAmt').value)||0;
   if(amt<=0){toast(t('invalidAmt'),'err');return}
@@ -1532,12 +1852,410 @@ function saveBudget(){
 /* CLEAR / EXPORT */
 function showConfirm(){document.getElementById('confirmOverlay').classList.add('open');document.body.style.overflow='hidden'}
 function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');toast(t('cleared'),'ok')}
+function shareWhatsApp(){
+  // Build a canvas with the financial summary image
+  const canvas=document.createElement('canvas');
+  const W=900, H=1400;
+  canvas.width=W; canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+
+  // ── Colors ──
+  const BG     = isDark?'#0D1018':'#F0F2F8';
+  const CARD   = isDark?'#12151F':'#FFFFFF';
+  const CARD2  = isDark?'#181C28':'#F7F8FC';
+  const T1     = isDark?'#FFFFFF':'#0F172A';
+  const T2     = isDark?'rgba(235,235,245,.7)':'#475569';
+  const T4     = isDark?'rgba(235,235,245,.3)':'#94A3B8';
+  const GREEN  = '#30D158';
+  const RED    = '#FF453A';
+  const GOLD   = '#C9A84C';
+  const BLUE   = '#4F8EFF';
+  const PURPLE = '#A78BFA';
+  const BORDER = isDark?'rgba(255,255,255,.07)':'rgba(0,0,0,.08)';
+
+  // Helper: rounded rect
+  function rr(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+    ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+    ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+    ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
+    ctx.closePath();
+  }
+  function card(x,y,w,h,r,fill,stroke){
+    rr(x,y,w,h,r||20);
+    ctx.fillStyle=fill||CARD;ctx.fill();
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}
+  }
+  function txt(text,x,y,size,color,align,font){
+    ctx.font=(font||'700')+' '+size+'px Cairo, Arial';
+    ctx.fillStyle=color||T1;
+    ctx.textAlign=align||'start';
+    ctx.textBaseline='middle';
+    ctx.fillText(text,x,y);
+  }
+  function line(x1,y1,x2,y2,color,width){
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);
+    ctx.strokeStyle=color||BORDER;ctx.lineWidth=width||1;ctx.stroke();
+  }
+  function pill(x,y,w,h,fill){
+    rr(x,y,w,h,h/2);ctx.fillStyle=fill;ctx.fill();
+  }
+
+  // ── Background ──
+  ctx.fillStyle=BG; ctx.fillRect(0,0,W,H);
+
+  // ── Header gradient strip ──
+  const grd=ctx.createLinearGradient(0,0,W,0);
+  grd.addColorStop(0,'#1a2a6c');grd.addColorStop(0.5,'#1e3a8a');grd.addColorStop(1,'#1a2a6c');
+  ctx.fillStyle=grd; rr(0,0,W,120,0); ctx.fill();
+
+  // Header gold line
+  ctx.fillStyle=GOLD; ctx.fillRect(0,118,W,3);
+
+  // App name
+  txt('FULUS · فلوس',W/2,45,32,'#C9A84C','center','900');
+  const now=new Date();
+  const months=I18N[lang].months;
+  txt(now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear(),W/2,80,16,T4,'center','500');
+
+  // ── Totals ──────────────────────────────────────────────────
+  const totalInc=txs.filter(x=>x.type==='income').reduce((s,x)=>s+x.amount,0);
+  const totalExp=txs.filter(x=>x.type==='expense').reduce((s,x)=>s+x.amount,0);
+  const bal=totalInc-totalExp;
+  const instMonthly=insts.reduce((s,i)=>{const done=i.total>0&&(i.paid||0)>=i.total;return s+(done?0:i.monthly);},0);
+  const sr=totalInc>0?Math.round(((totalInc-totalExp)/totalInc)*100):0;
+
+  let cy=140;
+
+  // ── Balance card ──
+  card(24,cy,W-48,140,22,CARD,BORDER);
+  // Gold streak
+  ctx.fillStyle='rgba(201,168,76,.15)'; rr(24,cy,W-48,4,2); ctx.fill();
+  txt(lang==='ar'?'الرصيد الكلي':'Total Balance',W/2,cy+32,13,T4,'center','600');
+  const balColor=bal>=0?GREEN:RED;
+  txt((bal>=0?'+':'')+fmt(bal)+' '+t('currency'),W/2,cy+78,36,balColor,'center','900');
+  // Saving rate badge
+  const srColor=sr>=30?GREEN:sr>=10?GOLD:RED;
+  pill(W/2-50,cy+106,100,24,srColor+'22');
+  txt((lang==='ar'?'معدل الادخار: ':'Saving Rate: ')+sr+'%',W/2,cy+118,12,srColor,'center','800');
+  cy+=164;
+
+  // ── Income / Expense row ──
+  card(24,cy,426-12,100,18,CARD,BORDER);
+  card(438+12,cy,426-12,100,18,CARD,BORDER);
+  // Income
+  ctx.fillStyle='rgba(48,209,88,.12)'; rr(24,cy,426-12,100,18); ctx.fill();
+  txt(lang==='ar'?'الدخل':'Income',60,cy+32,13,T4,'start','600');
+  txt('+'+fmt(totalInc),60,cy+68,22,GREEN,'start','900');
+  // Expense
+  ctx.fillStyle='rgba(255,69,58,.12)'; rr(438+12,cy,426-12,100,18); ctx.fill();
+  txt(lang==='ar'?'المصروف':'Expense',W-40,cy+32,13,T4,'end','600');
+  txt('-'+fmt(totalExp),W-40,cy+68,22,RED,'end','900');
+  cy+=120;
+
+  // ── This month ──
+  const monthStart=new Date(now.getFullYear(),now.getMonth(),1);
+  const mInc=txs.filter(x=>x.type==='income'&&new Date(x.date)>=monthStart).reduce((s,x)=>s+x.amount,0);
+  const mExp=txs.filter(x=>x.type==='expense'&&new Date(x.date)>=monthStart).reduce((s,x)=>s+x.amount,0);
+  card(24,cy,W-48,80,18,CARD2,BORDER);
+  txt((lang==='ar'?'هذا الشهر — ':'This month — ')+months[now.getMonth()],W/2,cy+22,12,T4,'center','600');
+  txt((lang==='ar'?'دخل: ':'In: ')+fmt(mInc)+'   '+(lang==='ar'?'مصروف: ':'Out: ')+fmt(mExp),W/2,cy+54,15,T1,'center','700');
+  cy+=100;
+
+  // ── Installments section ──────────────────────────────────
+  const activeInsts=insts.filter(i=>!(i.total>0&&(i.paid||0)>=i.total));
+  if(activeInsts.length){
+    txt(lang==='ar'?'● الأقساط الشهرية':'● Monthly Installments',40,cy+20,14,GOLD,'start','800');
+    cy+=44;
+
+    activeInsts.slice(0,4).forEach((inst,i)=>{
+      const paid=inst.paid||0;
+      const rem=inst.total>0?Math.max(inst.total-paid,0):null;
+      const pct=inst.total>0?Math.min(paid/inst.total*100,100):0;
+
+      card(24,cy,W-48,72,16,CARD,BORDER);
+      // Side stripe
+      ctx.fillStyle=GOLD; rr(24,cy,4,72,2); ctx.fill();
+
+      txt(inst.name,60,cy+22,14,T1,'start','700');
+      txt('-'+fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo'),60,cy+50,12,T4,'start','600');
+
+      if(rem!==null){
+        txt((lang==='ar'?'متبقي: ':'Rem: ')+fmt(rem),W-40,cy+22,13,GOLD,'end','800');
+        // Mini progress bar
+        const bw=200;const bx=W-40-bw;const by=cy+46;
+        ctx.fillStyle=isDark?'rgba(255,255,255,.08)':'rgba(0,0,0,.06)';
+        rr(bx,by,bw,8,4); ctx.fill();
+        const fillW=Math.max(pct/100*bw,4);
+        ctx.fillStyle=pct>=80?GOLD:PURPLE;
+        rr(bx,by,fillW,8,4); ctx.fill();
+        txt(Math.round(pct)+'%',W-40,cy+50,11,T4,'end','600');
+      } else {
+        txt(fmt(inst.monthly),W-40,cy+36,14,PURPLE,'end','800');
+      }
+      cy+=88;
+    });
+    if(activeInsts.length>4){
+      txt('+ '+(activeInsts.length-4)+' '+(lang==='ar'?'أقساط أخرى':'more installments'),W/2,cy+12,12,T4,'center','600');
+      cy+=32;
+    }
+  }
+
+  // ── Recent transactions ───────────────────────────────────
+  cy+=8;
+  txt(lang==='ar'?'● آخر المعاملات':'● Recent Transactions',40,cy+20,14,BLUE,'start','800');
+  cy+=44;
+  const recent=txs.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  recent.forEach((tx,i)=>{
+    card(24,cy,W-48,60,14,CARD,BORDER);
+    const isInc=tx.type==='income';
+    // Stripe
+    ctx.fillStyle=isInc?GREEN:'rgba(255,69,58,.6)'; rr(24,cy,4,60,2); ctx.fill();
+    const catName=cn(tx.categoryId);
+    txt(tx.note||catName,60,cy+20,13,T1,'start','700');
+    const d=new Date(tx.date);
+    txt(d.getDate()+' '+months[d.getMonth()],60,cy+44,11,T4,'start','500');
+    txt((isInc?'+':'-')+fmt(tx.amount)+' '+t('currency'),W-40,cy+30,15,isInc?GREEN:T1,'end','900');
+    cy+=72;
+  });
+
+  // ── Footer ───────────────────────────────────────────────
+  cy=Math.max(cy+20, H-70);
+  line(40,cy,W-40,cy,BORDER,1);
+  txt('Fulus · فلوس',W/2,cy+30,12,T4,'center','600');
+  txt(lang==='ar'?'تم التوليد بواسطة تطبيق فلوس':'Generated by Fulus App',W/2,cy+50,11,T4,'center','400');
+
+  // ── Share via WhatsApp ───────────────────────────────────
+  canvas.toBlob(function(blob){
+    const imgUrl=URL.createObjectURL(blob);
+
+    // Build share text
+    const shareText=(lang==='ar'
+      ?'ملخصي المالي من تطبيق فلوس 💰\n'
+        +'الرصيد: '+fmt(bal)+' ج.م\n'
+        +'الدخل: '+fmt(totalInc)+' | المصروف: '+fmt(totalExp)+'\n'
+        +(activeInsts.length?'الأقساط الشهرية: '+fmt(instMonthly)+' ج.م\n':'')
+        +'معدل الادخار: '+sr+'%'
+      :'My financial summary from Fulus 💰\n'
+        +'Balance: '+fmt(bal)+' EGP\n'
+        +'Income: '+fmt(totalInc)+' | Expenses: '+fmt(totalExp)+'\n'
+        +(activeInsts.length?'Monthly installments: '+fmt(instMonthly)+' EGP\n':'')
+        +'Saving rate: '+sr+'%'
+    );
+
+    // Show share preview modal
+    showSharePreview(imgUrl, shareText);
+  },'image/png');
+}
+
+function showSharePreview(imgUrl, shareText){
+  // Remove existing
+  const old=document.getElementById('shareModal');
+  if(old) old.remove();
+
+  const modal=document.createElement('div');
+  modal.id='shareModal';
+  modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0';
+
+  const panel=document.createElement('div');
+  panel.style.cssText='width:100%;max-width:440px;background:var(--s1);border-radius:24px 24px 0 0;padding:20px;animation:si .4s cubic-bezier(.16,1,.3,1)';
+
+  // Drag handle
+  const handle=document.createElement('div');
+  handle.style.cssText='width:40px;height:4px;background:var(--s3);border-radius:2px;margin:0 auto 16px;';
+  panel.appendChild(handle);
+
+  // Title
+  const title=document.createElement('div');
+  title.style.cssText='font-size:16px;font-weight:800;color:var(--t1);margin-bottom:14px;text-align:center';
+  title.textContent=lang==='ar'?'مشاركة ملخصك المالي':'Share Your Financial Summary';
+  panel.appendChild(title);
+
+  // Image preview
+  const img=document.createElement('img');
+  img.src=imgUrl;
+  img.style.cssText='width:100%;border-radius:16px;max-height:340px;object-fit:contain;border:1px solid var(--border)';
+  panel.appendChild(img);
+
+  // Buttons row
+  const btns=document.createElement('div');
+  btns.style.cssText='display:flex;gap:10px;margin-top:16px';
+
+  // WhatsApp button
+  const waBtn=document.createElement('button');
+  waBtn.style.cssText='flex:1;padding:14px;border-radius:14px;border:none;background:#25D166;color:#fff;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:Cairo,Arial,sans-serif';
+  waBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" fill="white"/></svg>'+(lang==='ar'?'واتساب':'WhatsApp');
+  waBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
+  waBtn.ontouchend=function(){this.style.transform='scale(1)'};
+  waBtn.onclick=function(){
+    // Try Web Share API first (mobile native)
+    if(navigator.share && navigator.canShare){
+      fetch(imgUrl).then(r=>r.blob()).then(blob=>{
+        const file=new File([blob],'fulus-summary.png',{type:'image/png'});
+        if(navigator.canShare({files:[file]})){
+          navigator.share({files:[file],text:shareText,title:'Fulus Financial Summary'})
+            .then(()=>{ modal.remove(); toast(lang==='ar'?'تم المشاركة!':'Shared!','ok'); })
+            .catch(()=>{ openWhatsAppFallback(shareText,imgUrl); });
+        } else {
+          openWhatsAppFallback(shareText,imgUrl);
+        }
+      });
+    } else {
+      openWhatsAppFallback(shareText,imgUrl);
+    }
+  };
+
+  // Save image button
+  const saveBtn=document.createElement('button');
+  saveBtn.style.cssText='padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t1);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif';
+  saveBtn.textContent=lang==='ar'?'حفظ':'Save';
+  saveBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
+  saveBtn.ontouchend=function(){this.style.transform='scale(1)'};
+  saveBtn.onclick=function(){
+    const a=document.createElement('a');
+    a.href=imgUrl;a.download='fulus-summary-'+new Date().toISOString().split('T')[0]+'.png';
+    a.click();
+    toast(lang==='ar'?'تم حفظ الصورة':'Image saved','ok');
+  };
+
+  // Cancel
+  const cancelBtn=document.createElement('button');
+  cancelBtn.style.cssText='padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t4);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif';
+  cancelBtn.textContent=lang==='ar'?'إلغاء':'Cancel';
+  cancelBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
+  cancelBtn.ontouchend=function(){this.style.transform='scale(1)'};
+  cancelBtn.onclick=function(){ modal.remove(); };
+
+  btns.appendChild(waBtn);
+  btns.appendChild(saveBtn);
+  btns.appendChild(cancelBtn);
+  panel.appendChild(btns);
+  modal.appendChild(panel);
+  modal.onclick=function(e){ if(e.target===modal) modal.remove(); };
+  document.body.appendChild(modal);
+}
+
+function openWhatsAppFallback(text, imgUrl){
+  // Download image first then open WhatsApp with text
+  const a=document.createElement('a');
+  a.href=imgUrl;
+  a.download='fulus-summary.png';
+  a.click();
+  setTimeout(()=>{
+    const waUrl='https://wa.me/?text='+encodeURIComponent(text);
+    window.open(waUrl,'_blank');
+    toast(lang==='ar'?'تم حفظ الصورة — افتح واتساب وأرفقها':'Image saved — open WhatsApp and attach it','ok');
+  },800);
+}
+
 function exportData(){const b=new Blob([JSON.stringify({txs,buds,insts,date:new Date()},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`fulus-${new Date().toISOString().split('T')[0]}.json`;a.click();toast(t('exported'),'ok')}
 
 /* TOAST */
 function toast(msg,type='ok'){const el=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;el.className='tst '+type+' show';clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000)}
 
 /* TABS */
+
+/* ══════════════════════════════════════
+   NOTIFICATION ENGINE
+══════════════════════════════════════ */
+let notifs=JSON.parse(localStorage.getItem('fw_notifs')||'[]');
+function saveNotifs(){localStorage.setItem('fw_notifs',JSON.stringify(notifs))}
+function addNotif(msg,type,autoShow){
+  if(type===undefined)type='info';if(autoShow===undefined)autoShow=true;
+  var n={id:Date.now(),msg:msg,type:type,time:new Date().toISOString(),read:false};
+  notifs.unshift(n);
+  if(notifs.length>50)notifs=notifs.slice(0,50);
+  saveNotifs();updateNotifDot();
+  if(autoShow)toast(msg,type==='err'?'err':type==='warn'?'warn':'ok');
+}
+function updateNotifDot(){
+  var dot=document.getElementById('notifDot');
+  var unread=notifs.filter(function(n){return !n.read;}).length;
+  if(dot){dot.style.display=unread>0?'block':'none';}
+}
+function openNotif(){
+  var ov=document.getElementById('notifOverlay');
+  ov.classList.add('open');
+  renderNotifList();
+  notifs.forEach(function(n){n.read=true;});
+  saveNotifs();
+  setTimeout(updateNotifDot,400);
+}
+function closeNotif(e){
+  if(e.target.id==='notifOverlay')document.getElementById('notifOverlay').classList.remove('open');
+}
+function clearNotifs(){notifs=[];saveNotifs();renderNotifList();updateNotifDot();}
+function renderNotifList(){
+  var el=document.getElementById('notifList');
+  if(!el)return;
+  document.getElementById('notifTitleTxt').textContent=lang==='ar'?'الإشعارات':'Notifications';
+  if(!notifs.length){
+    el.innerHTML='<div class="notif-empty">'+(lang==='ar'?'لا توجد إشعارات':'No notifications')+'</div>';
+    return;
+  }
+  var icoWarn='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>';
+  var icoErr='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>';
+  var icoOk='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var icoInfo='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>';
+  var icoGold='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var icoMap={warn:icoWarn,err:icoErr,ok:icoOk,info:icoInfo,gold:icoGold};
+  var now=new Date();
+  el.innerHTML=notifs.map(function(n){
+    var d=new Date(n.time);
+    var mins=Math.floor((now-d)/60000);
+    var timeStr=mins<1?(lang==='ar'?'الآن':'just now'):mins<60?mins+(lang==='ar'?' د':' min'):mins<1440?Math.floor(mins/60)+(lang==='ar'?' س':' hr'):d.toLocaleDateString(lang==='ar'?'ar-EG':'en-US',{month:'short',day:'numeric'});
+    return '<div class="notif-item '+(n.read?'':'unread')+'"><div class="notif-ico '+(n.type||'info')+'">'+(icoMap[n.type]||icoInfo)+'</div><div class="notif-body"><div class="notif-msg">'+n.msg+'</div><div class="notif-time">'+timeStr+'</div></div></div>';
+  }).join('');
+}
+function checkAlerts(){
+  var now=new Date();var month=now.getMonth();var year=now.getFullYear();
+  var alertKey='fw_alerted_'+year+'_'+month;
+  var alerted=JSON.parse(localStorage.getItem(alertKey)||'{}');
+  var nextM=new Date(year,month+(now.getDate()>1?1:0),1);
+  var daysLeft=Math.ceil((nextM-now)/86400000);
+  insts.forEach(function(inst){
+    var rem=inst.total>0?Math.max(inst.total-(inst.paid||0),0):null;
+    var isDone=inst.total>0&&rem<=0;
+    if(isDone)return;
+    if(daysLeft<=3&&!alerted['inst_due_'+inst.id]){
+      addNotif(lang==='ar'?('تنبيه: موعد دفع "'+inst.name+'" خلال '+daysLeft+(daysLeft===1?' يوم':' أيام')+' — '+fmt(inst.monthly)+' ج.م'):('Reminder: "'+inst.name+'" payment due in '+daysLeft+' day'+(daysLeft===1?'':'s')+' — '+fmt(inst.monthly)+' EGP'),'gold',false);
+      alerted['inst_due_'+inst.id]=true;
+    }
+  });
+  buds.forEach(function(bud){
+    var ps=getPeriodStart(bud.period||'monthly');
+    var spent=txs.filter(function(x){return x.type==='expense'&&x.categoryId===bud.categoryId&&new Date(x.date)>=ps;}).reduce(function(s,x){return s+x.amount;},0);
+    var pct=(spent/bud.limit)*100;
+    var catName=cn(bud.categoryId);
+    if(pct>=100&&!alerted['bud_exc_'+bud.categoryId]){
+      addNotif(lang==='ar'?('تجاوزت ميزانية "'+catName+'" — صرفت '+fmt(spent)+' من '+fmt(bud.limit)+' ج.م'):('Budget exceeded for "'+catName+'" — spent '+fmt(spent)+' of '+fmt(bud.limit)+' EGP'),'err',false);
+      alerted['bud_exc_'+bud.categoryId]=true;
+    } else if(pct>=80&&pct<100&&!alerted['bud_near_'+bud.categoryId]){
+      addNotif(lang==='ar'?('تنبيه: وصلت لـ '+Math.round(pct)+'% من ميزانية "'+catName+'"'):('Warning: '+Math.round(pct)+'% of "'+catName+'" budget used'),'warn',false);
+      alerted['bud_near_'+bud.categoryId]=true;
+    }
+  });
+  var totalInc=txs.filter(function(x){return x.type==='income';}).reduce(function(s,x){return s+x.amount;},0);
+  var totalExp=txs.filter(function(x){return x.type==='expense';}).reduce(function(s,x){return s+x.amount;},0);
+  var bal=totalInc-totalExp;
+  if(bal<0&&txs.length>2&&!alerted['neg_balance']){
+    addNotif(lang==='ar'?('تحذير: رصيدك سالب — راجع مصروفاتك'):('Warning: Negative balance — review your expenses'),'err',false);
+    alerted['neg_balance']=true;
+  }
+  var monthStart=new Date(year,month,1);
+  var mInc=txs.filter(function(x){return x.type==='income'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
+  var mExp=txs.filter(function(x){return x.type==='expense'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
+  var sr=mInc>0?Math.round(((mInc-mExp)/mInc)*100):0;
+  if(sr>=30&&!alerted['good_saving']){
+    addNotif(lang==='ar'?('ممتاز! نسبة ادخارك هذا الشهر '+sr+'%  🎉'):('Excellent! Your saving rate this month is '+sr+'%  🎉'),'ok',false);
+    alerted['good_saving']=true;
+  }
+  localStorage.setItem(alertKey,JSON.stringify(alerted));
+  updateNotifDot();
+}
+
 function snav(tab,btn){
   document.querySelectorAll('.sgt,.nb').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
@@ -1555,7 +2273,7 @@ document.querySelectorAll('.sgt').forEach(btn=>btn.addEventListener('click',()=>
 function numOnly(inp){inp.value=inp.value.replace(/[^\d.]/g,'')}
 
 /* INIT */
-load();applyTheme();applyLang();renderAll();renderCatGrid();
+load();applyTheme();applyLang();renderAll();updateNotifDot();renderCatGrid();
 </script>
 </body>
 </html>
