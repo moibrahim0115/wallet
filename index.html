@@ -2,6 +2,10 @@
 <html lang="ar" dir="rtl" data-theme="dark" data-lang="ar">
 <head>
 <meta charset="UTF-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#080A0F" id="themeColorMeta">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fulus</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -127,8 +131,19 @@ body,.hero,.qa,.seg,.sgt,.txi,.budc,.sc,.cc,.tc,.sht,.cfm,.bnav,.qb,.fp,.sb,.fi,
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{height:100%;-webkit-text-size-adjust:100%}
 body{min-height:100%;background:var(--bg);color:var(--t1);overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
-  touch-action:pan-y;overscroll-behavior:none}
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:pan-y;overscroll-behavior:none;
+  -webkit-overflow-scrolling:touch;
+  position:fixed;width:100%;height:100%;}
+#app{position:fixed;inset:0;overflow:hidden;display:flex;flex-direction:column}
+/* Main scroll container — sits between header and nav */
+.scroll-wrap{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  padding-bottom:calc(90px + env(safe-area-inset-bottom,0px));
+}
 /* Global touch feedback on all interactive elements */
 button,a,[onclick]{-webkit-tap-highlight-color:transparent;touch-action:manipulation;
   cursor:pointer;-webkit-user-select:none;user-select:none}
@@ -152,7 +167,7 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 #app{position:relative;z-index:2;max-width:420px;margin:0 auto;min-height:100svh;padding-bottom:100px}
 
 /* HEADER */
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:52px 20px 0;animation:fd .7s cubic-bezier(.16,1,.3,1) both}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top,44px),44px) 20px 0;animation:fd .7s cubic-bezier(.16,1,.3,1) both;flex-shrink:0}
 .hdr-l{display:flex;align-items:center;gap:11px}
 .app-ico{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#1a2340,#0d1530);border:1px solid rgba(79,142,255,.35);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(79,142,255,.25),inset 0 1px 0 rgba(255,255,255,.1);flex-shrink:0}
 .app-nm{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}.app-nm span{color:var(--gold2)}
@@ -205,6 +220,7 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 .qi{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:transform .2s}
 .qb:hover .qi{transform:scale(1.08)}
 .qi.a{background:var(--green-dim)}.qi.b{background:var(--red-dim)}.qi.c{background:var(--purple-dim)}.qi.d{background:var(--gold-dim)}.qi.e{background:var(--blue-dim)}
+.qi.f{background:rgba(255,69,58,.12)}
 
 /* SEGMENT */
 .seg{margin:16px 16px 0;background:var(--s1);border:1px solid var(--border);border-radius:var(--rp);padding:4px;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;animation:fu .6s .3s cubic-bezier(.16,1,.3,1) both;box-shadow:0 2px 8px var(--shadow2)}
@@ -225,7 +241,7 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 .fp:hover{border-color:var(--border2);color:var(--t2)}
 .fp.active{background:var(--blue-dim);border-color:var(--blue);color:var(--blue2)}
 [data-theme="light"] .fp.active{color:var(--blue)}
-.tp{display:none}.tp.active{display:block;animation:pi .35s cubic-bezier(.16,1,.3,1) both}
+.tp{display:none;padding:0}.tp.active{display:block;animation:pi .35s cubic-bezier(.16,1,.3,1) both}
 
 /* TRANSACTIONS */
 .txl{padding:0 16px;display:flex;flex-direction:column;gap:8px}
@@ -336,7 +352,7 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 [data-lang="ar"] .tca{text-align:left}[data-lang="en"] .tca{text-align:right}
 
 /* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.5);border-top:1px solid var(--border);padding:10px 20px 28px;display:flex;justify-content:space-around;align-items:center;z-index:100;box-shadow:0 -4px 20px var(--shadow2)}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.5);border-top:1px solid var(--border);padding:10px 20px calc(env(safe-area-inset-bottom,14px) + 14px);display:flex;justify-content:space-around;align-items:center;z-index:100;box-shadow:0 -4px 20px var(--shadow2)}
 /* ── Notification Bell ──────────────────────── */
 .notif-btn{position:relative}
 .notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;
@@ -385,6 +401,90 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 .notif-empty{text-align:center;padding:40px 20px;color:var(--t4);font-size:13px}
 
 .nb:active .ni{transform:scale(.85);opacity:.7}
+/* ══ Settings Menu ════════════════════════════ */
+.smenu-overlay{position:fixed;inset:0;z-index:890;pointer-events:none}
+.smenu-overlay.open{pointer-events:all}
+.smenu-panel{
+  position:absolute;top:58px;right:12px;
+  width:min(300px,calc(100vw - 24px));
+  background:var(--s1);border-radius:18px;
+  border:1px solid var(--border2);
+  box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.04);
+  transform:translateY(-10px) scale(.95);opacity:0;
+  transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .22s;
+  overflow:hidden;padding:6px 0;
+  pointer-events:none;
+}
+.smenu-overlay.open .smenu-panel{
+  transform:translateY(0) scale(1);opacity:1;pointer-events:all;
+}
+.smenu-arrow{
+  position:absolute;top:-6px;right:16px;width:12px;height:12px;
+  background:var(--s1);border-top:1px solid var(--border2);
+  border-right:1px solid var(--border2);
+  transform:rotate(-45deg);border-radius:2px;
+}
+.smenu-item{
+  display:flex;align-items:center;gap:11px;
+  padding:12px 16px;cursor:pointer;
+  transition:background .15s;position:relative;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.smenu-item:active{background:var(--s2);transform:scale(.98)}
+.smenu-item-noclick{cursor:default}
+.smenu-item-noclick:active{transform:none;background:transparent}
+.smenu-item-danger:active{background:rgba(255,69,58,.08)}
+.smenu-ico{
+  width:32px;height:32px;border-radius:10px;
+  background:var(--s2);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;color:var(--t2);
+}
+.smenu-info{flex:1;min-width:0}
+.smenu-label{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.smenu-sub{font-size:11px;color:var(--t4);font-weight:500}
+.smenu-sep{height:1px;background:var(--border);margin:2px 14px}
+
+/* Theme toggle pill */
+.smenu-toggle{
+  width:38px;height:22px;border-radius:11px;
+  background:var(--s3);position:relative;flex-shrink:0;
+  transition:background .25s;border:1px solid var(--border2);
+}
+.smenu-toggle.on{background:var(--blue)}
+.smenu-toggle-knob{
+  position:absolute;top:3px;right:3px;
+  width:14px;height:14px;border-radius:50%;
+  background:#fff;transition:transform .25s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.smenu-toggle.on .smenu-toggle-knob{transform:translateX(-16px)}
+[dir="ltr"] .smenu-toggle-knob{right:auto;left:3px}
+[dir="ltr"] .smenu-toggle.on .smenu-toggle-knob{transform:translateX(16px)}
+
+/* Lang badge */
+.smenu-badge{
+  font-size:11px;font-weight:800;padding:3px 8px;border-radius:8px;
+  background:var(--s2);color:var(--t2);border:1px solid var(--border2);
+  letter-spacing:.5px;
+}
+
+/* Currency pills */
+.smenu-curr-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.curr-pill{
+  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;
+  cursor:pointer;border:1.5px solid var(--border2);
+  background:var(--s2);color:var(--t3);
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.curr-pill:active{transform:scale(.9)}
+.curr-pill.active{
+  background:var(--blue);color:#fff;
+  border-color:var(--blue);
+  box-shadow:0 2px 8px rgba(79,142,255,.35);
+}
+
 .nb{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--t4);font-size:10px;font-weight:700;padding:6px 10px;border-radius:14px;transition:all .2s}
 .nb.active{color:var(--blue)}.nb:hover:not(.active){color:var(--t2)}
 .ni{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
@@ -393,11 +493,25 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 
 
 /* OVERLAY / SHEET */
-.ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .ov.open{opacity:1;pointer-events:all}
-.sht{background:var(--s1);border:1px solid var(--border);border-radius:32px 32px 0 0;width:100%;max-width:420px;padding:14px 22px 44px;transform:translateY(100%);transition:transform .45s cubic-bezier(.16,1,.3,1);max-height:90svh;overflow-y:auto;box-shadow:0 -24px 60px var(--shadow)}
+.sht{background:var(--s1);border:1px solid var(--border);
+  border-radius:28px 28px 0 0;width:100%;max-width:420px;
+  padding:0 0 env(safe-area-inset-bottom,24px);
+  transform:translateY(100%);
+  transition:transform .42s cubic-bezier(.16,1,.3,1);
+  max-height:92svh;overflow-y:auto;overflow-x:hidden;
+  box-shadow:0 -32px 80px var(--shadow);
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  will-change:transform;
+  touch-action:pan-y;}
 .ov.open .sht{transform:translateY(0)}
-.hdl{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 22px;display:block}
+.sht-inner{padding:0 20px 20px;display:flex;flex-direction:column}
+
+.hdl{width:44px;height:5px;background:var(--border2);border-radius:3px;
+  margin:10px auto 18px;display:block;cursor:grab;flex-shrink:0}
+.hdl:active{background:var(--t4)}
 .shtit{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-bottom:22px;display:flex;align-items:center;gap:10px;color:var(--t1)}
 .cfm{background:var(--s1);border:1px solid var(--border);border-radius:28px;padding:30px 24px;width:calc(100% - 40px);max-width:340px;margin:auto;align-self:center;transform:scale(.88) translateY(24px);transition:all .35s cubic-bezier(.16,1,.3,1);box-shadow:0 40px 80px var(--shadow)}
 .ov.open .cfm{transform:scale(1) translateY(0)}
@@ -741,6 +855,72 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 .rs-lbl{font-size:11px;font-weight:600;color:var(--t3)}
 .rs-val{font-size:13px;font-weight:800}
 
+
+/* ══ Mobile polish ════════════════════════════════════════ */
+
+/* Scroll container */
+.scroll-wrap{scroll-behavior:smooth}
+
+/* Tab panels — fade+slide in */
+@keyframes pi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.tp.active{animation:pi .28s cubic-bezier(.16,1,.3,1) both}
+
+/* Transaction cards — swipe hint shadow */
+.txi{position:relative;overflow:hidden}
+.txi::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 85%,rgba(255,69,58,.0));
+  pointer-events:none;transition:background .2s;
+}
+
+/* Larger tap targets for delete buttons */
+.inst-del{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.txi-btn{min-width:36px;min-height:36px}
+
+/* Sheet drag indicator animation */
+.hdl{transition:background .15s,width .2s}
+.sht:not([style*="translateY"]) .hdl{background:var(--border2)}
+
+/* Bottom nav items — 44px min */
+.nb{min-height:56px;min-width:56px}
+
+/* Smooth panel transitions when switching tabs */
+.tp{will-change:transform,opacity}
+
+/* Prevent text selection during swipe */
+.sht{-webkit-user-select:none;user-select:none}
+.sht input,.sht textarea{-webkit-user-select:text;user-select:text}
+
+/* Input focus glow on mobile */
+.fi:focus{
+  outline:none;
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(79,142,255,.18);
+}
+
+/* Action sheet buttons — more spaced */
+.sbtn{min-height:52px;font-size:16px}
+
+/* Remove 300ms click delay globally */
+a,button,[onclick]{touch-action:manipulation}
+
+/* Momentum scroll for sheet inner */
+.sht{-webkit-overflow-scrolling:touch}
+
+/* Notif panel mobile */
+.notif-panel{
+  max-height:75svh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Settings menu mobile */
+.smenu-panel{
+  max-height:80svh;
+  overflow-y:auto;
+}
+
+/* theme-color meta update */
 </style>
 </head>
 <body>
@@ -775,10 +955,11 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <span class="notif-dot" id="notifDot"></span>
       </button>
-      <button class="hdr-ctrl" id="langBtn" onclick="toggleLang()"></button>
-      <button class="hdr-ctrl" id="themeBtn" onclick="toggleTheme()">
-        <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <button class="hdr-ctrl" id="settingsBtn" onclick="toggleSettingsMenu(event)" aria-label="Settings">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.9"/>
+        </svg>
       </button>
       <div class="hdr-date"><strong id="dayName"></strong><span id="dateStr"></span></div>
     </div>
@@ -818,6 +999,9 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
     <button class="sgt" data-tab="stats"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><line x1="18" y1="20" x2="18" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="20" x2="6" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="analytics">تحليل</span></button>
   </div>
 
+<div class="scroll-wrap" id="mainScroll">
+
+
   <div id="panel-transactions" class="tp active">
     <div class="sh"><div class="st"><span class="std"></span><span data-i18n="latestTx">آخر المعاملات</span></div><div class="sb" id="txCount">0</div></div>
     <div class="flt" id="filterRow"></div>
@@ -842,9 +1026,69 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
     <div class="sh"><div class="st"><span class="std"></span><span data-i18n="financialAnalysis">التحليل المالي</span></div></div>
     <div class="sw" id="statsWrap"></div>
   </div>
+</div></div>
+
+<!-- SETTINGS MENU -->
+<div class="smenu-overlay" id="smenuOverlay" onclick="closeSettingsMenu(event)">
+  <div class="smenu-panel" id="smenuPanel">
+    <div class="smenu-arrow"></div>
+
+    <!-- Theme toggle -->
+    <div class="smenu-item" onclick="toggleTheme();updateSettingsMenu()">
+      <div class="smenu-ico" id="smenuThemeIco">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.9"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </div>
+      <div class="smenu-info">
+        <div class="smenu-label" id="smenuThemeLbl">الوضع المظلم</div>
+        <div class="smenu-sub" id="smenuThemeSub">تفعيل الوضع الفاتح</div>
+      </div>
+      <div class="smenu-toggle" id="smenuThemeToggle">
+        <div class="smenu-toggle-knob"></div>
+      </div>
+    </div>
+
+    <div class="smenu-sep"></div>
+
+    <!-- Language toggle -->
+    <div class="smenu-item" onclick="toggleLang();updateSettingsMenu()">
+      <div class="smenu-ico">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9"/><path d="M12 3c-3 4-3 14 0 18M12 3c3 4 3 14 0 18M3 12h18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </div>
+      <div class="smenu-info">
+        <div class="smenu-label" id="smenuLangLbl">العربية</div>
+        <div class="smenu-sub" id="smenuLangSub">Switch to English</div>
+      </div>
+      <div class="smenu-badge" id="smenuLangBadge">AR</div>
+    </div>
+
+    <div class="smenu-sep"></div>
+
+    <!-- Currency selector -->
+    <div class="smenu-item smenu-item-noclick">
+      <div class="smenu-ico" style="color:var(--gold2)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9"/><path d="M9 14.5c0 1.1.9 2 2 2h2a2 2 0 000-4h-2a2 2 0 010-4h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="12" y1="7" x2="12" y2="9.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><line x1="12" y1="16.5" x2="12" y2="19" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </div>
+      <div class="smenu-info">
+        <div class="smenu-label" id="smenuCurrLbl">العملة</div>
+        <div class="smenu-curr-row" id="smenuCurrRow"></div>
+      </div>
+    </div>
+
+    <div class="smenu-sep"></div>
+
+    <!-- Clear all data -->
+    <div class="smenu-item smenu-item-danger" onclick="closeSettingsMenu();setTimeout(showConfirm,120)">
+      <div class="smenu-ico" style="color:var(--red)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="smenu-info">
+        <div class="smenu-label" id="smenuClearLbl" style="color:var(--red)">مسح جميع البيانات</div>
+        <div class="smenu-sub" id="smenuClearSub">حذف كل المعاملات والأقساط</div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-
 
 <!-- NOTIFICATION PANEL -->
 <div class="notif-overlay" id="notifOverlay" onclick="closeNotif(event)">
@@ -858,7 +1102,8 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
-    <div class="notif-list" id="notifList"></div>
+    </div>
+<div class="notif-list" id="notifList"></div>
   </div>
 </div>
 
@@ -895,13 +1140,14 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 <!-- ADD SHEET -->
 <div class="ov" id="addOverlay" onclick="cls('addOverlay',event)">
   <div class="sht">
+    <div class="sht-inner">
     <span class="hdl"></span>
     <div class="shtit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4f8eff" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="#4f8eff" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="#4f8eff" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="newTx">معاملة جديدة</span></div>
     <div class="ttog">
       <button class="tbt i active" id="typeInc" onclick="setType('income')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="19" x2="12" y2="5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="5 12 12 5 19 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="income">دخل</span></button>
       <button class="tbt e" id="typeExp" onclick="setType('expense')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="expense">مصروف</span></button>
     </div>
-    <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="txAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
+    <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="txAmt" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
     <div class="fg"><label class="fl" data-i18n="noteLabel">وصف اختياري</label><input class="fi" id="txNote" type="text"></div>
     <div class="fg"><label class="fl" data-i18n="category">الفئة</label><div class="cg" id="catGrid"></div></div>
     <div class="fg inst-picker-wrap" id="instPickerWrap" style="display:none">
@@ -928,13 +1174,14 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 <!-- EDIT SHEET -->
 <div class="ov" id="editOverlay" onclick="cls('editOverlay',event)">
   <div class="sht">
+    <div class="sht-inner">
     <span class="hdl"></span>
     <div class="shtit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="editTx">تعديل المعاملة</span></div>
     <div class="ttog">
       <button class="tbt i" id="editTypeInc" onclick="setEditType('income')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="19" x2="12" y2="5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="5 12 12 5 19 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="income">دخل</span></button>
       <button class="tbt e" id="editTypeExp" onclick="setEditType('expense')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="expense">مصروف</span></button>
     </div>
-    <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="editAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
+    <div class="fg"><label class="fl" data-i18n="amountLabel">المبلغ (ج.م)</label><input class="fi fi-lg" id="editAmt" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
     <div class="fg"><label class="fl" data-i18n="noteLabel">وصف اختياري</label><input class="fi" id="editNote" type="text"></div>
     <div class="fg"><label class="fl" data-i18n="category">الفئة</label><div class="cg" id="editCatGrid"></div></div>
     <div class="fg inst-picker-wrap" id="editInstPickerWrap" style="display:none">
@@ -948,27 +1195,25 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 <!-- INSTALLMENT SHEET -->
 <div class="ov" id="installmentOverlay" onclick="cls('installmentOverlay',event)">
   <div class="sht">
+    <div class="sht-inner">
     <span class="hdl"></span>
     <div class="shtit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2" stroke="#a78bfa" stroke-width="2"/><path d="M16 7V5a2 2 0 00-4 0v2" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="newInstallment">قسط / التزام شهري</span></div>
     <div class="fg"><label class="fl" data-i18n="installmentName">الاسم</label><input class="fi" id="instName" type="text"></div>
     <div class="g2">
-      <div class="fg"><label class="fl" data-i18n="totalAmount">المبلغ الكلي (اختياري)</label><input class="fi fi-sm" id="instTotal" type="number" placeholder="0" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
-      <div class="fg"><label class="fl" data-i18n="monthlyInstallment">القسط الشهري</label><input class="fi fi-sm" id="instMonthly" type="number" placeholder="0" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
+      <div class="fg"><label class="fl" data-i18n="totalAmount">المبلغ الكلي (اختياري)</label><input class="fi fi-sm" id="instTotal" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
+      <div class="fg"><label class="fl" data-i18n="monthlyInstallment">القسط الشهري</label><input class="fi fi-sm" id="instMonthly" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
     </div>
     <div class="g2">
       <div class="fg"><label class="fl" data-i18n="numMonths">عدد الأشهر</label><input class="fi fi-sm" id="instMonths" type="number" placeholder="-" inputmode="numeric" readonly style="opacity:.6;cursor:default"></div>
-      <div class="fg"><label class="fl" data-i18n="paidSoFar">المدفوع</label><input class="fi fi-sm" id="instPaid" type="number" placeholder="0" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
+      <div class="fg"><label class="fl" data-i18n="paidSoFar">المدفوع</label><input class="fi fi-sm" id="instPaid" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this);calcInst()" inputmode="decimal"></div>
     </div>
-    <div class="g2">
-      <div class="fg"><label class="fl" data-i18n="category">الفئة</label>
-        <select class="fi fi-sm fi-sel" id="instCat">
-          <option value="bills">فواتير</option><option value="rent">إيجار</option>
-          <option value="shopping">تسوق</option><option value="health">صحة</option>
-          <option value="education">تعليم</option><option value="entertainment">ترفيه</option>
-          <option value="other">أخرى</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl" data-i18n="dueDay">يوم التحصيل</label><input class="fi fi-sm" id="instDueDay" type="number" placeholder="1" min="1" max="31" inputmode="numeric"></div>
+    <div class="fg"><label class="fl" data-i18n="category">الفئة</label>
+      <select class="fi fi-sm fi-sel" id="instCat">
+        <option value="bills">فواتير</option><option value="rent">إيجار</option>
+        <option value="shopping">تسوق</option><option value="health">صحة</option>
+        <option value="education">تعليم</option><option value="entertainment">ترفيه</option>
+        <option value="other">أخرى</option>
+      </select>
     </div>
     <div class="inst-calc" id="instCalc">
       <div class="inst-calc-lbl" data-i18n="remaining">المتبقي</div>
@@ -981,9 +1226,10 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 <!-- BUDGET SHEET -->
 <div class="ov" id="budgetOverlay" onclick="cls('budgetOverlay',event)">
   <div class="sht">
+    <div class="sht-inner">
     <span class="hdl"></span>
     <div class="shtit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="2"/><path d="M12 6v6l3 3" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="setBudget">تعيين ميزانية</span></div>
-    <div class="fg"><label class="fl" data-i18n="budgetLimit">الحد (ج.م)</label><input class="fi fi-lg" id="budgetAmt" type="number" placeholder="0" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
+    <div class="fg"><label class="fl" data-i18n="budgetLimit">الحد (ج.م)</label><input class="fi fi-lg" id="budgetAmt" type="number" placeholder="0" inputmode="decimal" oninput="numOnly(this)" min="0" inputmode="decimal"></div>
     <div class="fg">
       <label class="fl" data-i18n="budgetPeriod">الفترة</label>
       <div class="period-row">
@@ -1010,6 +1256,7 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
     </div>
   </div>
 </div>
+    </div>
 
 <!-- ALERT BANNER -->
 <div id="alertBanner" class="alert-banner">
@@ -1048,7 +1295,12 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
   draw();
   const fill=document.getElementById('ldr-fill'),sub=document.getElementById('ldr-sub');
   const STEPS=[{p:25,ar:'تحميل البيانات',en:'Loading…'},{p:58,ar:'تهيئة الواجهة',en:'Setting up…'},{p:86,ar:'اللمسات الأخيرة',en:'Almost…'},{p:100,ar:'بسم الله',en:'Welcome'}];
-  let si=0;const iv=setInterval(()=>{if(si>=STEPS.length){clearInterval(iv);return}const s=STEPS[si];fill.style.width=s.p+'%';sub.textContent=s[document.documentElement.getAttribute('data-lang')||'ar'];si++;if(s.p===100){setTimeout(()=>{cancelAnimationFrame(raf);const l=document.getElementById('loader');l.classList.add('hide');setTimeout(()=>l&&l.parentNode&&l.parentNode.removeChild(l),1000)},600)}},520);
+  let si=0;const iv=setInterval(()=>{if(si>=STEPS.length){clearInterval(iv);return}const s=STEPS[si];fill.style.width=s.p+'%';sub.textContent=s[document.documentElement.getAttribute('data-lang')||'ar'];si++;if(s.p===100){setTimeout(()=>{cancelAnimationFrame(raf);
+      // Initialize app
+      load();applyTheme();applyLang();renderAll();
+      ['addOverlay','editOverlay','installmentOverlay','budgetOverlay','confirmOverlay'].forEach(addSwipeToDismiss);
+      initKeyboardAware();
+      const l=document.getElementById('loader');l.classList.add('hide');setTimeout(()=>l&&l.parentNode&&l.parentNode.removeChild(l),900)},600)}},520);
 })();
 
 /* ════════════════════════════════
@@ -1061,7 +1313,7 @@ const I18N={
     installments:'أقساط',myInstallments:'التزاماتي',newInstallment:'قسط / التزام شهري',
     installmentName:'الاسم',totalAmount:'المبلغ الكلي (اختياري)',monthlyInstallment:'القسط الشهري',
     numMonths:'عدد الأشهر',paidSoFar:'المدفوع',remaining:'المتبقي',
-    dueDay:'يوم التحصيل',saveInstallment:'حفظ الالتزام',
+    saveInstallment:'حفظ الالتزام',
     recurringTx:'معاملة متكررة',recurFreq:'التكرار',
     monthly:'شهري',weekly:'أسبوعي',yearly:'سنوي',quarterly:'ربع سنوي',biannual:'نصف سنوي',
     budgetPeriod:'فترة الميزانية',budgetLimit:'الحد (ج.م)',
@@ -1094,6 +1346,7 @@ const I18N={
     days:['أح','إث','ثل','أر','خم','جم','سب'],
     daysFull:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
     months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+    settingsMenu:'الإعدادات',darkMode:'الوضع المظلم',lightMode:'الوضع الفاتح',switchLight:'تفعيل الوضع الفاتح',switchDark:'تفعيل الوضع المظلم',langLabel:'العربية',langSwitch:'Switch to English',clearData:'مسح جميع البيانات',clearSub:'حذف كل المعاملات والأقساط',currLabel:'العملة',
     cats:{food:'طعام',transport:'مواصلات',shopping:'تسوق',bills:'فواتير',health:'صحة',entertainment:'ترفيه',education:'تعليم',sports:'رياضة',rent:'إيجار',salary:'راتب',freelance:'فريلانس',invest:'استثمار',gift:'هدية',other:'أخرى',installment:'قسط'},
     selectInst:'اختر القسط',instLinked:'تم خصم القسط تلقائياً',noInstAvail:'لا توجد أقساط — أضف قسطاً أولاً'
   },
@@ -1103,7 +1356,7 @@ const I18N={
     installments:'Plans',myInstallments:'My Plans',newInstallment:'Recurring Plan',
     installmentName:'Name',totalAmount:'Total Amount (optional)',monthlyInstallment:'Monthly Amount',
     numMonths:'Months',paidSoFar:'Paid',remaining:'Remaining',
-    dueDay:'Due Day',saveInstallment:'Save Plan',
+    saveInstallment:'Save Plan',
     recurringTx:'Recurring Transaction',recurFreq:'Frequency',
     monthly:'Monthly',weekly:'Weekly',yearly:'Yearly',quarterly:'Quarterly',biannual:'Bi-Annual',
     budgetPeriod:'Budget Period',budgetLimit:'Limit (EGP)',
@@ -1136,6 +1389,7 @@ const I18N={
     days:['Su','Mo','Tu','We','Th','Fr','Sa'],
     daysFull:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
     months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    settingsMenu:'Settings',darkMode:'Dark Mode',lightMode:'Light Mode',switchLight:'Switch to Light Mode',switchDark:'Switch to Dark Mode',langLabel:'English',langSwitch:'التبديل للعربية',clearData:'Clear All Data',clearSub:'Delete all transactions & installments',currLabel:'Currency',
     cats:{food:'Food',transport:'Transport',shopping:'Shopping',bills:'Bills',health:'Health',entertainment:'Entertainment',education:'Education',sports:'Sports',rent:'Rent',salary:'Salary',freelance:'Freelance',invest:'Invest',gift:'Gift',other:'Other',installment:'Installment'},
     selectInst:'Select Installment',instLinked:'Installment auto-updated',noInstAvail:'No installments — add one first'
   }
@@ -1149,7 +1403,7 @@ let txs=[],buds=[],insts=[],AF='all';
 let curType='expense',selCat='food',budCat='food',budPeriod='monthly';
 let selInstId=null,editInstId=null;
 let editId=null,editType='expense',editCat='food';
-let isRec=false,lang='ar',theme='dark';
+let isRec=false,lang='ar',theme='dark',currency='EGP';
 
 const CATS=[
   {id:'food',icon:'I-food',type:'expense',color:'#ff6b6b'},
@@ -1171,7 +1425,10 @@ const CATS=[
 
 const PERIOD_MONTHS={monthly:1,quarterly:3,biannual:6,yearly:12};
 
-function t(k){return I18N[lang][k]||k}
+function t(k){
+  if(k==='currency') return currency;
+  return I18N[lang][k]||k;
+}
 function cn(id){return I18N[lang].cats[id]||id}
 function ico(id,color,sz=18){return`<svg width="${sz}" height="${sz}" style="color:${color}" fill="none"><use href="#${id}"/></svg>`}
 
@@ -1181,32 +1438,119 @@ function ico(id,color,sz=18){return`<svg width="${sz}" height="${sz}" style="col
 function save(){try{localStorage.setItem(SK.tx,JSON.stringify(txs));localStorage.setItem(SK.bud,JSON.stringify(buds));localStorage.setItem(SK.inst,JSON.stringify(insts))}catch(e){}}
 function load(){
   try{txs=JSON.parse(localStorage.getItem(SK.tx)||'[]');buds=JSON.parse(localStorage.getItem(SK.bud)||'[]');insts=JSON.parse(localStorage.getItem(SK.inst)||'[]')}catch(e){txs=[];buds=[];insts=[]}
-  try{const c=JSON.parse(localStorage.getItem(SK.cfg)||'{}');lang=c.lang||'ar';theme=c.theme||'dark'}catch(e){}
+  try{const c=JSON.parse(localStorage.getItem(SK.cfg)||'{}');lang=c.lang||'ar';theme=c.theme||'dark';currency=c.currency||'EGP'}catch(e){}
 }
-function saveCfg(){try{localStorage.setItem(SK.cfg,JSON.stringify({lang,theme}))}catch(e){}}
+function saveCfg(){try{localStorage.setItem(SK.cfg,JSON.stringify({lang,theme,currency}))}catch(e){}}
 
 /* ════════════════════════════════
    THEME & LANG
 ════════════════════════════════ */
 function applyTheme(){
   document.documentElement.setAttribute('data-theme',theme);
-  document.getElementById('iconSun').style.display=theme==='dark'?'block':'none';
-  document.getElementById('iconMoon').style.display=theme==='dark'?'none':'block';
-  const ldr=document.getElementById('loader');if(ldr)ldr.style.background=theme==='dark'?'#080a0f':'#f0f2f8';
+  const ldr=document.getElementById('loader');
+  if(ldr) ldr.style.background=theme==='dark'?'#080a0f':'#f0f2f8';
+  // Update PWA theme-color
+  var tc=document.getElementById('themeColorMeta');
+  if(tc) tc.setAttribute('content',theme==='dark'?'#080A0F':'#F0F2F8');
+  updateSettingsMenu();
 }
 function applyLang(){
   document.documentElement.setAttribute('data-lang',lang);
   document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
-  const lb=document.getElementById('langBtn');
-  lb.innerHTML=lang==='ar'?'<span style="font-size:12px;font-weight:800">EN</span>':'<span style="font-size:12px;font-weight:800">ع</span>';
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(I18N[lang][k])el.textContent=I18N[lang][k]});
   document.getElementById('txNote').placeholder=t('notePlaceholder');
   document.getElementById('editNote').placeholder=t('notePlaceholder');
   document.getElementById('instName').placeholder=t('instNamePh');
-  // update select options lang
   document.querySelectorAll('select option[data-i18n]').forEach(o=>{const k=o.getAttribute('data-i18n');if(I18N[lang][k])o.textContent=I18N[lang][k]});
+  updateSettingsMenu();
   renderAll();renderCatGrid();
 }
+/* ══════════════════════════════════════════
+   SETTINGS MENU
+══════════════════════════════════════════ */
+const CURRENCIES = [
+  {code:'EGP', symbol:'ج.م', label:'جنيه'},
+  {code:'USD', symbol:'$',   label:'دولار'},
+  {code:'SAR', symbol:'ر.س', label:'ريال'},
+  {code:'AED', symbol:'د.إ', label:'درهم'},
+  {code:'KWD', symbol:'د.ك', label:'دينار'},
+  {code:'EUR', symbol:'€',   label:'يورو'},
+  {code:'GBP', symbol:'£',   label:'جنيه إ'},
+  {code:'TRY', symbol:'₺',   label:'ليرة'},
+];
+
+function toggleSettingsMenu(e){
+  e.stopPropagation();
+  var ov = document.getElementById('smenuOverlay');
+  if(ov.classList.contains('open')){
+    closeSettingsMenu();
+  } else {
+    ov.classList.add('open');
+    updateSettingsMenu();
+    // close on outside click
+    setTimeout(function(){
+      document.addEventListener('click', _smenuOutside, {once:true});
+    }, 10);
+  }
+}
+function _smenuOutside(e){
+  var panel = document.getElementById('smenuPanel');
+  if(panel && !panel.contains(e.target)){
+    closeSettingsMenu();
+  }
+}
+function closeSettingsMenu(){
+  document.getElementById('smenuOverlay').classList.remove('open');
+}
+
+function updateSettingsMenu(){
+  var isDark = theme === 'dark';
+  var isAr   = lang  === 'ar';
+
+  // Theme row
+  var tog = document.getElementById('smenuThemeToggle');
+  var lbl = document.getElementById('smenuThemeLbl');
+  var sub = document.getElementById('smenuThemeSub');
+  var ico = document.getElementById('smenuThemeIco');
+  if(tog) tog.classList.toggle('on', isDark);
+  if(lbl) lbl.textContent = isDark ? (isAr?'الوضع المظلم':'Dark Mode') : (isAr?'الوضع الفاتح':'Light Mode');
+  if(sub) sub.textContent = isDark ? (isAr?'تفعيل الوضع الفاتح':'Switch to Light') : (isAr?'تفعيل الوضع المظلم':'Switch to Dark');
+
+  // Lang row
+  var langLbl   = document.getElementById('smenuLangLbl');
+  var langSub   = document.getElementById('smenuLangSub');
+  var langBadge = document.getElementById('smenuLangBadge');
+  if(langLbl)   langLbl.textContent   = isAr ? 'العربية' : 'English';
+  if(langSub)   langSub.textContent   = isAr ? 'Switch to English' : 'التبديل للعربية';
+  if(langBadge) langBadge.textContent = isAr ? 'AR' : 'EN';
+
+  // Currency label
+  var currLbl = document.getElementById('smenuCurrLbl');
+  if(currLbl) currLbl.textContent = isAr ? 'العملة' : 'Currency';
+
+  // Currency pills
+  var row = document.getElementById('smenuCurrRow');
+  if(row){
+    row.innerHTML = CURRENCIES.map(function(c){
+      return '<button class="curr-pill'+(currency===c.code?' active':'')+'" onclick="setCurrency(\'' +c.code+ '\',\'' +c.symbol+ '\')">'+c.symbol+'</button>';
+    }).join('');
+  }
+
+  // Clear labels
+  var clrLbl = document.getElementById('smenuClearLbl');
+  var clrSub = document.getElementById('smenuClearSub');
+  if(clrLbl) clrLbl.textContent = isAr ? 'مسح جميع البيانات' : 'Clear All Data';
+  if(clrSub) clrSub.textContent = isAr ? 'حذف كل المعاملات والأقساط' : 'Delete all transactions & installments';
+}
+
+function setCurrency(code, symbol){
+  currency = code;
+  saveCfg();
+  updateSettingsMenu();
+  renderAll();
+  toast((lang==='ar'?'تم تغيير العملة إلى ':'Currency changed to ')+symbol, 'ok');
+}
+
 function toggleTheme(){theme=theme==='dark'?'light':'dark';applyTheme();saveCfg()}
 function toggleLang(){lang=lang==='ar'?'en':'ar';applyLang();saveCfg()}
 
@@ -1259,6 +1603,9 @@ function renderBalance(){
   if(bal<0){Object.assign(tag.style,{background:'rgba(220,38,38,.12)',border:'1px solid rgba(220,38,38,.3)',color:'var(--red)'});tag.innerHTML=`${wrn} ${t('negativeBalance')}`}
   else if(!txs.length){Object.assign(tag.style,{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',color:'var(--t4)'});tag.innerHTML=t('noData')}
   else{Object.assign(tag.style,{background:'rgba(48,209,88,.12)',border:'1px solid rgba(48,209,88,.25)',color:'var(--green)'});tag.innerHTML=`${chk} ${t('positiveBalance')}`}
+  // update currency symbol in hero
+  const sym=document.querySelector('.bal-sym');
+  if(sym) sym.textContent=currency;
 }
 
 function renderMonthStrip(){
@@ -1364,22 +1711,10 @@ function renderInstallments(){
   }
 
   var now=new Date();
-
-  function getNextDue(dueDay){
-    var day=Math.min(Math.max(dueDay||1,1),31);
-    var y=now.getFullYear(), m=now.getMonth();
-    // clamp day to valid days in current month
-    var maxDay=new Date(y,m+1,0).getDate();
-    var d=Math.min(day,maxDay);
-    var target=new Date(y,m,d);
-    if(target<=now){
-      var nm=m+1, ny=y;
-      if(nm>11){nm=0;ny++;}
-      var maxDay2=new Date(ny,nm+1,0).getDate();
-      target=new Date(ny,nm,Math.min(day,maxDay2));
-    }
-    return target;
-  }
+  // Next 1st of month
+  var nextM=new Date(now.getFullYear(), now.getMonth()+(now.getDate()>1?1:0), 1);
+  var daysLeft=Math.ceil((nextM-now)/86400000);
+  var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
 
   list.innerHTML=insts.map(function(inst,i){
     var cat=CATS.find(function(c){return c.id===inst.categoryId;})||CATS[13];
@@ -1396,13 +1731,9 @@ function renderInstallments(){
       .filter(function(tx){return tx.linkedInstId==inst.id && new Date(tx.date)>=monthStart;})
       .reduce(function(s,tx){return s+tx.amount;},0);
 
-    // Per-installment due date
-    var nextM=getNextDue(inst.dueDay||1);
-    var daysLeft=Math.ceil((nextM-now)/86400000);
-    var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
-
     // Colors
     var barCol=isDone?'var(--green)':pct>=80?'var(--gold2)':'var(--purple)';
+    var urgentChip=daysLeft<=5&&!isDone;
     var urgentClass=daysLeft<=2?'urgent':daysLeft<=5?'warn-chip':'next';
 
     // Build card HTML
@@ -1496,8 +1827,7 @@ function saveInstallment(){
   const total=parseFloat(document.getElementById('instTotal').value)||0;
   const paid=parseFloat(document.getElementById('instPaid').value)||0;
   const catId=document.getElementById('instCat').value;
-  const dueDay=parseInt(document.getElementById('instDueDay').value)||1;
-  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,dueDay:Math.min(Math.max(dueDay,1),31),createdAt:new Date().toISOString()});
+  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,createdAt:new Date().toISOString()});
   save();renderAll();cls('installmentOverlay');toast(t('instSaved'),'ok');
 }
 function delInst(id){insts=insts.filter(x=>x.id!==id);save();renderInstallments();toast(t('instDeleted'),'warn')}
@@ -1738,7 +2068,7 @@ function openSheet(type,sub){
     document.getElementById('txNote').value='';
     document.getElementById('addOverlay').classList.add('open');
   } else if(type==='installment'){
-    ['instName','instTotal','instMonthly','instPaid','instDueDay'].forEach(id=>{document.getElementById(id).value=''});
+    ['instName','instTotal','instMonthly','instPaid'].forEach(id=>{document.getElementById(id).value=''});
     document.getElementById('instMonths').value='';
     document.getElementById('instCalc').style.display='none';
     document.getElementById('installmentOverlay').classList.add('open');
@@ -1751,6 +2081,7 @@ function openSheet(type,sub){
     document.getElementById('budgetOverlay').classList.add('open');
   }
   document.body.style.overflow='hidden';
+  haptic('light');
 }
 function cls(id,e){if(!e||e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}}
 function setType(t2){curType=t2;document.getElementById('typeInc').classList.toggle('active',t2==='income');document.getElementById('typeExp').classList.toggle('active',t2==='expense');selCat=t2==='income'?'salary':'food';renderCatGrid()}
@@ -1815,7 +2146,7 @@ function saveTx(){
     }
     setTimeout(()=>toast(t('instLinked'),'ok'),400);
   }
-  save();renderAll();cls('addOverlay');toast(t('added'),'ok');
+  save();renderAll();cls('addOverlay');toast(t('added'),'ok');haptic('success');
   selInstId=null;
   if(curType==='expense'){
     const b=buds.find(x=>x.categoryId===selCat);
@@ -1871,7 +2202,7 @@ function saveBudget(){
 
 /* CLEAR / EXPORT */
 function showConfirm(){document.getElementById('confirmOverlay').classList.add('open');document.body.style.overflow='hidden'}
-function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');toast(t('cleared'),'ok')}
+function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');toast(t('cleared'),'ok');haptic('heavy')}
 function shareWhatsApp(){
   // Build a canvas with the financial summary image
   const canvas=document.createElement('canvas');
@@ -2230,58 +2561,116 @@ function renderNotifList(){
   }).join('');
 }
 function checkAlerts(){
-  var now=new Date();var month=now.getMonth();var year=now.getFullYear();
+  /* Fires on every renderAll. Uses a persistent "seen" store keyed by month.
+     But also re-checks LIVE thresholds each call so crossing 80% mid-session works. */
+  var now=new Date(), month=now.getMonth(), year=now.getFullYear();
   var alertKey='fw_alerted_'+year+'_'+month;
   var alerted=JSON.parse(localStorage.getItem(alertKey)||'{}');
-  var nextM=new Date(year,month+(now.getDate()>1?1:0),1);
+  var changed=false;
+
+  /* ── Installment due-date alerts ──────────── */
+  var nextM=new Date(year, month+(now.getDate()>1?1:0), 1);
   var daysLeft=Math.ceil((nextM-now)/86400000);
   insts.forEach(function(inst){
     var rem=inst.total>0?Math.max(inst.total-(inst.paid||0),0):null;
-    var isDone=inst.total>0&&rem<=0;
-    if(isDone)return;
-    if(daysLeft<=3&&!alerted['inst_due_'+inst.id]){
-      addNotif(lang==='ar'?('تنبيه: موعد دفع "'+inst.name+'" خلال '+daysLeft+(daysLeft===1?' يوم':' أيام')+' — '+fmt(inst.monthly)+' ج.م'):('Reminder: "'+inst.name+'" payment due in '+daysLeft+' day'+(daysLeft===1?'':'s')+' — '+fmt(inst.monthly)+' EGP'),'gold',false);
-      alerted['inst_due_'+inst.id]=true;
+    if(inst.total>0&&rem<=0) return; // completed
+    var key='inst_due_'+inst.id+'_d'+daysLeft;
+    if(daysLeft<=5&&!alerted[key]){
+      var urgency=daysLeft<=2?'err':'gold';
+      var msg=lang==='ar'
+        ?'موعد دفع "'+inst.name+'" خلال '+daysLeft+(daysLeft===1?' يوم':' أيام')+' — '+fmt(inst.monthly)+' '+currency
+        :'"'+inst.name+'" due in '+daysLeft+(daysLeft===1?' day':' days')+' — '+fmt(inst.monthly)+' '+currency;
+      addNotif(msg, urgency, false);
+      alerted[key]=true; changed=true;
     }
   });
+
+  /* ── Budget alerts ────────────────────────── */
   buds.forEach(function(bud){
     var ps=getPeriodStart(bud.period||'monthly');
-    var spent=txs.filter(function(x){return x.type==='expense'&&x.categoryId===bud.categoryId&&new Date(x.date)>=ps;}).reduce(function(s,x){return s+x.amount;},0);
-    var pct=(spent/bud.limit)*100;
+    var spent=txs.filter(function(x){
+      return x.type==='expense'&&x.categoryId===bud.categoryId&&new Date(x.date)>=ps;
+    }).reduce(function(s,x){return s+x.amount;},0);
+    var pct=bud.limit>0?(spent/bud.limit)*100:0;
     var catName=cn(bud.categoryId);
-    if(pct>=100&&!alerted['bud_exc_'+bud.categoryId]){
-      addNotif(lang==='ar'?('تجاوزت ميزانية "'+catName+'" — صرفت '+fmt(spent)+' من '+fmt(bud.limit)+' ج.م'):('Budget exceeded for "'+catName+'" — spent '+fmt(spent)+' of '+fmt(bud.limit)+' EGP'),'err',false);
-      alerted['bud_exc_'+bud.categoryId]=true;
-    } else if(pct>=80&&pct<100&&!alerted['bud_near_'+bud.categoryId]){
-      addNotif(lang==='ar'?('تنبيه: وصلت لـ '+Math.round(pct)+'% من ميزانية "'+catName+'"'):('Warning: '+Math.round(pct)+'% of "'+catName+'" budget used'),'warn',false);
-      alerted['bud_near_'+bud.categoryId]=true;
+
+    // Exceeded (100%+)
+    var keyExc='bud_exc_'+bud.categoryId+'_'+Math.floor(spent);
+    if(pct>=100&&!alerted[keyExc]){
+      addNotif(
+        lang==='ar'
+          ?'⚠️ تجاوزت ميزانية "'+catName+'" — صرفت '+fmt(spent)+' من '+fmt(bud.limit)
+          :'⚠️ Budget exceeded for "'+catName+'" — '+fmt(spent)+' of '+fmt(bud.limit),
+        'err', false
+      );
+      alerted[keyExc]=true; changed=true;
+    }
+    // Near limit (80–99%)
+    var keyNear='bud_near_'+bud.categoryId+'_'+Math.floor(pct/10);
+    if(pct>=80&&pct<100&&!alerted[keyNear]){
+      addNotif(
+        lang==='ar'
+          ?'تنبيه: وصلت لـ '+Math.round(pct)+'% من ميزانية "'+catName+'"'
+          :'Warning: '+Math.round(pct)+'% of "'+catName+'" budget used',
+        'warn', false
+      );
+      alerted[keyNear]=true; changed=true;
     }
   });
-  var totalInc=txs.filter(function(x){return x.type==='income';}).reduce(function(s,x){return s+x.amount;},0);
-  var totalExp=txs.filter(function(x){return x.type==='expense';}).reduce(function(s,x){return s+x.amount;},0);
-  var bal=totalInc-totalExp;
-  if(bal<0&&txs.length>2&&!alerted['neg_balance']){
-    addNotif(lang==='ar'?('تحذير: رصيدك سالب — راجع مصروفاتك'):('Warning: Negative balance — review your expenses'),'err',false);
-    alerted['neg_balance']=true;
+
+  /* ── Negative balance ─────────────────────── */
+  if(txs.length>=2){
+    var totalInc=txs.filter(function(x){return x.type==='income';}).reduce(function(s,x){return s+x.amount;},0);
+    var totalExp=txs.filter(function(x){return x.type==='expense';}).reduce(function(s,x){return s+x.amount;},0);
+    var bal=totalInc-totalExp;
+    var keyBal='neg_bal_'+Math.floor(Math.abs(bal)/500); // key changes every 500 units
+    if(bal<0&&!alerted[keyBal]){
+      addNotif(
+        lang==='ar'
+          ?'تحذير: رصيدك سالب ('+fmt(Math.abs(bal))+') — راجع مصروفاتك'
+          :'Warning: Balance is negative ('+fmt(Math.abs(bal))+') — review expenses',
+        'err', false
+      );
+      alerted[keyBal]=true; changed=true;
+    }
   }
+
+  /* ── Good saving rate ─────────────────────── */
   var monthStart=new Date(year,month,1);
   var mInc=txs.filter(function(x){return x.type==='income'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
   var mExp=txs.filter(function(x){return x.type==='expense'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
   var sr=mInc>0?Math.round(((mInc-mExp)/mInc)*100):0;
-  if(sr>=30&&!alerted['good_saving']){
-    addNotif(lang==='ar'?('ممتاز! نسبة ادخارك هذا الشهر '+sr+'%  🎉'):('Excellent! Your saving rate this month is '+sr+'%  🎉'),'ok',false);
-    alerted['good_saving']=true;
+  var keySr='good_sr_'+Math.floor(sr/10)*10;
+  if(sr>=30&&!alerted[keySr]){
+    addNotif(
+      lang==='ar'
+        ?'ممتاز! معدل ادخارك '+sr+'% هذا الشهر 🎉'
+        :'Great! Your saving rate is '+sr+'% this month 🎉',
+      'ok', false
+    );
+    alerted[keySr]=true; changed=true;
   }
-  localStorage.setItem(alertKey,JSON.stringify(alerted));
+
+  if(changed) localStorage.setItem(alertKey, JSON.stringify(alerted));
   updateNotifDot();
 }
 
-function snav(tab,btn){
-  document.querySelectorAll('.sgt,.nb').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
-  document.querySelector(`[data-tab="${tab}"]`)?.classList.add('active');
+
+function snav(tab, btn) {
+  if (tab === _activeTab) {
+    var scroll = document.getElementById('mainScroll');
+    if (scroll) scroll.scrollTo({top: 0, behavior: 'smooth'});
+    haptic('light');
+    return;
+  }
+  _activeTab = tab;
+  document.querySelectorAll('.sgt,.nb').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tp').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.querySelector('[data-tab="'+tab+'"]');
+  if (el) el.classList.add('active');
   document.getElementById('panel-'+tab).classList.add('active');
-  if(btn)btn.classList.add('active');
+  if (btn) btn.classList.add('active');
+  haptic('light');
 }
 document.querySelectorAll('.sgt').forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('.sgt').forEach(b=>b.classList.remove('active'));
@@ -2292,8 +2681,111 @@ document.querySelectorAll('.sgt').forEach(btn=>btn.addEventListener('click',()=>
 }));
 function numOnly(inp){inp.value=inp.value.replace(/[^\d.]/g,'')}
 
-/* INIT */
-load();applyTheme();applyLang();renderAll();updateNotifDot();renderCatGrid();
+/* ══════════════════════════════════════════════
+   SWIPE-TO-DISMISS BOTTOM SHEETS
+══════════════════════════════════════════════ */
+function addSwipeToDismiss(overlayId) {
+  var overlay = document.getElementById(overlayId);
+  if (!overlay) return;
+  var sht = overlay.querySelector('.sht');
+  if (!sht) return;
+
+  var startY = 0, curY = 0, isDragging = false, startScroll = 0;
+
+  sht.addEventListener('touchstart', function(e) {
+    // Only drag from handle or top area (first 60px)
+    var touch = e.touches[0];
+    var rect = sht.getBoundingClientRect();
+    if (touch.clientY - rect.top > 70) {
+      // Check if we're at top of scroll
+      if (sht.scrollTop > 0) return;
+    }
+    startY = touch.clientY;
+    startScroll = sht.scrollTop;
+    isDragging = true;
+    sht.style.transition = 'none';
+  }, {passive: true});
+
+  sht.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    curY = e.touches[0].clientY;
+    var dy = curY - startY;
+    if (dy < 0) return; // don't drag up
+    if (sht.scrollTop > 0) return; // don't drag if scrolled down
+    sht.style.transform = 'translateY(' + dy + 'px)';
+    // Dim backdrop
+    var alpha = Math.max(0, 0.55 - (dy / 400) * 0.55);
+    overlay.style.background = 'rgba(0,0,0,' + alpha + ')';
+  }, {passive: true});
+
+  sht.addEventListener('touchend', function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    var dy = curY - startY;
+    sht.style.transition = 'transform .38s cubic-bezier(.16,1,.3,1)';
+    if (dy > 120) {
+      // Dismiss
+      sht.style.transform = 'translateY(100%)';
+      setTimeout(function() {
+        overlay.classList.remove('open');
+        sht.style.transform = '';
+        overlay.style.background = '';
+        document.body.style.overflow = '';
+      }, 340);
+    } else {
+      // Snap back
+      sht.style.transform = '';
+      overlay.style.background = '';
+    }
+    curY = 0; startY = 0;
+  }, {passive: true});
+}
+
+/* ══════════════════════════════════════════════
+   HAPTIC FEEDBACK (vibration API)
+══════════════════════════════════════════════ */
+function haptic(type) {
+  if (!navigator.vibrate) return;
+  if (type === 'light')   navigator.vibrate(8);
+  else if (type === 'medium') navigator.vibrate(18);
+  else if (type === 'heavy')  navigator.vibrate([20, 10, 20]);
+  else if (type === 'error')  navigator.vibrate([30, 15, 30, 15, 50]);
+  else if (type === 'success') navigator.vibrate([10, 5, 20]);
+}
+
+/* ══════════════════════════════════════════════
+   KEYBOARD AWARE — scroll focused input into view
+══════════════════════════════════════════════ */
+function initKeyboardAware() {
+  if (!window.visualViewport) return;
+  window.visualViewport.addEventListener('resize', function() {
+    var active = document.activeElement;
+    if (!active || !['INPUT','TEXTAREA'].includes(active.tagName)) return;
+    setTimeout(function() {
+      active.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 80);
+  });
+}
+
+/* ══════════════════════════════════════════════
+   SCROLL TO TOP on same tab tap
+══════════════════════════════════════════════ */
+var _activeTab = 'transactions';
+
+/* ── Safety init: load app after loader completes ── */
+(function(){
+  var _inited=false;
+  function _doInit(){
+    if(_inited) return; _inited=true;
+    if(typeof load==='function'){
+      load();applyTheme();applyLang();renderAll();
+      try{['addOverlay','editOverlay','installmentOverlay','budgetOverlay','confirmOverlay'].forEach(addSwipeToDismiss);}catch(e){}
+      try{initKeyboardAware();}catch(e){}
+    }
+  }
+  // Fallback if loader stalls (> 4.5s)
+  setTimeout(_doInit, 4500);
+})();
 </script>
 </body>
 </html>
