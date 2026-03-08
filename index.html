@@ -919,6 +919,533 @@ a,button,[onclick]{touch-action:manipulation}
 }
 
 /* theme-color meta update */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DESKTOP / LARGE SCREEN LAYOUT  (≥ 900px)
+   Converts the mobile single-column app into a professional
+   two-column dashboard while keeping mobile layout intact.
+═══════════════════════════════════════════════════════════════ */
+
+
+
+/* ── Medium screens: tablet (600–899px) ── */
+
+
+
+
+
+
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║   FULUS — RESPONSIVE DESKTOP LAYOUT                            ║
+   ║   • Mobile  < 768px  →  original layout untouched             ║
+   ║   • Tablet  768–1199px  →  side nav + content                 ║
+   ║   • Desktop ≥ 1200px   →  full sidebar + two-col content      ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ── SHARED: hide mobile-only nav, show desktop nav ── */
+@media (min-width: 768px) {
+
+  /* ── Reset mobile scroll lock ── */
+  html, body {
+    overflow: auto !important;
+    height: auto !important;
+  }
+
+  #app {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  .scroll-wrap {
+    overflow: visible !important;
+    padding-bottom: 0 !important;
+    flex: none !important;
+  }
+
+  /* ── Hide mobile bottom nav & show desktop sidebar nav ── */
+  .bnav { display: none !important; }
+
+  /* ── TOP HEADER ── */
+  .hdr {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 300 !important;
+    background: var(--bg) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 0 32px !important;
+    height: 64px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    animation: none !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 1px 0 var(--border) !important;
+  }
+
+  .app-nm { font-size: 20px !important; }
+  .hdr-ctrl { width: 40px !important; height: 40px !important; }
+
+  /* ── DESKTOP SHELL: sidebar + main ── */
+  .dt-shell {
+    display: flex !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  /* ══════════════════════════════════════
+     LEFT SIDEBAR
+  ══════════════════════════════════════ */
+  .dt-sidebar {
+    width: 260px !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    border-right: 1px solid var(--border) !important;
+    position: sticky !important;
+    top: 64px !important;
+    height: calc(100vh - 64px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 20px 16px !important;
+    gap: 12px !important;
+    background: var(--bg) !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--border2) transparent !important;
+  }
+
+  .dt-sidebar::-webkit-scrollbar { width: 3px !important; }
+  .dt-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border2) !important;
+    border-radius: 2px !important;
+  }
+
+  /* ── Hero in sidebar ── */
+  .hero {
+    margin: 0 !important;
+    border-radius: 20px !important;
+    padding: 20px 18px 16px !important;
+    animation: none !important;
+  }
+
+  .hero-chip { margin-bottom: 14px !important; }
+  .bal-sym { font-size: 15px !important; margin-top: 9px !important; }
+  .bal-num { font-size: 38px !important; letter-spacing: -2px !important; }
+  .hero-div { margin: 14px 0 !important; }
+  .hero-stats { grid-template-columns: 1fr 1fr !important; }
+  .hs-ico { width: 30px !important; height: 30px !important; }
+  .hs-val { font-size: 13px !important; }
+  .hs-lbl { font-size: 10px !important; }
+
+  /* ── Month strip in sidebar ── */
+  .month-strip {
+    margin: 0 !important;
+    border-radius: 16px !important;
+    padding: 12px 14px !important;
+    animation: none !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+
+  .ms-div { width: 100% !important; height: 1px !important; margin: 0 !important; }
+  .ms-mid { margin: 0 !important; text-align: center !important; }
+  .ms-item {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .ms-lbl { font-size: 10px !important; }
+  .ms-val { font-size: 14px !important; }
+  .ms-bar-track { height: 4px !important; }
+  .ms-rate { font-size: 10px !important; }
+
+  /* ── Quick actions: 3x2 grid in sidebar ── */
+  .qa {
+    margin: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 7px !important;
+    animation: none !important;
+  }
+
+  .qb {
+    padding: 11px 4px 9px !important;
+    border-radius: 14px !important;
+    font-size: 10px !important;
+    gap: 5px !important;
+  }
+
+  .qi { width: 30px !important; height: 30px !important; border-radius: 10px !important; }
+
+  /* ── SIDEBAR NAVIGATION (replaces seg + bnav) ── */
+  .seg {
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  /* Section label above nav */
+  .seg::before {
+    content: attr(data-section-label);
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+    color: var(--t4) !important;
+    padding: 4px 14px 8px !important;
+  }
+
+  .sgt {
+    padding: 11px 14px !important;
+    border-radius: 12px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: var(--t3) !important;
+    position: relative !important;
+    transition: all .18s !important;
+    text-align: start !important;
+  }
+
+  .sgt svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+    opacity: .7 !important;
+  }
+
+  .sgt:hover:not(.active) {
+    background: var(--s2) !important;
+    color: var(--t2) !important;
+    border-color: var(--border) !important;
+  }
+
+  .sgt.active {
+    background: var(--blue-dim) !important;
+    border-color: rgba(79,142,255,.2) !important;
+    color: var(--blue2) !important;
+    box-shadow: none !important;
+    font-weight: 800 !important;
+  }
+
+  .sgt.active svg { opacity: 1 !important; }
+
+  /* Active left indicator */
+  .sgt.active::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 20% !important;
+    height: 60% !important;
+    width: 3px !important;
+    background: var(--blue) !important;
+    border-radius: 0 3px 3px 0 !important;
+    box-shadow: 0 0 8px var(--blue) !important;
+  }
+
+  [data-lang="ar"] .sgt.active::before { right: 0 !important; border-radius: 3px 0 0 3px !important; }
+  [data-lang="en"] .sgt.active::before { left: 0 !important; }
+
+  /* ── Sidebar add button ── */
+  .dt-add-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 13px !important;
+    border-radius: 14px !important;
+    border: none !important;
+    background: linear-gradient(145deg, var(--blue), #2c5ee8) !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    box-shadow: 0 6px 20px rgba(79,142,255,.35) !important;
+    transition: all .2s !important;
+    width: 100% !important;
+    margin-top: auto !important;
+  }
+
+  .dt-add-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(79,142,255,.45) !important;
+  }
+
+  .dt-add-btn:active {
+    transform: scale(.97) !important;
+  }
+
+  /* ══════════════════════════════════════
+     MAIN CONTENT AREA
+  ══════════════════════════════════════ */
+  .dt-main {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding: 24px 28px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: calc(100vh - 64px) !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--border2) transparent !important;
+  }
+
+  .dt-main::-webkit-scrollbar { width: 4px !important; }
+  .dt-main::-webkit-scrollbar-thumb {
+    background: var(--border2) !important;
+    border-radius: 2px !important;
+  }
+
+  /* Panels */
+  .tp { padding: 0 !important; animation: none !important; }
+  .tp.active { animation: none !important; }
+
+  /* Section header */
+  .sh {
+    padding: 0 0 16px !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 20px !important;
+  }
+  .st { font-size: 17px !important; }
+  .sb { font-size: 12px !important; }
+
+  /* Filters */
+  .flt { padding: 0 0 16px !important; }
+  .fp { font-size: 12px !important; padding: 7px 14px !important; }
+
+  /* ── TRANSACTIONS — responsive grid ── */
+  .txl {
+    padding: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 10px !important;
+    align-items: start !important;
+  }
+
+  .txi { margin-bottom: 0 !important; animation: none !important; }
+  .txi-body { padding: 14px 16px !important; }
+  .txi-icon { width: 46px !important; height: 46px !important; border-radius: 14px !important; }
+  .txi-title { font-size: 14px !important; }
+  .txi-amount { font-size: 15px !important; }
+  .txi-btn { opacity: .5 !important; width: 32px !important; height: 32px !important; }
+  .txi:hover .txi-btn { opacity: 1 !important; }
+
+  /* Recurring header */
+  .recur-header { padding: 8px 0 10px !important; }
+
+  /* ── INSTALLMENTS grid ── */
+  .inst-section {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+  .inst-card { animation: none !important; }
+  .inst-name { font-size: 15px !important; }
+
+  /* ── BUDGETS grid ── */
+  .budl {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+  .budc { animation: none !important; }
+  .bud-nm { font-size: 15px !important; }
+
+  /* ── STATS ── */
+  .sw {
+    padding: 0 0 40px !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+
+  .kpi-row {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .kpi { padding: 18px !important; animation: none !important; }
+  .kpi-val { font-size: 24px !important; }
+  .kpi-ico { width: 38px !important; height: 38px !important; }
+  .kpi-lbl { font-size: 11px !important; }
+
+  .ch-card { animation: none !important; }
+  .sc, .cc, .tc { animation: none !important; }
+  .barchart { height: 110px !important; }
+  .cb { height: 110px !important; }
+  .rate-ring { width: 100px !important; height: 100px !important; }
+  .rate-pct { font-size: 24px !important; }
+
+  /* ── EMPTY STATES ── */
+  .emp { padding: 64px 32px !important; }
+  .emp-ico { width: 88px !important; height: 88px !important; }
+  .emp h3 { font-size: 19px !important; }
+  .emp p { font-size: 14px !important; }
+
+  /* ── OVERLAYS — centered modal ── */
+  .ov {
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 40px !important;
+  }
+
+  .sht {
+    border-radius: 24px !important;
+    max-width: 500px !important;
+    max-height: 86vh !important;
+    width: 100% !important;
+    transform: scale(.9) !important;
+    opacity: 0 !important;
+    transition: transform .32s cubic-bezier(.16,1,.3,1), opacity .28s !important;
+  }
+
+  .ov.open .sht {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .sht-inner { padding: 6px 26px 28px !important; }
+  .hdl { display: none !important; }
+  .shtit { font-size: 21px !important; margin-bottom: 22px !important; }
+  .fi { font-size: 15px !important; }
+  .fi-lg { font-size: 32px !important; padding: 18px !important; }
+  .bp { padding: 16px !important; font-size: 15px !important; }
+
+  .cg { grid-template-columns: repeat(4, 1fr) !important; gap: 9px !important; }
+  .cc2 { padding: 13px 6px !important; font-size: 11px !important; border-radius: 14px !important; }
+  .ci2 { width: 34px !important; height: 34px !important; border-radius: 11px !important; }
+
+  .period-row { grid-template-columns: repeat(4, 1fr) !important; gap: 9px !important; }
+  .period-btn { padding: 11px 6px !important; font-size: 11px !important; }
+
+  /* ── DROPDOWNS ── */
+  .notif-panel {
+    position: fixed !important;
+    top: 72px !important;
+    right: 36px !important;
+    left: auto !important;
+    width: 380px !important;
+    max-height: 560px !important;
+    transform: translateY(-10px) scale(.96) !important;
+    opacity: 0 !important;
+  }
+  .notif-overlay.open .notif-panel {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .smenu-panel {
+    position: fixed !important;
+    top: 72px !important;
+    right: 36px !important;
+    left: auto !important;
+    width: 340px !important;
+  }
+
+  /* ── Confirm modal ── */
+  .ov .cfm {
+    max-width: 420px !important;
+    padding: 36px 28px !important;
+  }
+
+  /* Toast */
+  .tst { bottom: 28px !important; font-size: 13px !important; }
+
+  /* ── Orbs ── */
+  .orb1 { width: 700px !important; height: 700px !important; }
+  .orb2 { width: 550px !important; height: 550px !important; }
+}
+
+/* ══════════════════════════════════════
+   DESKTOP ≥ 1200px — wider sidebar
+══════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .hdr { padding: 0 48px !important; height: 68px !important; }
+  .hdr-date strong { font-size: 14px !important; }
+  .hdr-date { font-size: 13px !important; }
+  .app-nm { font-size: 22px !important; }
+
+  .dt-sidebar {
+    width: 300px !important;
+    padding: 24px 20px !important;
+    top: 68px !important;
+    height: calc(100vh - 68px) !important;
+  }
+
+  .dt-main {
+    padding: 28px 40px !important;
+    top: 68px !important;
+    height: calc(100vh - 68px) !important;
+  }
+
+  .dt-shell { min-height: calc(100vh - 68px) !important; }
+
+  .bal-num { font-size: 42px !important; }
+
+  .sgt {
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+  }
+
+  .qb { padding: 13px 6px 11px !important; font-size: 11px !important; }
+  .qi { width: 34px !important; height: 34px !important; }
+
+  .txl { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)) !important; }
+  .inst-section { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)) !important; }
+  .budl { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)) !important; }
+  .sw { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important; }
+
+  .txi-body { padding: 16px 18px !important; }
+  .txi-icon { width: 50px !important; height: 50px !important; border-radius: 15px !important; }
+  .txi-title { font-size: 15px !important; }
+  .txi-amount { font-size: 16px !important; }
+
+  .bud-tr { height: 7px !important; border-radius: 4px !important; }
+  .inst-fill::after { width: 16px !important; height: 16px !important; top: -5px !important; }
+
+  .smenu-panel { right: 44px !important; }
+  .notif-panel { right: 44px !important; }
+
+  .kpi-row { grid-template-columns: repeat(4, 1fr) !important; gap: 14px !important; }
+  .kpi { padding: 20px !important; }
+  .kpi-val { font-size: 26px !important; }
+  .kpi-ico { width: 42px !important; height: 42px !important; border-radius: 13px !important; }
+  .ch-card { border-radius: 20px !important; }
+}
+
+/* ══════════════════════════════════════
+   WIDE DESKTOP ≥ 1600px — even richer
+══════════════════════════════════════ */
+@media (min-width: 1600px) {
+  .dt-sidebar { width: 320px !important; padding: 28px 22px !important; }
+  .dt-main { padding: 32px 56px !important; }
+
+  .txl { grid-template-columns: repeat(3, 1fr) !important; }
+  .inst-section { grid-template-columns: repeat(3, 1fr) !important; }
+  .budl { grid-template-columns: repeat(3, 1fr) !important; }
+  .sw { grid-template-columns: repeat(3, 1fr) !important; }
+  .kpi-row { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
 </style>
 </head>
 <body>
@@ -928,7 +1455,7 @@ a,button,[onclick]{touch-action:manipulation}
   <div class="ldr-mark">
     <div class="ldr-mark-ring">
       <div class="ldr-mark-inner">
-        <span class="ldr-fa">fulus</span>
+        <span class="ldr-fa">ف</span>
       </div>
     </div>
   </div>
@@ -963,6 +1490,7 @@ a,button,[onclick]{touch-action:manipulation}
     </div>
   </div>
 
+<div class="scroll-wrap" id="mainScroll">
   <div class="hero">
     <div class="hero-chip"><div class="chip-dot"></div><div class="chip-lbl" data-i18n="totalBalance">الرصيد الكلي</div></div>
     <div><span class="bal-sym" data-i18n="currency">ج.م</span><span class="bal-num" id="totalBalance">0</span></div>
@@ -997,7 +1525,6 @@ a,button,[onclick]{touch-action:manipulation}
     <button class="sgt" data-tab="stats"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><line x1="18" y1="20" x2="18" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="20" x2="6" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="analytics">تحليل</span></button>
   </div>
 
-<div class="scroll-wrap" id="mainScroll">
 
 
   <div id="panel-transactions" class="tp active">
@@ -1100,8 +1627,7 @@ a,button,[onclick]{touch-action:manipulation}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
-    </div>
-<div class="notif-list" id="notifList"></div>
+    <div class="notif-list" id="notifList"></div>
   </div>
 </div>
 
@@ -2209,14 +2735,28 @@ function saveBudget(){
 function showConfirm(){document.getElementById('confirmOverlay').classList.add('open');document.body.style.overflow='hidden'}
 function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');toast(t('cleared'),'ok');haptic('heavy')}
 function shareWhatsApp(){
-  // Build a canvas with the financial summary image
+  // Show loading toast immediately so user knows it's working
+  toast(lang==='ar'?'جاري إنشاء الصورة...':'Building image...','ok');
+
+  // Compute dynamic height based on content
+  const activeInsts=insts.filter(i=>!(i.total>0&&(i.paid||0)>=i.total));
+  const recentTxs=txs.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  let H = 140   // header
+          + 164  // balance card
+          + 120  // income/expense row
+          + 100  // this month
+          + (activeInsts.length ? 44 + Math.min(activeInsts.length,4)*88 + (activeInsts.length>4?32:0) : 0)
+          + 44   // recent header
+          + recentTxs.length*72
+          + 100; // footer
+  H = Math.max(H, 800);
+
   const canvas=document.createElement('canvas');
-  const W=900, H=1400;
+  const W=900;
   canvas.width=W; canvas.height=H;
   const ctx=canvas.getContext('2d');
   const isDark=document.documentElement.getAttribute('data-theme')==='dark';
 
-  // ── Colors ──
   const BG     = isDark?'#0D1018':'#F0F2F8';
   const CARD   = isDark?'#12151F':'#FFFFFF';
   const CARD2  = isDark?'#181C28':'#F7F8FC';
@@ -2230,7 +2770,6 @@ function shareWhatsApp(){
   const PURPLE = '#A78BFA';
   const BORDER = isDark?'rgba(255,255,255,.07)':'rgba(0,0,0,.08)';
 
-  // Helper: rounded rect
   function rr(x,y,w,h,r){
     ctx.beginPath();
     ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
@@ -2249,7 +2788,7 @@ function shareWhatsApp(){
     ctx.fillStyle=color||T1;
     ctx.textAlign=align||'start';
     ctx.textBaseline='middle';
-    ctx.fillText(text,x,y);
+    ctx.fillText(String(text),x,y);
   }
   function line(x1,y1,x2,y2,color,width){
     ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);
@@ -2259,24 +2798,19 @@ function shareWhatsApp(){
     rr(x,y,w,h,h/2);ctx.fillStyle=fill;ctx.fill();
   }
 
-  // ── Background ──
+  // Background
   ctx.fillStyle=BG; ctx.fillRect(0,0,W,H);
 
-  // ── Header gradient strip ──
+  // Header gradient
   const grd=ctx.createLinearGradient(0,0,W,0);
   grd.addColorStop(0,'#1a2a6c');grd.addColorStop(0.5,'#1e3a8a');grd.addColorStop(1,'#1a2a6c');
   ctx.fillStyle=grd; rr(0,0,W,120,0); ctx.fill();
-
-  // Header gold line
   ctx.fillStyle=GOLD; ctx.fillRect(0,118,W,3);
-
-  // App name
-  txt('FULUS · فلوس',W/2,45,32,'#C9A84C','center','900');
+  txt('FULUS · فلوس',W/2,45,30,'#C9A84C','center','900');
   const now=new Date();
   const months=I18N[lang].months;
-  txt(now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear(),W/2,80,16,T4,'center','500');
+  txt(now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear(),W/2,82,14,T4,'center','500');
 
-  // ── Totals ──────────────────────────────────────────────────
   const totalInc=txs.filter(x=>x.type==='income').reduce((s,x)=>s+x.amount,0);
   const totalExp=txs.filter(x=>x.type==='expense').reduce((s,x)=>s+x.amount,0);
   const bal=totalInc-totalExp;
@@ -2285,68 +2819,56 @@ function shareWhatsApp(){
 
   let cy=140;
 
-  // ── Balance card ──
+  // Balance card
   card(24,cy,W-48,140,22,CARD,BORDER);
-  // Gold streak
-  ctx.fillStyle='rgba(201,168,76,.15)'; rr(24,cy,W-48,4,2); ctx.fill();
-  txt(lang==='ar'?'الرصيد الكلي':'Total Balance',W/2,cy+32,13,T4,'center','600');
+  ctx.fillStyle='rgba(201,168,76,.12)'; rr(24,cy,W-48,4,2); ctx.fill();
+  txt(lang==='ar'?'الرصيد الكلي':'Total Balance',W/2,cy+30,13,T4,'center','600');
   const balColor=bal>=0?GREEN:RED;
-  txt((bal>=0?'+':'')+fmt(bal)+' '+t('currency'),W/2,cy+78,36,balColor,'center','900');
-  // Saving rate badge
+  txt((bal>=0?'+':'')+fmt(bal)+' '+currency,W/2,cy+76,34,balColor,'center','900');
   const srColor=sr>=30?GREEN:sr>=10?GOLD:RED;
-  pill(W/2-50,cy+106,100,24,srColor+'22');
-  txt((lang==='ar'?'معدل الادخار: ':'Saving Rate: ')+sr+'%',W/2,cy+118,12,srColor,'center','800');
+  pill(W/2-56,cy+108,112,22,srColor+'22');
+  txt((lang==='ar'?'معدل الادخار: ':'Saving Rate: ')+sr+'%',W/2,cy+119,12,srColor,'center','800');
   cy+=164;
 
-  // ── Income / Expense row ──
-  card(24,cy,426-12,100,18,CARD,BORDER);
-  card(438+12,cy,426-12,100,18,CARD,BORDER);
-  // Income
-  ctx.fillStyle='rgba(48,209,88,.12)'; rr(24,cy,426-12,100,18); ctx.fill();
-  txt(lang==='ar'?'الدخل':'Income',60,cy+32,13,T4,'start','600');
-  txt('+'+fmt(totalInc),60,cy+68,22,GREEN,'start','900');
-  // Expense
-  ctx.fillStyle='rgba(255,69,58,.12)'; rr(438+12,cy,426-12,100,18); ctx.fill();
-  txt(lang==='ar'?'المصروف':'Expense',W-40,cy+32,13,T4,'end','600');
-  txt('-'+fmt(totalExp),W-40,cy+68,22,RED,'end','900');
+  // Income / Expense row
+  card(24,cy,424,100,18,CARD,BORDER);
+  card(452,cy,W-476,100,18,CARD,BORDER);
+  ctx.fillStyle='rgba(48,209,88,.10)'; rr(24,cy,424,100,18); ctx.fill();
+  txt(lang==='ar'?'الدخل':'Income',60,cy+30,13,T4,'start','600');
+  txt('+'+fmt(totalInc),60,cy+66,20,GREEN,'start','900');
+  ctx.fillStyle='rgba(255,69,58,.10)'; rr(452,cy,W-476,100,18); ctx.fill();
+  txt(lang==='ar'?'المصروف':'Expense',W-40,cy+30,13,T4,'end','600');
+  txt('-'+fmt(totalExp),W-40,cy+66,20,RED,'end','900');
   cy+=120;
 
-  // ── This month ──
+  // This month
   const monthStart=new Date(now.getFullYear(),now.getMonth(),1);
   const mInc=txs.filter(x=>x.type==='income'&&new Date(x.date)>=monthStart).reduce((s,x)=>s+x.amount,0);
   const mExp=txs.filter(x=>x.type==='expense'&&new Date(x.date)>=monthStart).reduce((s,x)=>s+x.amount,0);
-  card(24,cy,W-48,80,18,CARD2,BORDER);
+  card(24,cy,W-48,78,18,CARD2,BORDER);
   txt((lang==='ar'?'هذا الشهر — ':'This month — ')+months[now.getMonth()],W/2,cy+22,12,T4,'center','600');
-  txt((lang==='ar'?'دخل: ':'In: ')+fmt(mInc)+'   '+(lang==='ar'?'مصروف: ':'Out: ')+fmt(mExp),W/2,cy+54,15,T1,'center','700');
+  txt((lang==='ar'?'دخل: ':'In: ')+fmt(mInc)+'     '+(lang==='ar'?'مصروف: ':'Out: ')+fmt(mExp),W/2,cy+52,15,T1,'center','700');
   cy+=100;
 
-  // ── Installments section ──────────────────────────────────
-  const activeInsts=insts.filter(i=>!(i.total>0&&(i.paid||0)>=i.total));
+  // Installments
   if(activeInsts.length){
     txt(lang==='ar'?'● الأقساط الشهرية':'● Monthly Installments',40,cy+20,14,GOLD,'start','800');
     cy+=44;
-
-    activeInsts.slice(0,4).forEach((inst,i)=>{
+    activeInsts.slice(0,4).forEach(function(inst){
       const paid=inst.paid||0;
       const rem=inst.total>0?Math.max(inst.total-paid,0):null;
       const pct=inst.total>0?Math.min(paid/inst.total*100,100):0;
-
       card(24,cy,W-48,72,16,CARD,BORDER);
-      // Side stripe
       ctx.fillStyle=GOLD; rr(24,cy,4,72,2); ctx.fill();
-
       txt(inst.name,60,cy+22,14,T1,'start','700');
       txt('-'+fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo'),60,cy+50,12,T4,'start','600');
-
       if(rem!==null){
         txt((lang==='ar'?'متبقي: ':'Rem: ')+fmt(rem),W-40,cy+22,13,GOLD,'end','800');
-        // Mini progress bar
-        const bw=200;const bx=W-40-bw;const by=cy+46;
+        const bw=200,bx=W-40-bw,by=cy+46;
         ctx.fillStyle=isDark?'rgba(255,255,255,.08)':'rgba(0,0,0,.06)';
         rr(bx,by,bw,8,4); ctx.fill();
-        const fillW=Math.max(pct/100*bw,4);
         ctx.fillStyle=pct>=80?GOLD:PURPLE;
-        rr(bx,by,fillW,8,4); ctx.fill();
+        rr(bx,by,Math.max(pct/100*bw,4),8,4); ctx.fill();
         txt(Math.round(pct)+'%',W-40,cy+50,11,T4,'end','600');
       } else {
         txt(fmt(inst.monthly),W-40,cy+36,14,PURPLE,'end','800');
@@ -2354,157 +2876,155 @@ function shareWhatsApp(){
       cy+=88;
     });
     if(activeInsts.length>4){
-      txt('+ '+(activeInsts.length-4)+' '+(lang==='ar'?'أقساط أخرى':'more installments'),W/2,cy+12,12,T4,'center','600');
+      txt('+ '+(activeInsts.length-4)+' '+(lang==='ar'?'أقساط أخرى':'more'),W/2,cy+12,12,T4,'center','600');
       cy+=32;
     }
   }
 
-  // ── Recent transactions ───────────────────────────────────
+  // Recent transactions
   cy+=8;
   txt(lang==='ar'?'● آخر المعاملات':'● Recent Transactions',40,cy+20,14,BLUE,'start','800');
   cy+=44;
-  const recent=txs.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
-  recent.forEach((tx,i)=>{
+  recentTxs.forEach(function(tx){
     card(24,cy,W-48,60,14,CARD,BORDER);
     const isInc=tx.type==='income';
-    // Stripe
-    ctx.fillStyle=isInc?GREEN:'rgba(255,69,58,.6)'; rr(24,cy,4,60,2); ctx.fill();
-    const catName=cn(tx.categoryId);
-    txt(tx.note||catName,60,cy+20,13,T1,'start','700');
+    ctx.fillStyle=isInc?GREEN:'rgba(255,69,58,.8)'; rr(24,cy,4,60,2); ctx.fill();
+    txt(tx.note||cn(tx.categoryId),60,cy+20,13,T1,'start','700');
     const d=new Date(tx.date);
     txt(d.getDate()+' '+months[d.getMonth()],60,cy+44,11,T4,'start','500');
-    txt((isInc?'+':'-')+fmt(tx.amount)+' '+t('currency'),W-40,cy+30,15,isInc?GREEN:T1,'end','900');
+    txt((isInc?'+':'-')+fmt(tx.amount)+' '+currency,W-40,cy+30,15,isInc?GREEN:T1,'end','900');
     cy+=72;
   });
 
-  // ── Footer ───────────────────────────────────────────────
-  cy=Math.max(cy+20, H-70);
+  // Footer
+  cy+=20;
   line(40,cy,W-40,cy,BORDER,1);
-  txt('Fulus · فلوس',W/2,cy+30,12,T4,'center','600');
-  txt(lang==='ar'?'تم التوليد بواسطة تطبيق فلوس':'Generated by Fulus App',W/2,cy+50,11,T4,'center','400');
+  txt('Fulus · فلوس',W/2,cy+28,12,T4,'center','600');
+  txt(lang==='ar'?'تم التوليد بواسطة تطبيق فلوس':'Generated by Fulus App',W/2,cy+48,11,T4,'center','400');
 
-  // ── Share via WhatsApp ───────────────────────────────────
+  // Export as JPEG (faster, smaller) then share
   canvas.toBlob(function(blob){
+    if(!blob){ toast(lang==='ar'?'خطأ في إنشاء الصورة':'Image generation failed','err'); return; }
     const imgUrl=URL.createObjectURL(blob);
-
-    // Build share text
     const shareText=(lang==='ar'
-      ?'ملخصي المالي من تطبيق فلوس 💰\n'
-        +'الرصيد: '+fmt(bal)+' ج.م\n'
-        +'الدخل: '+fmt(totalInc)+' | المصروف: '+fmt(totalExp)+'\n'
-        +(activeInsts.length?'الأقساط الشهرية: '+fmt(instMonthly)+' ج.م\n':'')
-        +'معدل الادخار: '+sr+'%'
-      :'My financial summary from Fulus 💰\n'
-        +'Balance: '+fmt(bal)+' EGP\n'
-        +'Income: '+fmt(totalInc)+' | Expenses: '+fmt(totalExp)+'\n'
-        +(activeInsts.length?'Monthly installments: '+fmt(instMonthly)+' EGP\n':'')
-        +'Saving rate: '+sr+'%'
+      ?'ملخصي المالي من تطبيق فلوس 💰\nالرصيد: '+fmt(bal)+' '+currency+'\nالدخل: '+fmt(totalInc)+' | المصروف: '+fmt(totalExp)+'\n'+(activeInsts.length?'الأقساط الشهرية: '+fmt(instMonthly)+' '+currency+'\n':'')+'معدل الادخار: '+sr+'%'
+      :'My financial summary from Fulus 💰\nBalance: '+fmt(bal)+' '+currency+'\nIncome: '+fmt(totalInc)+' | Expenses: '+fmt(totalExp)+'\n'+(activeInsts.length?'Monthly installments: '+fmt(instMonthly)+' '+currency+'\n':'')+'Saving rate: '+sr+'%'
     );
-
-    // Show share preview modal
-    showSharePreview(imgUrl, shareText);
-  },'image/png');
+    showSharePreview(imgUrl, shareText, blob);
+  },'image/jpeg',0.92);
 }
 
-function showSharePreview(imgUrl, shareText){
-  // Remove existing
+function showSharePreview(imgUrl, shareText, blob){
   const old=document.getElementById('shareModal');
   if(old) old.remove();
 
   const modal=document.createElement('div');
   modal.id='shareModal';
-  modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0';
+  modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0;-webkit-tap-highlight-color:transparent';
 
   const panel=document.createElement('div');
-  panel.style.cssText='width:100%;max-width:440px;background:var(--s1);border-radius:24px 24px 0 0;padding:20px;animation:si .4s cubic-bezier(.16,1,.3,1)';
+  panel.style.cssText='width:100%;max-width:440px;background:var(--s1);border-radius:24px 24px 0 0;padding:16px 20px 40px;animation:si .38s cubic-bezier(.16,1,.3,1)';
 
   // Drag handle
   const handle=document.createElement('div');
-  handle.style.cssText='width:40px;height:4px;background:var(--s3);border-radius:2px;margin:0 auto 16px;';
+  handle.style.cssText='width:40px;height:5px;background:var(--s3);border-radius:3px;margin:0 auto 14px';
   panel.appendChild(handle);
 
   // Title
   const title=document.createElement('div');
-  title.style.cssText='font-size:16px;font-weight:800;color:var(--t1);margin-bottom:14px;text-align:center';
-  title.textContent=lang==='ar'?'مشاركة ملخصك المالي':'Share Your Financial Summary';
+  title.style.cssText='font-size:15px;font-weight:800;color:var(--t1);margin-bottom:12px;text-align:center';
+  title.textContent=lang==='ar'?'مشاركة ملخصك المالي':'Share Your Summary';
   panel.appendChild(title);
 
   // Image preview
   const img=document.createElement('img');
   img.src=imgUrl;
-  img.style.cssText='width:100%;border-radius:16px;max-height:340px;object-fit:contain;border:1px solid var(--border)';
+  img.style.cssText='width:100%;border-radius:14px;max-height:300px;object-fit:contain;border:1px solid var(--border);margin-bottom:14px';
   panel.appendChild(img);
 
-  // Buttons row
+  // Buttons
   const btns=document.createElement('div');
-  btns.style.cssText='display:flex;gap:10px;margin-top:16px';
+  btns.style.cssText='display:flex;gap:8px';
 
   // WhatsApp button
   const waBtn=document.createElement('button');
-  waBtn.style.cssText='flex:1;padding:14px;border-radius:14px;border:none;background:#25D166;color:#fff;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:Cairo,Arial,sans-serif';
+  waBtn.style.cssText='flex:1;padding:14px 8px;border-radius:14px;border:none;background:#25D166;color:#fff;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:Cairo,Arial,sans-serif;touch-action:manipulation';
   waBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" fill="white"/></svg>'+(lang==='ar'?'واتساب':'WhatsApp');
-  waBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
-  waBtn.ontouchend=function(){this.style.transform='scale(1)'};
+
   waBtn.onclick=function(){
-    // Try Web Share API first (mobile native)
-    if(navigator.share && navigator.canShare){
-      fetch(imgUrl).then(r=>r.blob()).then(blob=>{
-        const file=new File([blob],'fulus-summary.png',{type:'image/png'});
-        if(navigator.canShare({files:[file]})){
-          navigator.share({files:[file],text:shareText,title:'Fulus Financial Summary'})
-            .then(()=>{ modal.remove(); toast(lang==='ar'?'تم المشاركة!':'Shared!','ok'); })
-            .catch(()=>{ openWhatsAppFallback(shareText,imgUrl); });
-        } else {
-          openWhatsAppFallback(shareText,imgUrl);
-        }
-      });
-    } else {
-      openWhatsAppFallback(shareText,imgUrl);
+    haptic('medium');
+    // Try Web Share API with file (iOS 15+ / Android Chrome)
+    if(navigator.share && blob){
+      const file=new File([blob],'fulus-summary.jpg',{type:'image/jpeg'});
+      const canShareFile=(function(){try{return navigator.canShare&&navigator.canShare({files:[file]});}catch(e){return false;}})();
+      if(canShareFile){
+        navigator.share({files:[file],text:shareText})
+          .then(function(){ modal.remove(); toast(lang==='ar'?'تم المشاركة ✓':'Shared ✓','ok'); })
+          .catch(function(err){ if(err.name!=='AbortError') openWhatsAppFallback(shareText,imgUrl); });
+        return;
+      }
     }
+    // Fallback: open WhatsApp with text only
+    openWhatsAppFallback(shareText,imgUrl);
   };
 
-  // Save image button
+  // Save button
   const saveBtn=document.createElement('button');
-  saveBtn.style.cssText='padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t1);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif';
-  saveBtn.textContent=lang==='ar'?'حفظ':'Save';
-  saveBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
-  saveBtn.ontouchend=function(){this.style.transform='scale(1)'};
+  saveBtn.style.cssText='padding:14px 14px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t1);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;touch-action:manipulation';
+  saveBtn.textContent=lang==='ar'?'💾 حفظ':'💾';
   saveBtn.onclick=function(){
+    haptic('light');
     const a=document.createElement('a');
-    a.href=imgUrl;a.download='fulus-summary-'+new Date().toISOString().split('T')[0]+'.png';
+    a.href=imgUrl;
+    a.download='fulus-'+new Date().toISOString().split('T')[0]+'.jpg';
     a.click();
-    toast(lang==='ar'?'تم حفظ الصورة':'Image saved','ok');
+    toast(lang==='ar'?'تم حفظ الصورة ✓':'Image saved ✓','ok');
   };
 
   // Cancel
   const cancelBtn=document.createElement('button');
-  cancelBtn.style.cssText='padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t4);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif';
-  cancelBtn.textContent=lang==='ar'?'إلغاء':'Cancel';
-  cancelBtn.ontouchstart=function(){this.style.transform='scale(.95)'};
-  cancelBtn.ontouchend=function(){this.style.transform='scale(1)'};
-  cancelBtn.onclick=function(){ modal.remove(); };
+  cancelBtn.style.cssText='padding:14px 14px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--t4);font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;touch-action:manipulation';
+  cancelBtn.textContent=lang==='ar'?'إلغاء':'✕';
+  cancelBtn.onclick=function(){ haptic('light'); modal.remove(); };
 
   btns.appendChild(waBtn);
   btns.appendChild(saveBtn);
   btns.appendChild(cancelBtn);
   panel.appendChild(btns);
   modal.appendChild(panel);
-  modal.onclick=function(e){ if(e.target===modal) modal.remove(); };
+  modal.onclick=function(e){ if(e.target===modal){ haptic('light'); modal.remove(); } };
+
+  // Swipe down to dismiss
+  var touchY=0;
+  panel.addEventListener('touchstart',function(e){touchY=e.touches[0].clientY;},{passive:true});
+  panel.addEventListener('touchmove',function(e){
+    var dy=e.touches[0].clientY-touchY;
+    if(dy>0) panel.style.transform='translateY('+dy+'px)';
+  },{passive:true});
+  panel.addEventListener('touchend',function(e){
+    var dy=e.changedTouches[0].clientY-touchY;
+    if(dy>100){ modal.remove(); }
+    else { panel.style.transition='transform .3s'; panel.style.transform=''; setTimeout(function(){panel.style.transition='';},300); }
+  },{passive:true});
+
   document.body.appendChild(modal);
 }
 
 function openWhatsAppFallback(text, imgUrl){
-  // Download image first then open WhatsApp with text
-  const a=document.createElement('a');
-  a.href=imgUrl;
-  a.download='fulus-summary.png';
-  a.click();
-  setTimeout(()=>{
-    const waUrl='https://wa.me/?text='+encodeURIComponent(text);
-    window.open(waUrl,'_blank');
-    toast(lang==='ar'?'تم حفظ الصورة — افتح واتساب وأرفقها':'Image saved — open WhatsApp and attach it','ok');
-  },800);
+  // Save image first (best we can do on browsers without file-share)
+  if(imgUrl){
+    const a=document.createElement('a');
+    a.href=imgUrl; a.download='fulus-summary.jpg'; a.click();
+  }
+  // Open WhatsApp with text after small delay
+  setTimeout(function(){
+    window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+    toast(lang==='ar'
+      ?'📥 الصورة حُفظت — أرسل الصورة عبر واتساب'
+      :'📥 Image saved — attach it in WhatsApp','ok');
+  }, 600);
 }
+
 
 function exportData(){const b=new Blob([JSON.stringify({txs,buds,insts,date:new Date()},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`fulus-${new Date().toISOString().split('T')[0]}.json`;a.click();toast(t('exported'),'ok')}
 
@@ -2792,5 +3312,179 @@ var _activeTab = 'transactions';
   setTimeout(_doInit, 4500);
 })();
 </script>
+
+
+
+<script>
+/* ═══════════════════════════════════════════════════
+   FULUS DESKTOP LAYOUT ENGINE  v3
+   Builds a professional two-column layout on ≥ 768px
+═══════════════════════════════════════════════════ */
+(function(){
+  var BP = 768;
+  var _active = false;
+
+  /* ── Create the desktop "Add" button for sidebar ── */
+  function makeAddBtn(lang) {
+    var btn = document.createElement('button');
+    btn.className = 'dt-add-btn';
+    btn.id = 'dtAddBtn';
+    btn.onclick = function(){ openSheet('add','expense'); };
+    btn.innerHTML =
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
+        '<circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/>' +
+        '<line x1="12" y1="8" x2="12" y2="16" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>' +
+        '<line x1="8" y1="12" x2="16" y2="12" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>' +
+      '</svg>' +
+      '<span>' + (lang === 'ar' ? 'إضافة معاملة' : 'Add Transaction') + '</span>';
+    return btn;
+  }
+
+  function buildDesktop() {
+    if (_active) return;
+    _active = true;
+
+    var app        = document.getElementById('app');
+    if (!app) return;
+
+    var hdr        = app.querySelector('.hdr');
+    var hero       = app.querySelector('.hero');
+    var monthStrip = document.getElementById('monthStrip');
+    var qa         = app.querySelector('.qa');
+    var seg        = app.querySelector('.seg');
+    var scrollWrap = document.getElementById('mainScroll');
+    var bnav       = app.querySelector('.bnav');
+
+    if (!hdr || !hero || !seg || !scrollWrap) return;
+
+    /* ── Build shell ── */
+    var shell = document.createElement('div');
+    shell.className = 'dt-shell';
+    shell.id = 'dtShell';
+
+    /* ── Sidebar ── */
+    var sidebar = document.createElement('div');
+    sidebar.className = 'dt-sidebar';
+    sidebar.id = 'dtSidebar';
+
+    /* Label above nav */
+    var navLabel = document.createElement('div');
+    navLabel.className = 'dt-nav-label';
+    navLabel.style.cssText = 'font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--t4);padding:8px 14px 4px;';
+    navLabel.textContent = (typeof lang !== 'undefined' && lang === 'en') ? 'NAVIGATE' : 'التنقل';
+
+    /* ── Spacer for add button at bottom ── */
+    var spacer = document.createElement('div');
+    spacer.style.flex = '1';
+
+    /* Current lang */
+    var curLang = (typeof lang !== 'undefined') ? lang : (document.documentElement.getAttribute('data-lang') || 'ar');
+
+    if (hero)        sidebar.appendChild(hero);
+    if (monthStrip)  sidebar.appendChild(monthStrip);
+    if (qa)          sidebar.appendChild(qa);
+    sidebar.appendChild(navLabel);
+    if (seg)         sidebar.appendChild(seg);
+    sidebar.appendChild(spacer);
+    sidebar.appendChild(makeAddBtn(curLang));
+
+    /* ── Main content ── */
+    var main = document.createElement('div');
+    main.className = 'dt-main';
+    main.id = 'dtMain';
+    if (scrollWrap) main.appendChild(scrollWrap);
+
+    shell.appendChild(sidebar);
+    shell.appendChild(main);
+
+    /* Insert shell after header */
+    if (hdr.nextSibling) {
+      app.insertBefore(shell, hdr.nextSibling);
+    } else {
+      app.appendChild(shell);
+    }
+  }
+
+  function teardown() {
+    if (!_active) return;
+    _active = false;
+
+    var app     = document.getElementById('app');
+    var shell   = document.getElementById('dtShell');
+    var sidebar = document.getElementById('dtSidebar');
+    var main    = document.getElementById('dtMain');
+    if (!app || !shell) return;
+
+    var hdr        = app.querySelector('.hdr');
+    var hero       = sidebar ? sidebar.querySelector('.hero') : null;
+    var monthStrip = document.getElementById('monthStrip');
+    var qa         = sidebar ? sidebar.querySelector('.qa') : null;
+    var seg        = sidebar ? sidebar.querySelector('.seg') : null;
+    var scrollWrap = document.getElementById('mainScroll');
+    var addBtn     = document.getElementById('dtAddBtn');
+
+    /* Return elements to app */
+    var ref = shell; /* insert before shell */
+    if (hero)        app.insertBefore(hero, ref);
+    if (monthStrip)  app.insertBefore(monthStrip, ref);
+    if (qa)          app.insertBefore(qa, ref);
+    if (seg)         app.insertBefore(seg, ref);
+    if (scrollWrap)  app.insertBefore(scrollWrap, ref);
+
+    shell.remove();
+  }
+
+  function check() {
+    if (window.innerWidth >= BP) buildDesktop();
+    else teardown();
+  }
+
+  /* ── Update add-btn label when lang toggles ── */
+  var _origToggleLang = window.toggleLang;
+  window.toggleLang = function() {
+    if (_origToggleLang) _origToggleLang.apply(this, arguments);
+    var btn = document.getElementById('dtAddBtn');
+    var lbl = btn ? btn.querySelector('span') : null;
+    if (lbl) {
+      var curLang2 = document.documentElement.getAttribute('data-lang') || 'ar';
+      lbl.textContent = curLang2 === 'ar' ? 'إضافة معاملة' : 'Add Transaction';
+    }
+  };
+
+  /* ── Init after loader completes ── */
+  var _inited = false;
+  function init() {
+    if (_inited) return;
+    _inited = true;
+    check();
+    window.addEventListener('resize', function(){
+      clearTimeout(window._dtTimer);
+      window._dtTimer = setTimeout(check, 100);
+    });
+  }
+
+  /* Hook into app boot — wait for renderAll to be called once */
+  var _origRA = null;
+  function hookRenderAll() {
+    if (typeof renderAll === 'function' && !_origRA) {
+      _origRA = renderAll;
+      window.renderAll = function() {
+        _origRA.apply(this, arguments);
+        if (!_inited) init();
+      };
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      hookRenderAll();
+      setTimeout(init, 800); /* fallback */
+    }, 100);
+  });
+
+  setTimeout(function() { hookRenderAll(); init(); }, 5000); /* ultimate fallback */
+})();
+</script>
+
 </body>
 </html>
