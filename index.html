@@ -2327,6 +2327,8 @@ a,button,[onclick]{touch-action:manipulation}
   }
 
   body {
+    touch-action: auto !important;
+    -webkit-overflow-scrolling: touch !important;
     background-image:
       radial-gradient(ellipse 55% 45% at 15% 15%, rgba(79,142,255,.07) 0%, transparent 65%),
       radial-gradient(ellipse 45% 40% at 85% 85%, rgba(201,168,76,.05) 0%, transparent 65%) !important;
@@ -4722,6 +4724,25 @@ function initKeyboardAware() {
    SCROLL TO TOP on same tab tap
 ══════════════════════════════════════════════ */
 var _activeTab = 'transactions';
+
+/* ── Mouse wheel scroll (ديسكتوب) ── */
+(function(){
+  var mq = window.matchMedia('(min-width: 768px)');
+  function onWheel(e) {
+    if (!mq.matches) return;
+    var target = e.target;
+    var scrollEl = document.scrollingElement || document.documentElement;
+    if (target.closest && (target.closest('.ov.open') || target.closest('.sht'))) return;
+    var maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
+    if (maxScroll <= 0) return;
+    var next = scrollEl.scrollTop + e.deltaY;
+    if ((e.deltaY > 0 && next < scrollEl.scrollHeight) || (e.deltaY < 0 && next > 0)) {
+      scrollEl.scrollTop = Math.max(0, Math.min(next, maxScroll));
+      e.preventDefault();
+    }
+  }
+  window.addEventListener('wheel', onWheel, { passive: false });
+})();
 
 /* ── Safety init: load app after loader completes ── */
 (function(){
