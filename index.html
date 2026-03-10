@@ -795,10 +795,21 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 .inst-fill::after{content:'';position:absolute;right:-1px;top:-4px;width:14px;height:14px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);border:2px solid var(--s1)}
 .inst-foot{display:flex;justify-content:space-between;font-size:11px;color:var(--t4);margin-bottom:8px}
 .inst-foot strong{color:var(--t2);font-weight:700}
-.inst-del:active{transform:scale(.82);color:var(--red)!important}
-.inst-del{position:absolute;top:12px;background:transparent;border:none;cursor:pointer;color:var(--t4);display:flex;align-items:center;justify-content:center;transition:all .18s;width:28px;height:28px;border-radius:8px}
-[data-lang="ar"] .inst-del{left:12px}[data-lang="en"] .inst-del{right:12px}
+.inst-actions{
+  position:absolute;top:12px;
+  display:flex;gap:4px;align-items:center;
+}
+[data-lang="ar"] .inst-actions{left:12px}
+[data-lang="en"] .inst-actions{right:12px}
+
+.inst-del,.inst-edit{
+  background:transparent;border:none;cursor:pointer;
+  color:var(--t4);display:flex;align-items:center;justify-content:center;
+  transition:all .18s;width:28px;height:28px;border-radius:8px;
+}
 .inst-del:hover{background:var(--red-dim);color:var(--red)}
+.inst-edit:hover{background:var(--gold-dim);color:var(--gold2)}
+.inst-del:active,.inst-edit:active{transform:scale(.82)}
 .inst-chip{display:inline-flex;align-items:center;gap:5px;border-radius:var(--rp);padding:3px 10px;font-size:10px;font-weight:700}
 .inst-chip.next{background:var(--amber-dim);border:1px solid rgba(255,214,10,.2);color:var(--amber)}
 .inst-chip.done{background:var(--green-dim);border:1px solid rgba(48,209,88,.2);color:var(--green)}
@@ -867,46 +878,54 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
   padding:4px 11px;border-radius:14px;
   box-shadow:0 2px 6px var(--shadow2);
 }
-/* Progress Bar - Enhanced */
-.bud-tr{
-  height:6px;
-  background:linear-gradient(145deg, var(--s3), var(--s2));
-  border-radius:4px;
-  margin:14px 0 12px;
-  overflow:visible;
-  position:relative;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,.15);
+/* ── Budget Smart Progress Bar ── */
+.bud-tr{position:relative;margin:16px 0 14px}
+.bud-track{
+  height:8px;background:var(--s3);border-radius:6px;
+  overflow:visible;position:relative;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.18);
 }
-[data-theme="light"] .bud-tr{
-  background:linear-gradient(145deg, var(--s4), var(--s3));
-}
+[data-theme="light"] .bud-track{background:var(--s4)}
 .bud-fl{
-  height:100%;
-  border-radius:4px;
-  transition:width 1.2s cubic-bezier(.16,1,.3,1);
-  position:relative;
-  box-shadow:0 2px 8px currentColor;
+  height:100%;border-radius:6px;
+  transition:width 1.4s cubic-bezier(.16,1,.3,1);
+  position:relative;min-width:4px;
+}
+.bud-fl::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.35) 50%,rgba(255,255,255,0) 100%);
+  border-radius:inherit;
+  animation:budShine 2.5s ease-in-out infinite;
+  background-size:200% 100%;
+}
+@keyframes budShine{
+  0%{background-position:200% center}
+  100%{background-position:-200% center}
 }
 .bud-fl::after{
   content:'';position:absolute;
-  right:-2px;top:-4px;
-  width:14px;height:14px;
-  border-radius:50%;
+  right:-5px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;border-radius:50%;
   background:inherit;
-  box-shadow:0 0 12px currentColor,
-             0 0 20px rgba(255,255,255,.5);
-  border:2px solid var(--s1);
-  animation:budgetDotPulse 2s ease-in-out infinite;
+  box-shadow:0 0 0 3px var(--s1), 0 0 10px currentColor;
+  border:2px solid var(--s1);z-index:2;
+  animation:budDotPulse 2s ease-in-out infinite;
 }
-@keyframes budgetDotPulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.2)}
+[data-lang="ar"] .bud-fl::after{right:auto;left:-5px}
+@keyframes budDotPulse{
+  0%,100%{transform:translateY(-50%) scale(1)}
+  50%{transform:translateY(-50%) scale(1.25)}
 }
-.bud-bt{
-  display:flex;justify-content:space-between;
-  font-size:12px;color:var(--t4);font-weight:600;
+.bud-labels{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:8px;
 }
-.bud-bt strong{color:var(--t1);font-weight:800}
+.bud-lbl-spent{font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px}
+.bud-lbl-limit{font-size:11px;font-weight:700;color:var(--t4);display:flex;align-items:center;gap:4px}
+.bud-lbl-rem{font-size:10px;font-weight:700;border-radius:10px;padding:2px 8px;display:inline-block}
+.bud-segments{display:flex;gap:3px;margin-top:10px}
+.bud-seg{height:3px;border-radius:2px;flex:1;opacity:.25;transition:opacity .4s,background .4s}
+.bud-seg.filled{opacity:1}
 .bud-ov{
   margin-top:12px;
   background:linear-gradient(135deg, var(--red-dim), rgba(255,69,58,.08));
@@ -1759,25 +1778,27 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
 [data-lang="en"] .txi-rec-badge{right:14px}
 
 
-/* ══ ANALYTICS SCREEN - Enhanced ══ */
-.sw{padding:0 16px 100px;display:flex;flex-direction:column;gap:14px}
+/* ══ ANALYTICS SCREEN — تحليل احترافي ══ */
+.sw{padding:0 16px 100px;display:flex;flex-direction:column;gap:18px}
+#panel-stats .sh{margin-bottom:4px}
+#panel-stats .st{font-size:15px;font-weight:800;color:var(--t1);letter-spacing:.02em}
+#panel-stats .std{background:linear-gradient(135deg,var(--blue),var(--gold2));box-shadow:0 2px 8px rgba(79,142,255,.25)}
 
-/* KPI row - Enhanced */
+/* KPI row */
 .kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .kpi{
   background:linear-gradient(145deg, var(--s1), var(--s2));
   border:1.5px solid var(--border);
   border-radius:20px;
-  padding:18px;
-  display:flex;flex-direction:column;gap:7px;
+  padding:18px 16px;
+  display:flex;flex-direction:column;gap:6px;
   position:relative;
   overflow:hidden;
-  box-shadow:0 2px 10px var(--shadow2),
-             0 0 0 1px rgba(255,255,255,.03);
-  transition:all .3s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 2px 12px var(--shadow2), 0 0 0 1px rgba(255,255,255,.03);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s, border-color .25s;
 }
 .kpi:hover{
-  transform:translateY(-3px);
+  transform:translateY(-2px);
   box-shadow:0 8px 24px var(--shadow);
   border-color:var(--border2);
 }
@@ -1798,62 +1819,69 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
   width:38px;height:38px;
   border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:4px;
-  box-shadow:0 4px 12px rgba(0,0,0,.12),
-             inset 0 1px 0 rgba(255,255,255,.12);
+  margin-bottom:2px;
+  box-shadow:0 4px 12px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.12);
   transition:transform .3s;
 }
-.kpi:hover .kpi-ico{transform:rotate(-8deg) scale(1.1)}
+.kpi:hover .kpi-ico{transform:rotate(-6deg) scale(1.05)}
 .kpi-val{
-  font-size:24px;font-weight:900;
-  letter-spacing:-.6px;line-height:1;
-  text-shadow:0 2px 4px rgba(0,0,0,.1);
+  font-size:22px;font-weight:900;
+  letter-spacing:-.5px;line-height:1.15;
+  text-shadow:0 2px 4px rgba(0,0,0,.08);
 }
 .kpi-lbl{
   font-size:10px;font-weight:700;
   color:var(--t4);
-  letter-spacing:.4px;
+  letter-spacing:.35px;
   text-transform:uppercase;
 }
 .kpi-sub{
-  font-size:9.5px;font-weight:700;
-  border-radius:12px;
+  font-size:9px;font-weight:700;
+  border-radius:10px;
   padding:3px 8px;
   display:inline-block;
-  margin-top:3px;
+  margin-top:2px;
+  max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
 
-/* Chart card - Enhanced */
+/* Stats empty state */
+.stats-empty{text-align:center;padding:28px 20px}
+.stats-empty-ico{width:56px;height:56px;margin:0 auto 14px;border-radius:16px;background:var(--s3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;opacity:.7}
+.stats-empty-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.stats-empty-msg{font-size:12px;color:var(--t4);line-height:1.5}
+
+/* Chart card — iOS widget feel */
 .ch-card{
-  background:linear-gradient(145deg, var(--s1), var(--s2));
-  border:1.5px solid var(--border);
-  border-radius:20px;
-  padding:20px 18px;
-  box-shadow:0 2px 10px var(--shadow2),
-             0 0 0 1px rgba(255,255,255,.03);
-  transition:all .3s cubic-bezier(.16,1,.3,1);
+  position:relative;
+  background:linear-gradient(160deg, var(--s1) 0%, var(--s2) 100%);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px 20px;
+  box-shadow:0 2px 16px rgba(0,0,0,.06), 0 0 0 1px rgba(255,255,255,.02);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s, border-color .25s;
 }
 .ch-card:hover{
   transform:translateY(-2px);
-  box-shadow:0 6px 20px var(--shadow);
+  box-shadow:0 12px 28px rgba(0,0,0,.1);
   border-color:var(--border2);
 }
 [data-theme="dark"] .ch-card::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;border-radius:inherit;
   background:linear-gradient(135deg, rgba(255,255,255,.02) 0%, transparent 60%);
   pointer-events:none;
 }
 .ch-head{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:18px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
 }
 .ch-title{
   font-size:14px;font-weight:900;
-  background:linear-gradient(135deg, var(--t1), var(--t2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+  color:var(--t1);
+  letter-spacing:.02em;
 }
 .ch-sub{
   font-size:10px;
@@ -1862,66 +1890,77 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
   letter-spacing:.3px;
 }
 
-/* Bar chart - Enhanced */
+/* Bar chart — iOS style */
 .barchart{
-  display:flex;align-items:flex-end;gap:7px;
-  height:95px;padding-bottom:24px;
+  display:flex;align-items:flex-end;gap:8px;
+  height:110px;padding-bottom:28px;
   position:relative;
+  padding-top:8px;
 }
 .barchart::after{
   content:'';position:absolute;
-  bottom:24px;left:0;right:0;
+  bottom:28px;left:0;right:0;
   height:1px;
-  background:linear-gradient(90deg, transparent, var(--border2), transparent);
+  background:var(--border);
+  opacity:.6;
 }
 .bcol{
   flex:1;
   display:flex;flex-direction:column;
   align-items:center;justify-content:flex-end;
-  height:100%;gap:5px;
+  height:100%;gap:8px;
 }
 .bbar{
-  width:100%;
-  border-radius:6px 6px 0 0;
-  min-height:3px;
-  transition:height .8s cubic-bezier(.16,1,.3,1);
+  width:76%;
+  max-width:28px;
+  margin:0 auto;
+  border-radius:8px 8px 0 0;
+  min-height:4px;
+  transition:height 1s cubic-bezier(.34,1.56,.64,1);
   position:relative;
-  box-shadow:0 -2px 8px currentColor;
+  background:linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,.08) 100%);
+  box-shadow:0 -1px 4px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.2);
 }
 .bbar::before{
   content:'';position:absolute;
   top:0;left:0;right:0;
-  height:3px;
-  background:linear-gradient(180deg, rgba(255,255,255,.3), transparent);
-  border-radius:6px 6px 0 0;
+  height:40%;
+  background:linear-gradient(180deg, rgba(255,255,255,.4), transparent);
+  border-radius:8px 8px 0 0;
+  pointer-events:none;
 }
 .bbar.has-val::after{
   content:attr(data-val);
   position:absolute;
-  top:-19px;left:50%;
+  top:-22px;left:50%;
   transform:translateX(-50%);
-  font-size:8px;font-weight:800;
+  font-size:9px;font-weight:700;
   color:var(--t1);
   white-space:nowrap;
-  background:var(--s2);
-  padding:2px 5px;
-  border-radius:6px;
-  box-shadow:0 2px 6px rgba(0,0,0,.2);
+  background:var(--s1);
+  padding:4px 7px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  letter-spacing:.02em;
 }
 .blbl{
-  font-size:9px;
+  font-size:10px;
   color:var(--t4);
-  font-weight:700;
+  font-weight:600;
   text-align:center;
-  letter-spacing:.3px;
+  letter-spacing:.02em;
 }
 
-/* Donut chart - Enhanced */
-.donut-wrap{display:flex;align-items:center;gap:18px}
+/* Donut chart — iOS style */
+.donut-wrap{display:flex;align-items:center;gap:20px}
 .donut-svg-wrap{
   position:relative;
   flex-shrink:0;
-  filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));
+  filter:drop-shadow(0 4px 16px rgba(0,0,0,.12));
+}
+.donut-svg-wrap svg circle[stroke]:not([fill]){
+  filter:drop-shadow(0 0 0 transparent);
 }
 .donut-center{
   position:absolute;inset:0;
@@ -1929,154 +1968,202 @@ button:active{opacity:.82;transition:opacity .08s,transform .1s}
   align-items:center;justify-content:center;
 }
 .donut-c-val{
-  font-size:18px;font-weight:900;
-  background:linear-gradient(135deg, var(--t1), var(--t2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size:20px;font-weight:800;
+  color:var(--t1);
+  letter-spacing:-.5px;
+  line-height:1.1;
 }
 .donut-c-lbl{
-  font-size:9px;
+  font-size:10px;
   color:var(--t4);
-  font-weight:700;
-  letter-spacing:.3px;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-top:2px;
 }
-.donut-legend{flex:1;display:flex;flex-direction:column;gap:9px}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:10px}
 .dl-item{
-  display:flex;align-items:center;gap:8px;
-  transition:all .3s;
-  padding:4px 0;
+  display:flex;align-items:center;gap:10px;
+  transition:all .25s ease;
+  padding:8px 10px;
+  border-radius:12px;
+  margin:0 -4px;
 }
-.dl-item:hover{transform:translateX(-3px)}
-[data-lang="en"] .dl-item:hover{transform:translateX(3px)}
+.dl-item:hover{
+  background:var(--s2);
+  transform:translateX(-2px);
+}
+[data-lang="en"] .dl-item:hover{transform:translateX(2px)}
 .dl-dot{
-  width:9px;height:9px;
+  width:10px;height:10px;
   border-radius:50%;
   flex-shrink:0;
-  box-shadow:0 2px 6px currentColor;
+  box-shadow:0 0 0 2px rgba(255,255,255,.15), 0 2px 6px rgba(0,0,0,.2);
 }
 .dl-name{
-  font-size:11.5px;font-weight:700;
-  background:linear-gradient(135deg, var(--t1), var(--t2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size:12px;font-weight:700;
+  color:var(--t1);
   flex:1;
+  letter-spacing:.01em;
 }
 .dl-pct{
-  font-size:11.5px;font-weight:900;
-  color:var(--t1);
+  font-size:12px;font-weight:800;
+  color:var(--t2);
+  min-width:36px;
+  text-align:right;
 }
 .dl-bar-bg{
-  height:4px;
-  background:linear-gradient(145deg, var(--s3), var(--s2));
-  border-radius:2px;
-  margin-top:3px;
+  height:6px;
+  background:var(--s3);
+  border-radius:6px;
+  margin-top:6px;
   overflow:hidden;
-  box-shadow:inset 0 1px 2px rgba(0,0,0,.15);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
 }
 .dl-bar{
   height:100%;
-  border-radius:2px;
-  transition:width 1s cubic-bezier(.16,1,.3,1);
-  box-shadow:0 1px 4px currentColor;
+  border-radius:6px;
+  transition:width 1s cubic-bezier(.34,1.56,.64,1);
   position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
 }
 .dl-bar::after{
   content:'';position:absolute;
   top:0;left:0;right:0;
-  height:2px;
-  background:linear-gradient(90deg, rgba(255,255,255,.3), transparent);
-  border-radius:2px;
+  height:50%;
+  background:linear-gradient(180deg, rgba(255,255,255,.3), transparent);
+  border-radius:6px 6px 0 0;
+  pointer-events:none;
 }
 
-/* Income vs expense timeline - Enhanced */
-.inc-exp-bars{display:flex;flex-direction:column;gap:10px}
-.ieb-row{
-  display:flex;align-items:center;gap:11px;
-  transition:all .3s;
+/* Monthly comparison — iOS progress style */
+.inc-exp-bars{display:flex;flex-direction:column;gap:14px}
+.ieb-month{
+  background:var(--s2);
+  border-radius:16px;
+  padding:14px 16px;
+  border:1px solid var(--border);
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
+.ieb-month-lbl{
+  font-size:12px;font-weight:700;color:var(--t4);
+  margin-bottom:12px;letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.ieb-row{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;
+  transition:transform .2s ease;
+}
+.ieb-row:last-child{margin-bottom:0}
 .ieb-row:hover{transform:translateX(-2px)}
 [data-lang="en"] .ieb-row:hover{transform:translateX(2px)}
 .ieb-lbl{
-  font-size:10px;font-weight:800;
+  font-size:11px;font-weight:700;
   color:var(--t3);
-  width:30px;text-align:center;
+  width:40px;text-align:left;
   flex-shrink:0;
 }
 .ieb-track{
   flex:1;
-  height:9px;
-  background:linear-gradient(145deg, var(--s3), var(--s2));
-  border-radius:5px;
+  height:8px;
+  background:var(--s3);
+  border-radius:8px;
   overflow:hidden;
   position:relative;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,.15);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.08);
 }
 .ieb-fill{
   height:100%;
-  border-radius:5px;
-  transition:width .9s cubic-bezier(.16,1,.3,1);
-  box-shadow:0 2px 6px currentColor;
+  border-radius:8px;
+  transition:width 1s cubic-bezier(.34,1.56,.64,1);
   position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);
 }
 .ieb-fill::before{
   content:'';position:absolute;
   top:0;left:0;right:0;
-  height:3px;
-  background:linear-gradient(90deg, rgba(255,255,255,.3), transparent 80%);
-  border-radius:5px;
+  height:40%;
+  background:linear-gradient(180deg, rgba(255,255,255,.35), transparent);
+  border-radius:8px 8px 0 0;
+  pointer-events:none;
 }
-.ieb-fill.inc{background:linear-gradient(90deg, #1db954, #30d158)}
-.ieb-fill.exp{background:linear-gradient(90deg, #c0392b, #ff453a)}
+.ieb-fill.inc{
+  background:linear-gradient(90deg, #2d9d5a, var(--green));
+}
+.ieb-fill.exp{
+  background:linear-gradient(90deg, #b32d2d, var(--red));
+}
 .ieb-val{
-  font-size:11px;font-weight:900;
-  width:65px;text-align:left;
+  font-size:12px;font-weight:800;
+  min-width:56px;text-align:right;
   flex-shrink:0;
+  letter-spacing:-.2px;
 }
 
-/* Savings rate ring - Enhanced */
+/* Savings rate ring — iOS / Activity style */
 .rate-ring-wrap{
-  display:flex;align-items:center;gap:22px;
-  padding:6px 0;
+  display:flex;align-items:center;gap:24px;
+  padding:8px 0;
 }
 .rate-ring{
   position:relative;
-  width:90px;height:90px;
+  width:100px;height:100px;
   flex-shrink:0;
-  filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));
+  filter:drop-shadow(0 4px 20px rgba(0,0,0,.1));
 }
-.rate-ring svg{transform:rotate(-90deg)}
+.rate-ring svg{
+  transform:rotate(-90deg);
+  border-radius:50%;
+}
+.rate-ring svg circle[stroke]:last-of-type{
+  filter:drop-shadow(0 0 6px currentColor);
+}
 .rate-ring-center{
   position:absolute;inset:0;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
+  border-radius:50%;
 }
 .rate-pct{
-  font-size:24px;font-weight:900;
+  font-size:26px;font-weight:800;
   color:var(--t1);
-  text-shadow:0 2px 4px rgba(0,0,0,.1);
+  letter-spacing:-.8px;
+  line-height:1.1;
+  text-shadow:0 1px 2px rgba(0,0,0,.06);
 }
 .rate-word{
-  font-size:9px;font-weight:800;
+  font-size:10px;font-weight:700;
   color:var(--t4);
-  letter-spacing:.5px;
+  letter-spacing:.08em;
   text-transform:uppercase;
+  margin-top:2px;
 }
-.rate-stats{flex:1;display:flex;flex-direction:column;gap:11px}
+.rate-stats{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  background:var(--s2);
+  border-radius:14px;
+  padding:4px 14px;
+  border:1px solid var(--border);
+}
 .rs-item{
   display:flex;justify-content:space-between;align-items:center;
-  padding:4px 0;
-  transition:all .3s;
+  padding:12px 4px;
+  transition:background .2s;
+  border-bottom:1px solid var(--border);
 }
-.rs-item:hover{transform:translateX(-2px)}
-[data-lang="en"] .rs-item:hover{transform:translateX(2px)}
+.rs-item:last-child{border-bottom:none}
+.rs-item:hover{background:var(--s3)}
 .rs-lbl{
-  font-size:11px;font-weight:700;
+  font-size:13px;font-weight:600;
   color:var(--t3);
 }
 .rs-val{
-  font-size:14px;font-weight:900;
+  font-size:15px;font-weight:800;
+  letter-spacing:-.3px;
 }
 
 
@@ -2424,7 +2511,7 @@ a,button,[onclick]{touch-action:manipulation}
   .bud-nm   { font-size: 15px !important; }
   .bud-tr   { height: 7px !important; border-radius: 4px !important; margin: 16px 0 12px !important; }
   .bud-pct  { font-size: 13px !important; padding: 4px 12px !important; }
-  .bud-bt   { font-size: 13px !important; }
+  .bud-labels { font-size: 13px !important; }
 
   /* ── STATS ───────────────────────────────────────────── */
   .sw { padding: 0 20px 140px !important; }
@@ -2660,7 +2747,7 @@ a,button,[onclick]{touch-action:manipulation}
     <button class="qb" onclick="openSheet('add','expense')"><div class="qi b"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#ff453a" stroke-width="2.2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" stroke="#ff453a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="expense">مصروف</span></button>
     <button class="qb" onclick="openSheet('installment')"><div class="qi c"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2" stroke="#a78bfa" stroke-width="1.8"/><path d="M16 7V5a2 2 0 00-4 0v2" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round"/></svg></div><span data-i18n="installments">أقساط</span></button>
     <button class="qb" onclick="openSheet('budget')"><div class="qi d"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="1.8"/><path d="M12 8v4l2.5 2.5" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round"/></svg></div><span data-i18n="budget">ميزانية</span></button>
-    <button class="qb" onclick="shareWhatsApp()"><div class="qi e" style="background:rgba(37,211,102,.12)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#25D166" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>واتساب</span></button>
+    <button class="qb" onclick="shareWhatsApp()"><div class="qi e" style="background:rgba(37,211,102,.12)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="#25D166" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span id="waBtn-label">واتساب</span></button>
   </div>
 
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">
@@ -2768,6 +2855,7 @@ a,button,[onclick]{touch-action:manipulation}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span id="notifTitleTxt">الإشعارات</span>
       </div>
+      <button id="notifMarkAll" onclick="markAllRead()" style="display:none;background:var(--blue-dim);border:1px solid rgba(79,142,255,.3);color:var(--blue2);font-size:10px;font-weight:800;padding:4px 10px;border-radius:10px;cursor:pointer;align-items:center">قراءة الكل</button>
       <button class="notif-clear" onclick="clearNotifs()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
@@ -2872,6 +2960,7 @@ a,button,[onclick]{touch-action:manipulation}
         <option value="other">أخرى</option>
       </select>
     </div>
+    <div class="fg"><label class="fl" data-i18n="instDueDay">يوم تحصيل القسط</label><input class="fi fi-sm" id="instDueDay" type="number" min="1" max="31" placeholder="1-31" inputmode="numeric" title="اليوم من الشهر (مثال: 5 = يوم 5)"></div>
     <div class="inst-calc" id="instCalc">
       <div class="inst-calc-lbl" data-i18n="remaining">المتبقي</div>
       <div class="inst-calc-val" id="instCalcVal"></div>
@@ -2905,15 +2994,15 @@ a,button,[onclick]{touch-action:manipulation}
 
 
 </div>
-<!-- CONFIRM -->
+<!-- CONFIRM (حذف معاملة / التزام / ميزانية / مسح الكل) -->
 <div class="ov" id="confirmOverlay" onclick="cls('confirmOverlay',event)">
   <div class="cfm">
     <div class="cfm-ico"><div class="cfm-ico-w"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" stroke="#dc2626" stroke-width="1.8" stroke-linejoin="round"/></svg></div></div>
-    <h3 data-i18n="confirmTitle">مسح جميع البيانات؟</h3>
-    <p data-i18n="confirmMsg">سيتم حذف جميع المعاملات والميزانيات نهائياً. لا يمكن التراجع.</p>
+    <h3 id="confirmTitle" data-i18n="confirmTitle">مسح جميع البيانات؟</h3>
+    <p id="confirmMsg" data-i18n="confirmMsg">سيتم حذف جميع المعاملات والميزانيات نهائياً. لا يمكن التراجع.</p>
     <div class="cfm-btns">
       <button class="bg2" onclick="cls('confirmOverlay')" data-i18n="cancel">إلغاء</button>
-      <button class="bp bdn" onclick="clearAll()" data-i18n="clearAll">مسح الكل</button>
+      <button class="bp bdn" id="confirmBtn" data-i18n="clearAll">مسح الكل</button>
     </div>
   </div>
 </div>
@@ -2974,7 +3063,7 @@ const I18N={
     budget:'ميزانية',export:'تصدير',transactions:'معاملات',analytics:'تحليل',
     installments:'أقساط',myInstallments:'التزاماتي',newInstallment:'قسط / التزام شهري',
     installmentName:'الاسم',totalAmount:'المبلغ الكلي (اختياري)',monthlyInstallment:'القسط الشهري',
-    numMonths:'عدد الأشهر',paidSoFar:'المدفوع',remaining:'المتبقي',
+    numMonths:'عدد الأشهر',paidSoFar:'المدفوع',instDueDay:'يوم تحصيل القسط',remaining:'المتبقي',
     saveInstallment:'حفظ الالتزام',
     recurringTx:'معاملة متكررة',recurFreq:'التكرار',
     monthly:'شهري',weekly:'أسبوعي',yearly:'سنوي',quarterly:'ربع سنوي',biannual:'نصف سنوي',
@@ -3018,7 +3107,7 @@ const I18N={
     budget:'Budget',export:'Export',transactions:'Txns',analytics:'Stats',
     installments:'Plans',myInstallments:'My Plans',newInstallment:'Recurring Plan',
     installmentName:'Name',totalAmount:'Total Amount (optional)',monthlyInstallment:'Monthly Amount',
-    numMonths:'Months',paidSoFar:'Paid',remaining:'Remaining',
+    numMonths:'Months',paidSoFar:'Paid',instDueDay:'Due day (1-31)',remaining:'Remaining',
     saveInstallment:'Save Plan',
     recurringTx:'Recurring Transaction',recurFreq:'Frequency',
     monthly:'Monthly',weekly:'Weekly',yearly:'Yearly',quarterly:'Quarterly',biannual:'Bi-Annual',
@@ -3125,8 +3214,15 @@ function applyLang(){
   document.getElementById('editNote').placeholder=t('notePlaceholder');
   document.getElementById('instName').placeholder=t('instNamePh');
   document.querySelectorAll('select option[data-i18n]').forEach(o=>{const k=o.getAttribute('data-i18n');if(I18N[lang][k])o.textContent=I18N[lang][k]});
+  var instCatSel=document.getElementById('instCat');
+  if(instCatSel&&I18N[lang].cats){ Array.from(instCatSel.options).forEach(function(opt){ var v=opt.value; if(I18N[lang].cats[v]) opt.textContent=I18N[lang].cats[v]; }); }
   updateSettingsMenu();
   renderAll();renderCatGrid();
+  const waLbl = document.getElementById('waBtn-label');
+  if(waLbl) waLbl.textContent = lang==='ar' ? 'واتساب' : 'WhatsApp';
+  if(document.getElementById('notifOverlay')&&document.getElementById('notifOverlay').classList.contains('open')){
+    renderNotifList();
+  }
 }
 /* ══════════════════════════════════════════
    SETTINGS MENU
@@ -3353,12 +3449,19 @@ function txCard(tx,i){
 
 function setF(f){AF=f;renderTxList()}
 function delTx(id){
-  const tx=txs.find(x=>x.id===id);
-  if(tx&&tx.linkedInstId&&tx.categoryId==='installment'){
-    const inst=insts.find(x=>x.id==tx.linkedInstId);
-    if(inst) inst.paid=Math.max(0,(inst.paid||0)-tx.amount);
-  }
-  txs=txs.filter(x=>x.id!==id);save();renderAll();toast(t('deleted'),'warn');
+  showConfirmModal(
+    lang==='ar'?'حذف هذه المعاملة؟':'Delete this transaction?',
+    lang==='ar'?'لن تتمكن من التراجع.':'This cannot be undone.',
+    lang==='ar'?'حذف':'Delete',
+    function(){
+      const tx=txs.find(x=>x.id===id);
+      if(tx&&tx.linkedInstId&&tx.categoryId==='installment'){
+        const inst=insts.find(x=>x.id==tx.linkedInstId);
+        if(inst) inst.paid=Math.max(0,(inst.paid||0)-tx.amount);
+      }
+      txs=txs.filter(x=>x.id!==id);save();renderAll();toast(t('deleted'),'warn');
+    }
+  );
 }
 
 /* ════════════════════════════════
@@ -3374,12 +3477,27 @@ function renderInstallments(){
   }
 
   var now=new Date();
-  // Next 1st of month
-  var nextM=new Date(now.getFullYear(), now.getMonth()+(now.getDate()>1?1:0), 1);
-  var daysLeft=Math.ceil((nextM-now)/86400000);
-  var nextDateStr=nextM.getDate()+' '+I18N[lang].months[nextM.getMonth()]+' '+nextM.getFullYear();
+  function getNextDue(inst){
+    if(inst.dueDay>=1&&inst.dueDay<=31){
+      var y=now.getFullYear(),m=now.getMonth();
+      var lastDay=new Date(y,m+1,0).getDate();
+      var day=Math.min(inst.dueDay,lastDay);
+      var thisMonthDue=new Date(y,m,day);
+      if(thisMonthDue.getTime()<=now.getTime()){
+        var nextMonthLast=new Date(y,m+2,0).getDate();
+        var nextDue=new Date(y,m+1,Math.min(inst.dueDay,nextMonthLast));
+        return {date:nextDue,daysLeft:Math.ceil((nextDue-now)/86400000)};
+      }
+      return {date:thisMonthDue,daysLeft:Math.ceil((thisMonthDue-now)/86400000)};
+    }
+    var nextM=new Date(now.getFullYear(),now.getMonth()+(now.getDate()>1?1:0),1);
+    return {date:nextM,daysLeft:Math.ceil((nextM-now)/86400000)};
+  }
 
   list.innerHTML=insts.map(function(inst,i){
+    var dueInfo=getNextDue(inst);
+    var daysLeft=dueInfo.daysLeft;
+    var nextDateStr=dueInfo.date.getDate()+' '+I18N[lang].months[dueInfo.date.getMonth()]+' '+dueInfo.date.getFullYear();
     var cat=CATS.find(function(c){return c.id===inst.categoryId;})||CATS[13];
     var paid=inst.paid||0;
     var hasTotal=inst.total>0;
@@ -3402,8 +3520,14 @@ function renderInstallments(){
     // Build card HTML
     var html='<div class="inst-card '+(isDone?'inst-done':'')+'" style="animation-delay:'+(i*0.07)+'s">';
 
-    // Delete btn
-    html+='<button class="inst-del" onclick="delInst('+inst.id+')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>';
+    html+='<div class="inst-actions">'
+      +'<button class="inst-edit" onclick="openEditInst('+inst.id+')">'
+      +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+      +'</button>'
+      +'<button class="inst-del" onclick="delInst('+inst.id+')">'
+      +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+      +'</button>'
+      +'</div>';
 
     // Top row
     html+='<div class="inst-top">';
@@ -3417,6 +3541,9 @@ function renderInstallments(){
       html+=monthsLeft+' '+(lang==='ar'?'شهر متبقي':'months left')+' · '+fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo');
     } else {
       html+=fmt(inst.monthly)+' / '+(lang==='ar'?'شهر':'mo');
+    }
+    if(inst.dueDay>=1&&inst.dueDay<=31){
+      html+=' <span class="inst-due-day" style="color:var(--t4);font-size:10px">· '+(lang==='ar'?'يوم '+inst.dueDay:'day '+inst.dueDay)+'</span>';
     }
     html+='</div></div>';
     // Monthly badge
@@ -3490,10 +3617,57 @@ function saveInstallment(){
   const total=parseFloat(document.getElementById('instTotal').value)||0;
   const paid=parseFloat(document.getElementById('instPaid').value)||0;
   const catId=document.getElementById('instCat').value;
-  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,createdAt:new Date().toISOString()});
+  var dueDayVal=parseInt(document.getElementById('instDueDay').value,10);
+  const dueDay=(dueDayVal>=1&&dueDayVal<=31)?dueDayVal:0;
+  insts.push({id:Date.now(),name,total,monthly,paid,categoryId:catId,dueDay:dueDay||undefined,createdAt:new Date().toISOString()});
   save();renderAll();cls('installmentOverlay');toast(t('instSaved'),'ok');
 }
-function delInst(id){insts=insts.filter(x=>x.id!==id);save();renderInstallments();toast(t('instDeleted'),'warn')}
+function openEditInst(id){
+  var inst=insts.find(function(x){return x.id===id;});
+  if(!inst) return;
+  document.getElementById('instName').value=inst.name;
+  document.getElementById('instTotal').value=inst.total||'';
+  document.getElementById('instMonthly').value=inst.monthly;
+  document.getElementById('instPaid').value=inst.paid||0;
+  document.getElementById('instCat').value=inst.categoryId||'other';
+  document.getElementById('instDueDay').value=inst.dueDay||'';
+  calcInst();
+  window._editInstId=id;
+  document.getElementById('installmentOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  var btn=document.querySelector('#installmentOverlay .bp');
+  if(btn) btn.setAttribute('onclick','saveInstEdit()');
+}
+function saveInstEdit(){
+  var id=window._editInstId;
+  if(!id){saveInstallment();return;}
+  var inst=insts.find(function(x){return x.id===id;});
+  if(!inst) return;
+  var name=document.getElementById('instName').value.trim();
+  if(!name){toast(t('missingName'),'err');return;}
+  var monthly=parseFloat(document.getElementById('instMonthly').value)||0;
+  if(monthly<=0){toast(t('invalidAmt'),'err');return;}
+  inst.name=name;
+  inst.total=parseFloat(document.getElementById('instTotal').value)||0;
+  inst.monthly=monthly;
+  inst.paid=parseFloat(document.getElementById('instPaid').value)||0;
+  inst.categoryId=document.getElementById('instCat').value;
+  var dueDayVal=parseInt(document.getElementById('instDueDay').value,10);
+  inst.dueDay=(dueDayVal>=1&&dueDayVal<=31)?dueDayVal:0;
+  if(!inst.dueDay) delete inst.dueDay;
+  window._editInstId=null;
+  var btn=document.querySelector('#installmentOverlay .bp');
+  if(btn) btn.setAttribute('onclick','saveInstallment()');
+  save();renderAll();cls('installmentOverlay');toast(lang==='ar'?'تم تعديل الالتزام':'Plan updated','ok');
+}
+function delInst(id){
+  showConfirmModal(
+    lang==='ar'?'حذف هذا الالتزام؟':'Delete this installment?',
+    lang==='ar'?'سيتم حذف الالتزام وبياناته. لا يمكن التراجع.':'This installment will be removed. This cannot be undone.',
+    lang==='ar'?'حذف':'Delete',
+    function(){ insts=insts.filter(x=>x.id!==id);save();renderInstallments();toast(t('instDeleted'),'warn'); }
+  );
+}
 
 /* ════════════════════════════════
    BUDGETS
@@ -3513,7 +3687,24 @@ function renderBudgets(){
     const spent=txSpent+instSpent;
     const pct=Math.min((spent/b.limit)*100,100);
     const rem=b.limit-spent;
+    const isOver=rem<0;
+
+    // Smart color: green > amber > red
     const col=pct>=100?'var(--red)':pct>=75?'var(--amber)':'var(--green)';
+    const colHex=pct>=100?'#ff453a':pct>=75?'#ffd60a':'#30d158';
+
+    // 5 segment gradient dots
+    const segs=5;
+    const filledSegs=Math.ceil((pct/100)*segs);
+    const segHtml=Array.from({length:segs},(_,si)=>{
+      const segCol=si<3?'var(--green)':si<4?'var(--amber)':'var(--red)';
+      return `<div class="bud-seg ${si<filledSegs?'filled':''}" style="background:${segCol}"></div>`;
+    }).join('');
+
+    const remLbl=isOver
+      ?`<span class="bud-lbl-rem" style="background:rgba(255,69,58,.12);color:var(--red)">+${fmt(Math.abs(rem))} ${lang==='ar'?'\u0632\u064a\u0627\u062f\u0629':'over'}</span>`
+      :`<span class="bud-lbl-rem" style="background:${colHex}18;color:${col}">${fmt(rem)} ${lang==='ar'?'\u0645\u062a\u0628\u0642\u064a':'left'}</span>`;
+
     return`<div class="budc" style="animation-delay:${i*.07}s">
       <div class="bud-top">
         <div class="bud-ico" style="background:${cat.color}18">${ico(cat.icon,cat.color,19)}</div>
@@ -3521,16 +3712,40 @@ function renderBudgets(){
           <div class="bud-nm">${cn(cat.id)}</div>
           <div class="bud-period-badge">${getPeriodLbl(period)}</div>
         </div>
-        <div class="bud-pct" style="color:${col};background:${col}18;border:1px solid ${col}30">${Math.round(pct)}%</div>
+        <div class="bud-pct" style="color:${col};background:${colHex}18;border:1px solid ${colHex}30">${Math.round(pct)}%</div>
         <button class="budd" onclick="delBud('${b.categoryId}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       </div>
-      <div class="bud-tr"><div class="bud-fl" style="width:${pct}%;background:linear-gradient(90deg,${col},${col}99)"></div></div>
-      <div class="bud-bt"><span>${t('spent')}: <strong style="color:${col}">${fmt(spent)}</strong></span><span>${t('limit')}: <strong>${fmt(b.limit)}</strong></span></div>
-      ${rem<0?`<div class="bud-ov"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2"/></svg>${t('exceeded')} ${fmt(Math.abs(rem))}</div>`:''}
+
+      <div class="bud-tr">
+        <div class="bud-track">
+          <div class="bud-fl" style="width:${pct}%;background:linear-gradient(90deg,${colHex},${colHex}cc);box-shadow:0 2px 12px ${colHex}60"></div>
+        </div>
+        <div class="bud-labels">
+          <div class="bud-lbl-spent" style="color:${col}">
+            <svg width="8" height="8" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="${colHex}"/></svg>
+            ${fmt(spent)} <span style="color:var(--t4);font-weight:600;font-size:10px">${lang==='ar'?'\u0635\u064f\u0631\u0641':'spent'}</span>
+          </div>
+          ${remLbl}
+          <div class="bud-lbl-limit">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2.5"/></svg>
+            ${fmt(b.limit)}
+          </div>
+        </div>
+        <div class="bud-segments">${segHtml}</div>
+      </div>
+
+      ${isOver?`<div class="bud-ov"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2"/></svg>${t('exceeded')} ${fmt(Math.abs(rem))}</div>`:''}
     </div>`;
   }).join('');
 }
-function delBud(cid){buds=buds.filter(b=>b.categoryId!==cid);save();renderBudgets();toast(t('budDeleted'),'warn')}
+function delBud(cid){
+  showConfirmModal(
+    lang==='ar'?'حذف هذه الميزانية؟':'Delete this budget?',
+    lang==='ar'?'سيتم إلغاء حد الميزانية لهذه الفئة.':'This budget limit will be removed for this category.',
+    lang==='ar'?'حذف':'Delete',
+    function(){ buds=buds.filter(b=>b.categoryId!==cid);save();renderBudgets();toast(t('budDeleted'),'warn'); }
+  );
+}
 
 /* ════════════════════════════════
    STATS
@@ -3592,6 +3807,11 @@ function renderStats(){
   const srDash=Math.max(sr,0)/100*circ;
 
   sw.innerHTML=`
+  ${!txs.length&&!insts.length?`<div class="stats-empty ch-card">
+    <div class="stats-empty-ico">${ico('I-bills','var(--t4)',32)}</div>
+    <div class="stats-empty-title">${lang==='ar'?'لا توجد بيانات بعد':'No data yet'}</div>
+    <div class="stats-empty-msg">${lang==='ar'?'أضف معاملات وأقساط لرؤية التحليل هنا.':'Add transactions and plans to see your analysis here.'}</div>
+  </div>`:''}
   <!-- KPI Cards -->
   <div class="kpi-row">
     <div class="kpi green">
@@ -3604,7 +3824,7 @@ function renderStats(){
       <div class="kpi-ico" style="background:var(--blue-dim)">${ico('I-salary','var(--blue2)',16)}</div>
       <div class="kpi-val" style="color:var(--blue2)">${txs.length}</div>
       <div class="kpi-lbl">${t('txCount')}</div>
-      <span class="kpi-sub" style="background:var(--blue-dim);color:var(--blue2)">${txs.filter(x=>x.type==='income').length} دخل · ${et.length} مصروف</span>
+      <span class="kpi-sub" style="background:var(--blue-dim);color:var(--blue2)">${txs.filter(x=>x.type==='income').length} ${lang==='ar'?'دخل':'In'} · ${et.length} ${lang==='ar'?'مصروف':'Out'}</span>
     </div>
     <div class="kpi gold">
       <div class="kpi-ico" style="background:var(--gold-dim)">${ico('I-bills','var(--gold2)',16)}</div>
@@ -3651,7 +3871,7 @@ function renderStats(){
     <div class="barchart">
       ${days7.map(d=>`<div class="bcol">
         <div class="bbar ${d.v>0?'has-val':''}" data-val="${d.v>0?Math.round(d.v/1000)+'k':''}"
-          style="height:${Math.max((d.v/mx7)*68,3)}px;background:${d.v>0?'linear-gradient(to top,var(--blue),var(--blue2))':'var(--s3)'};opacity:${d.v>0?1:.4}"></div>
+          style="height:${Math.max((d.v/mx7)*72,4)}px;background:${d.v>0?'linear-gradient(180deg, rgba(79,142,255,.95) 0%, var(--blue) 40%, var(--blue2) 100%)':'var(--s3)'};opacity:${d.v>0?1:.35}"></div>
         <div class="blbl">${d.l}</div>
       </div>`).join('')}
     </div>
@@ -3694,15 +3914,15 @@ function renderStats(){
     <div class="ch-head"><div class="ch-title">${lang==='ar'?'مقارنة شهرية':'Monthly Comparison'}</div><div class="ch-sub">${lang==='ar'?'آخر ٣ أشهر':'Last 3 months'}</div></div>
     <div class="inc-exp-bars">
       ${months3.map(m=>`
-      <div>
-        <div style="font-size:10px;font-weight:700;color:var(--t4);margin-bottom:5px">${m.lbl}</div>
+      <div class="ieb-month">
+        <div class="ieb-month-lbl">${m.lbl}</div>
         <div class="ieb-row">
           <div class="ieb-lbl" style="color:var(--green)">${lang==='ar'?'دخل':'In'}</div>
           <div class="ieb-track"><div class="ieb-fill inc" style="width:${mxM>0?(m.inc/mxM*100).toFixed(0):0}%"></div></div>
           <div class="ieb-val" style="color:var(--green)">${fmt(m.inc)}</div>
         </div>
         <div class="ieb-row">
-          <div class="ieb-lbl" style="color:var(--red)">${lang==='ar'?'مصرف':'Out'}</div>
+          <div class="ieb-lbl" style="color:var(--red)">${lang==='ar'?'مصروف':'Out'}</div>
           <div class="ieb-track"><div class="ieb-fill exp" style="width:${mxM>0?(m.exp/mxM*100).toFixed(0):0}%"></div></div>
           <div class="ieb-val" style="color:var(--red)">${fmt(m.exp)}</div>
         </div>
@@ -3731,7 +3951,11 @@ function openSheet(type,sub){
     document.getElementById('txNote').value='';
     document.getElementById('addOverlay').classList.add('open');
   } else if(type==='installment'){
-    ['instName','instTotal','instMonthly','instPaid'].forEach(id=>{document.getElementById(id).value=''});
+    window._editInstId=null;
+    var instBtn=document.querySelector('#installmentOverlay .bp');
+    if(instBtn) instBtn.setAttribute('onclick','saveInstallment()');
+    ['instName','instTotal','instMonthly','instPaid','instDueDay'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('instCat').value='other';
     document.getElementById('instMonths').value='';
     document.getElementById('instCalc').style.display='none';
     document.getElementById('installmentOverlay').classList.add('open');
@@ -3863,9 +4087,30 @@ function saveBudget(){
   save();renderBudgets();cls('budgetOverlay');toast(t('budSaved'),'ok');
 }
 
-/* CLEAR / EXPORT */
-function showConfirm(){document.getElementById('confirmOverlay').classList.add('open');document.body.style.overflow='hidden'}
-function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');toast(t('cleared'),'ok');haptic('heavy')}
+/* CLEAR / EXPORT — نافذة تأكيد موحّدة للحذف ومسح الكل */
+function showConfirmModal(title, message, confirmBtnText, onConfirm){
+  var titleEl=document.getElementById('confirmTitle');
+  var msgEl=document.getElementById('confirmMsg');
+  var btnEl=document.getElementById('confirmBtn');
+  if(titleEl) titleEl.textContent=title;
+  if(msgEl) msgEl.textContent=message;
+  if(btnEl){
+    btnEl.textContent=confirmBtnText;
+    btnEl.onclick=function(){
+      onConfirm();
+      document.getElementById('confirmOverlay').classList.remove('open');
+      document.body.style.overflow='';
+    };
+  }
+  document.getElementById('confirmOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function showConfirm(){
+  showConfirmModal(t('confirmTitle'), t('confirmMsg'), t('clearAll'), function(){
+    clearAll();
+  });
+}
+function clearAll(){localStorage.removeItem(SK.tx);localStorage.removeItem(SK.bud);localStorage.removeItem(SK.inst);txs=[];buds=[];insts=[];AF='all';renderAll();cls('confirmOverlay');document.body.style.overflow='';toast(t('cleared'),'ok');haptic('heavy')}
 function shareWhatsApp(){
   // Show loading toast immediately so user knows it's working
   toast(lang==='ar'?'جاري إنشاء الصورة...':'Building image...','ok');
@@ -4195,10 +4440,22 @@ function closeNotif(e){
   if(e.target.id==='notifOverlay')document.getElementById('notifOverlay').classList.remove('open');
 }
 function clearNotifs(){notifs=[];saveNotifs();renderNotifList();updateNotifDot();}
+function markAllRead(){
+  notifs.forEach(function(n){n.read=true;});
+  saveNotifs();
+  renderNotifList();
+  updateNotifDot();
+}
 function renderNotifList(){
   var el=document.getElementById('notifList');
   if(!el)return;
   document.getElementById('notifTitleTxt').textContent=lang==='ar'?'الإشعارات':'Notifications';
+  var unread=notifs.filter(function(n){return !n.read;}).length;
+  var markAllBtn=document.getElementById('notifMarkAll');
+  if(markAllBtn){
+    markAllBtn.style.display=unread>0?'inline-flex':'none';
+    markAllBtn.textContent=lang==='ar'?'قراءة الكل':'Mark all read';
+  }
   if(!notifs.length){
     el.innerHTML='<div class="notif-empty">'+(lang==='ar'?'لا توجد إشعارات':'No notifications')+'</div>';
     return;
@@ -4214,102 +4471,129 @@ function renderNotifList(){
     var d=new Date(n.time);
     var mins=Math.floor((now-d)/60000);
     var timeStr=mins<1?(lang==='ar'?'الآن':'just now'):mins<60?mins+(lang==='ar'?' د':' min'):mins<1440?Math.floor(mins/60)+(lang==='ar'?' س':' hr'):d.toLocaleDateString(lang==='ar'?'ar-EG':'en-US',{month:'short',day:'numeric'});
-    return '<div class="notif-item '+(n.read?'':'unread')+'"><div class="notif-ico '+(n.type||'info')+'">'+(icoMap[n.type]||icoInfo)+'</div><div class="notif-body"><div class="notif-msg">'+n.msg+'</div><div class="notif-time">'+timeStr+'</div></div></div>';
+    return '<div class="notif-item '+(n.read?'':'unread')+'"><div class="notif-ico '+(n.type||'info')+'">'+(icoMap[n.type]||icoInfo)+'</div><div class="notif-body"><div class="notif-msg">'+translateNotif(n)+'</div><div class="notif-time">'+timeStr+'</div></div></div>';
   }).join('');
 }
 function checkAlerts(){
-  /* Fires on every renderAll. Uses a persistent "seen" store keyed by month.
-     But also re-checks LIVE thresholds each call so crossing 80% mid-session works. */
   var now=new Date(), month=now.getMonth(), year=now.getFullYear();
   var alertKey='fw_alerted_'+year+'_'+month;
   var alerted=JSON.parse(localStorage.getItem(alertKey)||'{}');
   var changed=false;
 
-  /* ── Installment due-date alerts ──────────── */
   var nextM=new Date(year, month+(now.getDate()>1?1:0), 1);
-  var daysLeft=Math.ceil((nextM-now)/86400000);
+  var defaultDaysLeft=Math.ceil((nextM-now)/86400000);
+  function instDaysLeft(inst){
+    if(inst.dueDay>=1&&inst.dueDay<=31){
+      var y=now.getFullYear(),m=now.getMonth();
+      var lastDay=new Date(y,m+1,0).getDate();
+      var day=Math.min(inst.dueDay,lastDay);
+      var thisMonthDue=new Date(y,m,day);
+      if(thisMonthDue.getTime()<=now.getTime()){
+        var nextMonthLast=new Date(y,m+2,0).getDate();
+        var nextDue=new Date(y,m+1,Math.min(inst.dueDay,nextMonthLast));
+        return Math.ceil((nextDue-now)/86400000);
+      }
+      return Math.ceil((thisMonthDue-now)/86400000);
+    }
+    return defaultDaysLeft;
+  }
+
   insts.forEach(function(inst){
     var rem=inst.total>0?Math.max(inst.total-(inst.paid||0),0):null;
-    if(inst.total>0&&rem<=0) return; // completed
+    if(inst.total>0&&rem<=0) return;
+    var daysLeft=instDaysLeft(inst);
     var key='inst_due_'+inst.id+'_d'+daysLeft;
     if(daysLeft<=5&&!alerted[key]){
-      var urgency=daysLeft<=2?'err':'gold';
-      var msg=lang==='ar'
-        ?'موعد دفع "'+inst.name+'" خلال '+daysLeft+(daysLeft===1?' يوم':' أيام')+' — '+fmt(inst.monthly)+' '+currency
-        :'"'+inst.name+'" due in '+daysLeft+(daysLeft===1?' day':' days')+' — '+fmt(inst.monthly)+' '+currency;
-      addNotif(msg, urgency, false);
+      addNotifRaw({
+        type: daysLeft<=2?'err':'gold',
+        key: 'inst_due',
+        data: {name:inst.name, days:daysLeft, amount:inst.monthly}
+      });
       alerted[key]=true; changed=true;
     }
   });
 
-  /* ── Budget alerts ────────────────────────── */
   buds.forEach(function(bud){
     var ps=getPeriodStart(bud.period||'monthly');
     var spent=txs.filter(function(x){
       return x.type==='expense'&&x.categoryId===bud.categoryId&&new Date(x.date)>=ps;
     }).reduce(function(s,x){return s+x.amount;},0);
     var pct=bud.limit>0?(spent/bud.limit)*100:0;
-    var catName=cn(bud.categoryId);
 
-    // Exceeded (100%+)
     var keyExc='bud_exc_'+bud.categoryId+'_'+Math.floor(spent);
     if(pct>=100&&!alerted[keyExc]){
-      addNotif(
-        lang==='ar'
-          ?'⚠️ تجاوزت ميزانية "'+catName+'" — صرفت '+fmt(spent)+' من '+fmt(bud.limit)
-          :'⚠️ Budget exceeded for "'+catName+'" — '+fmt(spent)+' of '+fmt(bud.limit),
-        'err', false
-      );
+      addNotifRaw({type:'err', key:'bud_exceeded', data:{cat:bud.categoryId, spent:spent, limit:bud.limit}});
       alerted[keyExc]=true; changed=true;
     }
-    // Near limit (80–99%)
     var keyNear='bud_near_'+bud.categoryId+'_'+Math.floor(pct/10);
     if(pct>=80&&pct<100&&!alerted[keyNear]){
-      addNotif(
-        lang==='ar'
-          ?'تنبيه: وصلت لـ '+Math.round(pct)+'% من ميزانية "'+catName+'"'
-          :'Warning: '+Math.round(pct)+'% of "'+catName+'" budget used',
-        'warn', false
-      );
+      addNotifRaw({type:'warn', key:'bud_near', data:{cat:bud.categoryId, pct:Math.round(pct)}});
       alerted[keyNear]=true; changed=true;
     }
   });
 
-  /* ── Negative balance ─────────────────────── */
   if(txs.length>=2){
     var totalInc=txs.filter(function(x){return x.type==='income';}).reduce(function(s,x){return s+x.amount;},0);
     var totalExp=txs.filter(function(x){return x.type==='expense';}).reduce(function(s,x){return s+x.amount;},0);
     var bal=totalInc-totalExp;
-    var keyBal='neg_bal_'+Math.floor(Math.abs(bal)/500); // key changes every 500 units
+    var keyBal='neg_bal_'+Math.floor(Math.abs(bal)/500);
     if(bal<0&&!alerted[keyBal]){
-      addNotif(
-        lang==='ar'
-          ?'تحذير: رصيدك سالب ('+fmt(Math.abs(bal))+') — راجع مصروفاتك'
-          :'Warning: Balance is negative ('+fmt(Math.abs(bal))+') — review expenses',
-        'err', false
-      );
+      addNotifRaw({type:'err', key:'neg_balance', data:{amount:Math.abs(bal)}});
       alerted[keyBal]=true; changed=true;
     }
   }
 
-  /* ── Good saving rate ─────────────────────── */
   var monthStart=new Date(year,month,1);
   var mInc=txs.filter(function(x){return x.type==='income'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
   var mExp=txs.filter(function(x){return x.type==='expense'&&new Date(x.date)>=monthStart;}).reduce(function(s,x){return s+x.amount;},0);
   var sr=mInc>0?Math.round(((mInc-mExp)/mInc)*100):0;
   var keySr='good_sr_'+Math.floor(sr/10)*10;
   if(sr>=30&&!alerted[keySr]){
-    addNotif(
-      lang==='ar'
-        ?'ممتاز! معدل ادخارك '+sr+'% هذا الشهر 🎉'
-        :'Great! Your saving rate is '+sr+'% this month 🎉',
-      'ok', false
-    );
+    addNotifRaw({type:'ok', key:'good_saving', data:{rate:sr}});
     alerted[keySr]=true; changed=true;
   }
 
   if(changed) localStorage.setItem(alertKey, JSON.stringify(alerted));
   updateNotifDot();
+}
+
+function addNotifRaw(obj){
+  var n={id:Date.now(), raw:obj, time:new Date().toISOString(), read:false};
+  notifs.unshift(n);
+  if(notifs.length>50) notifs=notifs.slice(0,50);
+  saveNotifs(); updateNotifDot();
+}
+
+function translateNotif(n){
+  if(!n.raw) return n.msg||'';
+  var d=n.raw.data||{};
+  var k=n.raw.key;
+  if(k==='inst_due'){
+    return lang==='ar'
+      ? 'موعد دفع "'+d.name+'" خلال '+d.days+(d.days===1?' يوم':' أيام')+' — '+fmt(d.amount)+' '+currency
+      : '"'+d.name+'" due in '+d.days+(d.days===1?' day':' days')+' — '+fmt(d.amount)+' '+currency;
+  }
+  if(k==='bud_exceeded'){
+    return lang==='ar'
+      ? '⚠️ تجاوزت ميزانية "'+cn(d.cat)+'" — صرفت '+fmt(d.spent)+' من '+fmt(d.limit)
+      : '⚠️ Budget exceeded for "'+cn(d.cat)+'" — '+fmt(d.spent)+' of '+fmt(d.limit);
+  }
+  if(k==='bud_near'){
+    return lang==='ar'
+      ? 'تنبيه: وصلت لـ '+d.pct+'% من ميزانية "'+cn(d.cat)+'"'
+      : 'Warning: '+d.pct+'% of "'+cn(d.cat)+'" budget used';
+  }
+  if(k==='neg_balance'){
+    return lang==='ar'
+      ? 'تحذير: رصيدك سالب ('+fmt(d.amount)+') — راجع مصروفاتك'
+      : 'Warning: Balance is negative ('+fmt(d.amount)+') — review expenses';
+  }
+  if(k==='good_saving'){
+    return lang==='ar'
+      ? 'ممتاز! معدل ادخارك '+d.rate+'% هذا الشهر 🎉'
+      : 'Great! Your saving rate is '+d.rate+'% this month 🎉';
+  }
+  return n.msg||'';
 }
 
 
